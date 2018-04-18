@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.shzu.ws.dao.StudentDao">
+  <resultMap id="BaseResultMap" type="site.shzu.ws.model.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stu_num" jdbcType="VARCHAR" property="stuNum" />
+    <result column="maj_id" jdbcType="INTEGER" property="majId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="ethnic" jdbcType="VARCHAR" property="ethnic" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="policital_status" jdbcType="VARCHAR" property="policitalStatus" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="ID_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="bank_card" jdbcType="VARCHAR" property="bankCard" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, stu_num, maj_id, name, sex, ethnic, birth, policital_status, phone, email, ID_card, 
+    bank_card
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="site.shzu.ws.model.Student">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into student (id, stu_num, maj_id, 
+      name, sex, ethnic, 
+      birth, policital_status, phone, 
+      email, ID_card, bank_card
+      )
+    values (#{id,jdbcType=INTEGER}, #{stuNum,jdbcType=VARCHAR}, #{majId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{ethnic,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=DATE}, #{policitalStatus,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{bankCard,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="site.shzu.ws.model.Student">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="stuNum != null">
+        stu_num,
+      </if>
+      <if test="majId != null">
+        maj_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="ethnic != null">
+        ethnic,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="policitalStatus != null">
+        policital_status,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="idCard != null">
+        ID_card,
+      </if>
+      <if test="bankCard != null">
+        bank_card,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="stuNum != null">
+        #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="majId != null">
+        #{majId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="ethnic != null">
+        #{ethnic,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="policitalStatus != null">
+        #{policitalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null">
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="site.shzu.ws.model.Student">
+    update student
+    <set>
+      <if test="stuNum != null">
+        stu_num = #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="majId != null">
+        maj_id = #{majId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="ethnic != null">
+        ethnic = #{ethnic,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="policitalStatus != null">
+        policital_status = #{policitalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        ID_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null">
+        bank_card = #{bankCard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="site.shzu.ws.model.Student">
+    update student
+    set stu_num = #{stuNum,jdbcType=VARCHAR},
+      maj_id = #{majId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      ethnic = #{ethnic,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=DATE},
+      policital_status = #{policitalStatus,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      ID_card = #{idCard,jdbcType=VARCHAR},
+      bank_card = #{bankCard,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

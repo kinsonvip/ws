@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.shzu.ws.dao.EvaluateDao">
+  <resultMap id="BaseResultMap" type="site.shzu.ws.model.Evaluate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="job_contract_id" jdbcType="INTEGER" property="jobContractId" />
+    <result column="evaInfo" jdbcType="VARCHAR" property="evainfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, job_contract_id, evaInfo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from evaluate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from evaluate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="site.shzu.ws.model.Evaluate">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into evaluate (id, job_contract_id, evaInfo
+      )
+    values (#{id,jdbcType=INTEGER}, #{jobContractId,jdbcType=INTEGER}, #{evainfo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="site.shzu.ws.model.Evaluate">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="jobContractId != null">
+        job_contract_id,
+      </if>
+      <if test="evainfo != null">
+        evaInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="jobContractId != null">
+        #{jobContractId,jdbcType=INTEGER},
+      </if>
+      <if test="evainfo != null">
+        #{evainfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="site.shzu.ws.model.Evaluate">
+    update evaluate
+    <set>
+      <if test="jobContractId != null">
+        job_contract_id = #{jobContractId,jdbcType=INTEGER},
+      </if>
+      <if test="evainfo != null">
+        evaInfo = #{evainfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="site.shzu.ws.model.Evaluate">
+    update evaluate
+    set job_contract_id = #{jobContractId,jdbcType=INTEGER},
+      evaInfo = #{evainfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

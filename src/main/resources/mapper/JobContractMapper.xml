@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.shzu.ws.dao.JobContractDao">
+  <resultMap id="BaseResultMap" type="site.shzu.ws.model.JobContract">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="job_id" jdbcType="INTEGER" property="jobId" />
+    <result column="stu_num" jdbcType="VARCHAR" property="stuNum" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="audit_user" jdbcType="VARCHAR" property="auditUser" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="mark" jdbcType="VARCHAR" property="mark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, job_id, stu_num, status, audit_user, audit_time, mark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from job_contract
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from job_contract
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="site.shzu.ws.model.JobContract">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into job_contract (id, job_id, stu_num, 
+      status, audit_user, audit_time, 
+      mark)
+    values (#{id,jdbcType=INTEGER}, #{jobId,jdbcType=INTEGER}, #{stuNum,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{auditUser,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}, 
+      #{mark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="site.shzu.ws.model.JobContract">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into job_contract
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="jobId != null">
+        job_id,
+      </if>
+      <if test="stuNum != null">
+        stu_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="auditUser != null">
+        audit_user,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="mark != null">
+        mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="jobId != null">
+        #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="stuNum != null">
+        #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditUser != null">
+        #{auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mark != null">
+        #{mark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="site.shzu.ws.model.JobContract">
+    update job_contract
+    <set>
+      <if test="jobId != null">
+        job_id = #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="stuNum != null">
+        stu_num = #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditUser != null">
+        audit_user = #{auditUser,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mark != null">
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="site.shzu.ws.model.JobContract">
+    update job_contract
+    set job_id = #{jobId,jdbcType=INTEGER},
+      stu_num = #{stuNum,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      audit_user = #{auditUser,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      mark = #{mark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

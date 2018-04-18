@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.shzu.ws.dao.EmpDepDao">
+  <resultMap id="BaseResultMap" type="site.shzu.ws.model.EmpDep">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dep_name" jdbcType="VARCHAR" property="depName" />
+    <result column="dep_info" jdbcType="VARCHAR" property="depInfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dep_name, dep_info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from emp_dep
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from emp_dep
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="site.shzu.ws.model.EmpDep">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into emp_dep (id, dep_name, dep_info
+      )
+    values (#{id,jdbcType=INTEGER}, #{depName,jdbcType=VARCHAR}, #{depInfo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="site.shzu.ws.model.EmpDep">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into emp_dep
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="depName != null">
+        dep_name,
+      </if>
+      <if test="depInfo != null">
+        dep_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="depName != null">
+        #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="depInfo != null">
+        #{depInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="site.shzu.ws.model.EmpDep">
+    update emp_dep
+    <set>
+      <if test="depName != null">
+        dep_name = #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="depInfo != null">
+        dep_info = #{depInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="site.shzu.ws.model.EmpDep">
+    update emp_dep
+    set dep_name = #{depName,jdbcType=VARCHAR},
+      dep_info = #{depInfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

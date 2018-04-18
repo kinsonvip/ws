@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <properties resource="application.properties" />
+
+    <classPathEntry location="${jdbc.Driver.class.path}" />
+
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!--beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为**反单引号(`)**-->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 注释 -->
+        <commentGenerator>
+            <!-- 是否去除自动生成注释时间戳 -->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+
+        </commentGenerator>
+
+        <!-- JDBC连接 -->
+        <jdbcConnection
+                driverClass="${spring.datasource.druid.driver-class-name}"
+                connectionURL="${spring.datasource.druid.url}"
+                userId="${spring.datasource.druid.username}"
+                password="${spring.datasource.druid.password}">
+        </jdbcConnection>
+
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
+         NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="site.shzu.ws.model" targetProject="src/main/java">
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true" />
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </javaModelGenerator>
+
+        <!-- 生成mapper xml文件 -->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 生成mapper xml对应的dao接口-->
+        <javaClientGenerator targetPackage="site.shzu.ws.dao" targetProject="src/main/java" type="XMLMAPPER">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!-- 配置表信息 -->
+        <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
+            是否生成 example类 -->
+
+        <!--<table tableName="user" domainObjectName="User" mapperName="UserDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            &lt;!&ndash; Mysql自增键 &ndash;&gt;
+            <generatedKey column="id" sqlStatement="Mysql"/>
+            &lt;!&ndash; oracle自增键 &ndash;&gt;
+            &lt;!&ndash;<generatedKey column="id" sqlStatement="select SEQ_ID.nextval from dual"/>&ndash;&gt;
+        </table>
+
+        <table tableName="role" domainObjectName="Role" mapperName="RoleDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="permission" domainObjectName="Permission" mapperName="PermissionDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="user_role" domainObjectName="UserRole" mapperName="UserRoleDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="role_permission" domainObjectName="RolePermission" mapperName="RolePermissionDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="permission_init" domainObjectName="PermissionInit" mapperName="PermissionInitDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="academy" domainObjectName="Academy" mapperName="AcademyDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="aca_id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="emp_dep" domainObjectName="EmpDep" mapperName="EmpDepDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="emp_dep_sys" domainObjectName="EmpDepSys" mapperName="EmpDepSysDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="evaluate" domainObjectName="Evaluate" mapperName="EvaluateDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="job" domainObjectName="Job" mapperName="JobDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="job_contract" domainObjectName="JobContract" mapperName="JobContractDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="major" domainObjectName="Major" mapperName="MajorDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="news" domainObjectName="News" mapperName="NewsDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="student" domainObjectName="Student" mapperName="StudentDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="sys" domainObjectName="Sys" mapperName="SysDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>-->
+
+    </context>
+</generatorConfiguration>
