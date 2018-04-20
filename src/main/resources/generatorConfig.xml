@@ -161,6 +161,12 @@
                enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false">
             <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+        <table tableName="notice" domainObjectName="Notice" mapperName="NoticeDao"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql"/>
         </table>-->
 
     </context>
