@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    private UserDao userDao;
+    UserDao userDao;
 
     public List<User> selectByUser(User user) {
         return userDao.selectByUser(user);
