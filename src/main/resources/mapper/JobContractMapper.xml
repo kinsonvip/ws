@@ -6,12 +6,15 @@
     <result column="job_id" jdbcType="INTEGER" property="jobId" />
     <result column="stu_num" jdbcType="VARCHAR" property="stuNum" />
     <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="audit_user" jdbcType="VARCHAR" property="auditUser" />
-    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="verify_user" jdbcType="VARCHAR" property="verifyUser" />
+    <result column="verify_time" jdbcType="TIMESTAMP" property="verifyTime" />
+    <result column="confirm_user" jdbcType="VARCHAR" property="confirmUser" />
+    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
     <result column="mark" jdbcType="VARCHAR" property="mark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, job_id, stu_num, status, audit_user, audit_time, mark
+    id, job_id, stu_num, status, verify_user, verify_time, confirm_user, confirm_time, 
+    mark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,11 +31,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into job_contract (id, job_id, stu_num, 
-      status, audit_user, audit_time, 
-      mark)
+      status, verify_user, verify_time, 
+      confirm_user, confirm_time, mark
+      )
     values (#{id,jdbcType=INTEGER}, #{jobId,jdbcType=INTEGER}, #{stuNum,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{auditUser,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}, 
-      #{mark,jdbcType=VARCHAR})
+      #{status,jdbcType=VARCHAR}, #{verifyUser,jdbcType=VARCHAR}, #{verifyTime,jdbcType=TIMESTAMP}, 
+      #{confirmUser,jdbcType=VARCHAR}, #{confirmTime,jdbcType=TIMESTAMP}, #{mark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.JobContract">
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
@@ -50,11 +55,17 @@
       <if test="status != null">
         status,
       </if>
-      <if test="auditUser != null">
-        audit_user,
+      <if test="verifyUser != null">
+        verify_user,
       </if>
-      <if test="auditTime != null">
-        audit_time,
+      <if test="verifyTime != null">
+        verify_time,
+      </if>
+      <if test="confirmUser != null">
+        confirm_user,
+      </if>
+      <if test="confirmTime != null">
+        confirm_time,
       </if>
       <if test="mark != null">
         mark,
@@ -71,11 +82,17 @@
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="auditUser != null">
-        #{auditUser,jdbcType=VARCHAR},
+      <if test="verifyUser != null">
+        #{verifyUser,jdbcType=VARCHAR},
       </if>
-      <if test="auditTime != null">
-        #{auditTime,jdbcType=TIMESTAMP},
+      <if test="verifyTime != null">
+        #{verifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmUser != null">
+        #{confirmUser,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mark != null">
         #{mark,jdbcType=VARCHAR},
@@ -94,11 +111,17 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="auditUser != null">
-        audit_user = #{auditUser,jdbcType=VARCHAR},
+      <if test="verifyUser != null">
+        verify_user = #{verifyUser,jdbcType=VARCHAR},
       </if>
-      <if test="auditTime != null">
-        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      <if test="verifyTime != null">
+        verify_time = #{verifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmUser != null">
+        confirm_user = #{confirmUser,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mark != null">
         mark = #{mark,jdbcType=VARCHAR},
@@ -111,8 +134,10 @@
     set job_id = #{jobId,jdbcType=INTEGER},
       stu_num = #{stuNum,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      audit_user = #{auditUser,jdbcType=VARCHAR},
-      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      verify_user = #{verifyUser,jdbcType=VARCHAR},
+      verify_time = #{verifyTime,jdbcType=TIMESTAMP},
+      confirm_user = #{confirmUser,jdbcType=VARCHAR},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       mark = #{mark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

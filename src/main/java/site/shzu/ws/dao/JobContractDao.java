@@ -1,9 +1,7 @@
 package site.shzu.ws.dao;
 
-import org.apache.ibatis.annotations.Mapper;
 import site.shzu.ws.model.JobContract;
 
-@Mapper
 public interface JobContractDao {
     int deleteByPrimaryKey(Integer id);
 

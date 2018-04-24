@@ -11,9 +11,13 @@ public class JobContract {
 
     private String status;
 
-    private String auditUser;
+    private String verifyUser;
 
-    private Date auditTime;
+    private Date verifyTime;
+
+    private String confirmUser;
+
+    private Date confirmTime;
 
     private String mark;
 
@@ -49,20 +53,36 @@ public class JobContract {
         this.status = status == null ? null : status.trim();
     }
 
-    public String getAuditUser() {
-        return auditUser;
+    public String getVerifyUser() {
+        return verifyUser;
     }
 
-    public void setAuditUser(String auditUser) {
-        this.auditUser = auditUser == null ? null : auditUser.trim();
+    public void setVerifyUser(String verifyUser) {
+        this.verifyUser = verifyUser == null ? null : verifyUser.trim();
     }
 
-    public Date getAuditTime() {
-        return auditTime;
+    public Date getVerifyTime() {
+        return verifyTime;
     }
 
-    public void setAuditTime(Date auditTime) {
-        this.auditTime = auditTime;
+    public void setVerifyTime(Date verifyTime) {
+        this.verifyTime = verifyTime;
+    }
+
+    public String getConfirmUser() {
+        return confirmUser;
+    }
+
+    public void setConfirmUser(String confirmUser) {
+        this.confirmUser = confirmUser == null ? null : confirmUser.trim();
+    }
+
+    public Date getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
     }
 
     public String getMark() {
