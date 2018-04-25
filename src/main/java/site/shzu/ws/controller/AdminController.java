@@ -45,6 +45,34 @@ public class AdminController {
     public HashMap stuList(HttpServletRequest request){
         int pageNum = Integer.valueOf(request.getParameter("page"));
         int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
-        return studentService.getStuList(pageNum,pageSize);
+        String search = request.getParameter("search");
+        return studentService.getStuList(pageNum,pageSize,search);
     }
+
+    @RequestMapping(value = "/unlockStu", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap unlockStu(String stuNum){
+        HashMap resultMap = new HashMap();
+        try {
+            studentService.unlockStu(stuNum);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/lockStu", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap lockStu(String stuNum){
+        HashMap resultMap = new HashMap();
+        try {
+            studentService.lockStu(stuNum);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
 }

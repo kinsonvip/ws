@@ -19,6 +19,7 @@
     id, stu_num, maj_id, name, sex, ethnic, birth, policital_status, phone, email, ID_card, 
     bank_card
   </sql>
+
   <select id="getStuList" resultType="java.util.HashMap">
     select s.stu_num stuNum,m.`name` majorName,s.`name` stuName,s.sex,s.ethnic,s.birth,s.policital_status policitalStatus,s.phone,s.email,CASE u.`status`
 	WHEN '0' THEN '锁定'
@@ -26,7 +27,19 @@
 	ELSE '审核中' end status,DATE_FORMAT(u.last_login_time,'%Y-%m-%d %H:%i:%s') lastLoginTime
     from student s,major m,`user` u
     where s.maj_id=m.id and s.stu_num = u.account_num
+    <if test="search != null and search != ''">
+      and s.stu_num = #{search}
+    </if>
   </select>
+
+  <update id="unlockStuByStuNum" parameterType="java.lang.String">
+    update user set `status` = '1' where account_num = #{stuNum}
+  </update>
+
+  <update id="lockStuByStuNum" parameterType="java.lang.String">
+    update user set `status` = '0' where account_num = #{stuNum}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
