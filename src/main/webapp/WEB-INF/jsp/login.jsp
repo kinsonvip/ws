@@ -23,18 +23,31 @@
                     <label for="userName" class="input-control-icon-left"><i class="icon icon-user "></i></label>
                 </div>
                 <div class="form-group input-control has-icon-left">
-                    <input id="passWord" name="passWord" type="text" class="form-control" placeholder="密    码">
+                    <input id="passWord" name="passWord" type="password" class="form-control" placeholder="密    码">
                     <label for="passWord" class="input-control-icon-left"><i class="icon icon-key "></i></label>
                 </div>
-                <div class="form-group input-control has-icon-left">
-                    验证码：<input type="text" name="vcode" id="vcode"/>
-                    <img alt="验证码" src="${pageContext.request.contextPath}/getGifCode">
+                <div class="form-group input-control has-icon-left has-icon-right">
+                    <label for="vcode" class="input-control-icon-left"><i class="icon icon-barcode"></i></label>
+                    <a onclick="changeVcode()" class="input-control-icon-right" style="margin-right: 40%"><i class="icon icon-refresh"></i></a>
+                    <input type="text" name="vcode" id="vcode" class="form-control" style="width: 60%;float: left" placeholder="请输入右侧验证码">
+                    <img onclick="changeVcode()" alt="验证码" src="${pageContext.request.contextPath}/getGifCode" id="vcodeImg">
+                </div>
+                <div class="form-group input-control">
+                    <label class="radio-inline">
+                        <input name="role" type="radio" value="student" checked> 学生
+                    </label>
+                    <label class="radio-inline">
+                        <input name="role" type="radio" value="empDepSys"> 用人部门管理人员
+                    </label>
+                    <label class="radio-inline">
+                        <input name="role" type="radio" value="sys"> 系统管理员
+                    </label>
                 </div>
                 <div class="form-group input-control has-icon-left">
                     <P><input type="checkbox" name="rememberMe"  id="rememberMe" />记住我</P>
                 </div>
-                <%--<button id="ajaxLogin" class="btn btn-primary">提交</button>--%>
-                <input type="button" id="ajaxLogin" class="btn btn-primary" value="登录" />
+                <%--<button id="login" class="btn btn-primary">提交</button>--%>
+                <input type="button" id="login" class="btn btn-primary" value="登录" />
             </form>
         </div>
     </div>
@@ -45,25 +58,37 @@
 <script src="zui/js/zui.min.js"></script>
 <script>
     $(function(){
-        $("#ajaxLogin").click(function() {
+        $("#login").click(function() {
+            var role = $("input[type='radio']:checked").val();
             var userName = $("#userName").val();
             var passWord = $("#passWord").val();
             var vcode = $("#vcode").val();
             var rememberMe =$('#rememberMe').is(':checked');
-            $.post("${pageContext.request.contextPath}/ajaxLogin", {
+            $.post("${pageContext.request.contextPath}/doLogin", {
+                "role" : role,
                 "userName" : userName,
                 "passWord" : passWord,
                 "vcode" : vcode,
                 "rememberMe" : rememberMe
             }, function(result) {
                 if (result.status == 200) {
-                    location.href = "${pageContext.request.contextPath}/grid";
+                    if(role=='student'){
+                        location.href = "${pageContext.request.contextPath}/grid";
+                    }else if(role=='empDepSys'){
+                        location.href = "www.baidu.com";
+                    }else{
+                        location.href = "${pageContext.request.contextPath}/admin/index";
+                    }
                 } else {
                     $("#erro").html(result.message);
                 }
             });
         });
     });
+
+    function changeVcode() {
+        $('#vcodeImg').attr("src", "${pageContext.request.contextPath}/getGifCode?"+Math.random());
+    }
 </script>
 </body>
 </html>

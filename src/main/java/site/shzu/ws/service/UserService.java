@@ -25,4 +25,8 @@ public class UserService {
     public void updateById(User user){
         userDao.updateByPrimaryKey(user);
     }
+
+    public int checkIsExistUser(String userName,String role){
+        return userDao.checkIsExistUser(userName,role);
+    }
 }

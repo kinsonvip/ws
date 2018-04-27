@@ -53,7 +53,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         //Integer userId = (Integer)SecurityUtils.getSubject().getPrincipal();
         User user = (User)SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info =  new SimpleAuthorizationInfo();
-        //根据用户ID查询角色（role），放入到Authorization里。
+        //根据用户ID查询角色（role.type），放入到Authorization里。
         List<String> roleList = userRoleService.selectRoleByUserId(user);
 	    Set<String> roleSet = new HashSet<String>();
 	    for(String role : roleList){

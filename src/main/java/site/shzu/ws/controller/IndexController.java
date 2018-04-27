@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import site.shzu.ws.service.UserService;
 import site.shzu.ws.vcode.Captcha;
 import site.shzu.ws.vcode.GifCaptcha;
 
@@ -33,9 +34,17 @@ public class IndexController {
     @Autowired
     MessageSource messageSource;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping("/login")
-    public String test(){
+    public String login(){
         return "login";
+    }
+
+    @RequestMapping("/403")
+    public String page403(){
+        return "403";
     }
 
     @RequestMapping("/grid")
@@ -44,14 +53,14 @@ public class IndexController {
     }
 
     /**
-     * ajax登录请求
+     * 登录请求
      * @param userName
      * @param passWord
      * @return
      */
-    @RequestMapping(value="/ajaxLogin",method=RequestMethod.POST)
+    @RequestMapping(value="/doLogin",method=RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> ajaxLogin(String userName, String passWord,String vcode,Boolean rememberMe,Model model) {
+    public Map<String,Object> doLogin(String role,String userName, String passWord,String vcode,Boolean rememberMe,Model model) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         if(vcode==null||vcode==""){
@@ -64,12 +73,33 @@ public class IndexController {
         //转化成小写字母
         vcode = vcode.toLowerCase();
         String v = (String) session.getAttribute("_code");
-        //还可以读取一次后把验证码清空，这样每次登录都必须获取验证码
-        //session.removeAttribute("_come");
         if(!vcode.equals(v)){
             resultMap.put("status", 500);
             resultMap.put("message", "验证码错误！");
             return resultMap;
+        }
+
+        //判断是否存在对应的用户
+        if("student".equals(role)){
+            if(userService.checkIsExistUser(userName,role)==0){
+                resultMap.put("status", 500);
+                resultMap.put("message", "不存在该学生用户，请重试！");
+                return resultMap;
+            }
+        }
+        if("empDepSys".equals(role)){
+            if(userService.checkIsExistUser(userName,role)==0){
+                resultMap.put("status", 500);
+                resultMap.put("message", "不存在该用人部门人员，请重试！");
+                return resultMap;
+            }
+        }
+        if("sys".equals(role)){
+            if(userService.checkIsExistUser(userName,role)==0){
+                resultMap.put("status", 500);
+                resultMap.put("message", "不存在该系统管理员，请重试！");
+                return resultMap;
+            }
         }
 
         try {

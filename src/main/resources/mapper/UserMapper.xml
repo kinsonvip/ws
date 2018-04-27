@@ -13,12 +13,29 @@
   <sql id="Base_Column_List">
     id, account_num, password, nick_name, create_time, last_login_time, status
   </sql>
+
+  <select id="checkIsExistUser" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(u.id)
+    from user u,user_role ur,role r
+    where u.id = ur.uid and r.id = ur.rid and u.account_num = #{userName} and
+    <if test="role == 'student'">
+      r.type=1
+    </if>
+    <if test="role == 'empDepSys'">
+      r.type=2
+    </if>
+    <if test="role == 'sys'">
+      r.type=3
+    </if>
+  </select>
+
   <select id="selectByUser" parameterType="site.shzu.ws.model.User" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from user
     where user.account_num = #{accountNum} and user.password = #{password}
   </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

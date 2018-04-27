@@ -1,6 +1,7 @@
 package site.shzu.ws.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.shzu.ws.model.User;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserDao {
     int updateByPrimaryKey(User record);
 
     List<User> selectByUser (User user);
+
+    int checkIsExistUser(@Param(value = "userName") String userName,@Param(value = "role") String role);
 }
