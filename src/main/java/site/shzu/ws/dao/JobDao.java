@@ -1,7 +1,11 @@
 package site.shzu.ws.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.shzu.ws.model.Job;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 public interface JobDao {
@@ -18,4 +22,12 @@ public interface JobDao {
     int updateByPrimaryKeyWithBLOBs(Job record);
 
     int updateByPrimaryKey(Job record);
+
+    List<HashMap> getUncheckedJobList(@Param(value = "search") String search);
+
+    List<HashMap> getCheckedJobList(@Param(value = "search") String search);
+
+    void passJob(@Param(value = "jobId") Integer jobId);
+
+    void noPassJob(@Param(value = "jobId") Integer jobId);
 }

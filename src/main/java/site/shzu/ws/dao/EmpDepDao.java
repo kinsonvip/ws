@@ -1,7 +1,11 @@
 package site.shzu.ws.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.shzu.ws.model.EmpDep;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 public interface EmpDepDao {
@@ -16,4 +20,6 @@ public interface EmpDepDao {
     int updateByPrimaryKeySelective(EmpDep record);
 
     int updateByPrimaryKey(EmpDep record);
+
+    List<HashMap> getDepartmentList(@Param(value = "search") String search);
 }

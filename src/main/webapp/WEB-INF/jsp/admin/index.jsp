@@ -1,6 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -69,8 +69,8 @@
             <dt><i class="Hui-iconfont">&#xe637;</i>&nbsp;&nbsp;岗位管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="admin/uncheckedJob.html" data-title="待审核岗位" href="javascript:void(0)"><i class="Hui-iconfont">&#xe702;</i>&nbsp;&nbsp;待审核岗位</a></li>
-                    <li><a data-href="admin/checkedJob.html" data-title="已审核岗位" href="javascript:void(0)"><i class="Hui-iconfont">&#xe6ff;</i>&nbsp;&nbsp;已审核岗位</a></li>
+                    <li><a data-href="uncheckedJob" data-title="待审核岗位" href="javascript:void(0)"><i class="Hui-iconfont">&#xe702;</i>&nbsp;&nbsp;待审核岗位</a></li>
+                    <li><a data-href="checkedJob" data-title="已审核岗位" href="javascript:void(0)"><i class="Hui-iconfont">&#xe6ff;</i>&nbsp;&nbsp;已审核岗位</a></li>
                 </ul>
             </dd>
         </dl>
@@ -95,8 +95,9 @@
             <dt><i class="Hui-iconfont">&#xe643;</i>&nbsp;&nbsp;部门管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="admin/departmentManage.html" data-title="部门管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe643;</i>&nbsp;&nbsp;部门管理</a></li>
-                    <li><a data-href="admin/departmentSysManage.html" data-title="人员管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe653;</i>&nbsp;&nbsp;人员管理</a></li>
+                    <li><a data-href="departmentManage" data-title="部门列表" href="javascript:void(0)"><i class="Hui-iconfont">&#xe643;</i>&nbsp;&nbsp;部门管理</a></li>
+                    <li><a data-href="departmentSysManage" data-title="人员列表" href="javascript:void(0)"><i class="Hui-iconfont">&#xe653;</i>&nbsp;&nbsp;人员列表</a></li>
+                    <li><a data-href="uncheckedDepSysManage" data-title="待审核人员" href="javascript:void(0)"><i class="Hui-iconfont">&#xe61d;</i>&nbsp;&nbsp;待审核列表</a></li>
                 </ul>
             </dd>
         </dl>

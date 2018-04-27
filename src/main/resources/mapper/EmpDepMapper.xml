@@ -9,6 +9,16 @@
   <sql id="Base_Column_List">
     id, dep_name, dep_info
   </sql>
+
+  <select id="getDepartmentList" resultType="java.util.HashMap">
+    select ed.id,ed.dep_name depName,ed.dep_info depInfo
+    from emp_dep ed
+    <if test="search != null and search != ''">
+      where ed.dep_name = #{search}
+    </if>
+    order by ed.id desc
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

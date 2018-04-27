@@ -36,6 +36,8 @@ public class Job {
 
     private String status;
 
+    private String mark;
+
     private String jobDesc;
 
     private String jobReq;
@@ -166,6 +168,14 @@ public class Job {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark == null ? null : mark.trim();
     }
 
     public String getJobDesc() {

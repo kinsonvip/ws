@@ -13,26 +13,22 @@ $(function(){
         }
     });
 
-    $('#studentGrid').datagrid({
+    $('#uncheckedDepSysGrid').datagrid({
         dataSource: {
             cols:[
-                {name: 'stuNum', label: '学号', width: 100,className: 'text-center'},
-                {name: 'majorName', label: '专业', width: 200,className: 'text-center'},
-                {name: 'stuName', label: '姓名', width: 100,className: 'text-center'},
-                {name: 'sex', label: '性别',width: 50,className: 'text-center'},
-                {name: 'ethnic', label: '民族',width: 50,className: 'text-center'},
-                {name: 'birth', label: '出生日期',width: 100,className: 'text-center'},
-                {name: 'policitalStatus', label: '政治面貌',width: 80,className: 'text-center'},
-                {name: 'phone', label: '手机号',width: 100,className: 'text-center'},
-                {name: 'email', label: '邮箱',width: 200,className: 'text-center'},
-                {name: 'status', label: '状态',width: 100,className: 'text-center'},
-                {name: 'lastLoginTime', label: '最后登陆',width: 200,className: 'text-center'},
+                {name: 'accountNum', label: '账号', width: 0.1,className: 'text-center'},
+                {name: 'departmentName', label: '所属用人部门', width: 0.15,className: 'text-center'},
+                {name: 'name', label: '姓名', width: 0.1,className: 'text-center'},
+                {name: 'phone', label: '手机号',width: 0.15,className: 'text-center'},
+                {name: 'email', label: '邮箱',width: 0.15,className: 'text-center'},
+                {name: 'status', label: '状态',width: 0.1,className: 'text-center'},
+                {name: 'createTime', label: '创建时间',width: 0.15,className: 'text-center'},
                 {name: 'operate', label: '操作',width: 150,className: 'text-center'}
             ],
             remote: function(params) {
                 return {
                     // 请求地址
-                    url: '/ws/admin/stuList',
+                    url: '/ws/admin/uncheckedDepSysList',
                     // 请求类型
                     type: 'GET',
                     // 数据类型
@@ -44,8 +40,8 @@ $(function(){
                 for(var i = 0;i < responseData.data.length;i++){
                     var rowData = responseData.data[i];
                     //添加操作按钮
-                    responseData.data[i].operate= '<button class="btn btn-sm btn-success" type="button" title="解锁" value="'+responseData.data[i].stuNum+'" onclick="unlock(this)"><i class="icon icon-unlock-alt"></i></button>&nbsp&nbsp&nbsp&nbsp' +
-                        '<button class="btn btn-sm btn-warning" type="button" title="锁定" value="'+responseData.data[i].stuNum+'" onclick="lock(this)"><i class="icon icon-lock"></i></button>';
+                    responseData.data[i].operate= '<button class="btn btn-sm btn-success" type="button" title="通过" value="'+responseData.data[i].accountNum+'" onclick="pass(this)"><i class="icon icon-check"></i></button>&nbsp&nbsp&nbsp&nbsp' +
+                        '<button class="btn btn-sm btn-warning" type="button" title="拒绝" value="'+responseData.data[i].accountNum+'" onclick="noPass(this)"><i class="icon icon-times"></i></button>';
                 }
                 return responseData;
             }
@@ -53,12 +49,12 @@ $(function(){
         states: {
             pager: {page: 1,recPerPage: 10},
             fixedLeftUntil: 0,    // 固定左侧第一列
-            fixedRightFrom: 12,   // 从第12列开始固定到右侧
+            fixedRightFrom: 8,   // 从第12列开始固定到右侧
             fixedTopUntil: 0,     // 固定顶部第一行（标题行）
         },
         configs: {
             C0: {},
-            C12: {html:true}
+            C8: {html:true}
         },
         checkable: false,
         checkByClickRow: false,
@@ -67,21 +63,21 @@ $(function(){
         // ... 其他初始化选项
     });
 
-    $('#unlockBtn').click(function () {
-        var stuNum = $('#unlockModal .stuNum').val();
+    $('#passBtn').click(function () {
+        var accountNum = $('#passModal .accountNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/unlockStu',
-            data: {"stuNum":stuNum},
+            url: '/ws/admin/passEmpDepSys',
+            data: {"accountNum":accountNum},
             cache: false,
             async : false,
             dataType: "json",
             success: function (data ,textStatus, jqXHR){
-                $('#unlockModal').modal('hide');
+                $('#passModal').modal('hide');
                 if("success"==data.status){
-                    var studentGrid   = $('#studentGrid').data('zui.datagrid');
-                    studentGrid.dataSource.data=null;
-                    studentGrid.render();
+                    var uncheckedDepSysGrid   = $('#uncheckedDepSysGrid').data('zui.datagrid');
+                    uncheckedDepSysGrid.dataSource.data=null;
+                    uncheckedDepSysGrid.render();
                     new $.zui.Messager('操作成功!', {
                         icon:'ok',
                         type: 'success',
@@ -90,7 +86,7 @@ $(function(){
                 }
             },
             error:function (jqXHR, textStatus, errorThrown) {
-                $('#unlockModal').modal('hide');
+                $('#passModal').modal('hide');
                 new $.zui.Messager('操作失败!', {
                     icon:'warning-sign',
                     type: 'warning',
@@ -100,21 +96,21 @@ $(function(){
         });
     })
 
-    $('#lockBtn').click(function () {
-        var stuNum = $('#lockModal .stuNum').val();
+    $('#noPassBtn').click(function () {
+        var accountNum = $('#noPassModal .accountNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/lockStu',
-            data: {"stuNum":stuNum},
+            url: '/ws/admin/noPassEmpDepSys',
+            data: {"accountNum":accountNum},
             cache: false,
             async : false,
             dataType: "json",
             success: function (data ,textStatus, jqXHR){
-                $('#lockModal').modal('hide');
+                $('#noPassModal').modal('hide');
                 if("success"==data.status){
-                    var studentGrid   = $('#studentGrid').data('zui.datagrid');
-                    studentGrid.dataSource.data=null;
-                    studentGrid.render();
+                    var uncheckedDepSysGrid   = $('#uncheckedDepSysGrid').data('zui.datagrid');
+                    uncheckedDepSysGrid.dataSource.data=null;
+                    uncheckedDepSysGrid.render();
                     new $.zui.Messager('操作成功!', {
                         icon:'ok',
                         type: 'success',
@@ -123,7 +119,7 @@ $(function(){
                 }
             },
             error:function (jqXHR, textStatus, errorThrown) {
-                $('#lockModal').modal('hide');
+                $('#noPassModal').modal('hide');
                 new $.zui.Messager('操作失败!', {
                     icon:'warning-sign',
                     type: 'warning',
@@ -135,14 +131,14 @@ $(function(){
 
 })
 
-function unlock(obj) {
-    $('.stuNum').val($(obj).val());
-    $('#unlockContent').html("确定要解除用户：["+$(obj).val()+"]的锁定吗？");
-    $('#unlockModal').modal('show', 'fit');
+function pass(obj) {
+    $('.accountNum').val($(obj).val());
+    $('#passContent').html("确定要通过用户：["+$(obj).val()+"]的审核吗？");
+    $('#passModal').modal('show', 'fit');
 }
 
-function lock(obj) {
-    $('.stuNum').val($(obj).val());
-    $('#lockContent').html("确定要对用户：["+$(obj).val()+"]进行锁定吗？");
-    $('#lockModal').modal('show', 'fit');
+function noPass(obj) {
+    $('.accountNum').val($(obj).val());
+    $('#noPassContent').html("确定要拒绝用户：["+$(obj).val()+"]的申请吗？");
+    $('#noPassModal').modal('show', 'fit');
 }

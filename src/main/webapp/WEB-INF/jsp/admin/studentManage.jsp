@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +17,7 @@
                 <li><i class="icon icon-home"></i>&nbsp&nbsp学生管理</li>
                 <li>学生列表</li>
             </ol>
-            <a class="btn btn-success" style="float: right;margin-right: 3%;margin-top: 20px" href="javascript:location.replace(location.href);" title="刷新" ><i class="icon icon-refresh"></i></a>
+            <a class="btn btn-success" style="float: right;margin-right: 3%;margin-top: 20px" href="javascript:location.reload();" title="刷新" ><i class="icon icon-refresh"></i></a>
         </div>
         <div class="row" style="height: auto;margin-left: 2%;margin-right: 2%;margin-top: 1%">
             <div id="studentGrid" class="datagrid">
@@ -27,7 +27,7 @@
                     <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
                 </div>
                 <div class="datagrid-container"></div>
-                <div id="myPager" class="pager" data-elements="size_menu,first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="5,10,15,20" style="margin-left: 30%"></div>
+                <div id="myPager" class="pager" data-elements="size_menu,first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20" style="margin-left: 30%"></div>
             </div>
         </div>
     </div>

@@ -12,6 +12,49 @@
   <sql id="Base_Column_List">
     id, emp_dep_id, account_num, name, phone, email
   </sql>
+
+  <select id="getUncheckedEmpDepSysList" resultType="java.util.HashMap">
+    select eds.account_num accountNum,ed.dep_name departmentName,eds.`name`,eds.phone,eds.email,
+    CASE u.`status`
+    WHEN '2' THEN '待审核'
+    END status,DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i:%s') createTime
+    from emp_dep_sys eds,`user` u,emp_dep ed
+    where eds.account_num = u.account_num and eds.emp_dep_id = ed.id and u.`status` = '2'
+    <if test="search != null and search != ''">
+      and eds.account_num = #{search}
+    </if>
+  </select>
+
+  <select id="getEmpDepSysList" resultType="java.util.HashMap">
+    select eds.account_num accountNum,ed.dep_name departmentName,eds.`name`,eds.phone,eds.email,
+    CASE u.`status`
+    WHEN '0' THEN '锁定'
+    WHEN '1' THEN '正常'
+    END status,DATE_FORMAT(u.last_login_time,'%Y-%m-%d %H:%i:%s') lastLoginTime
+    from emp_dep_sys eds,`user` u,emp_dep ed
+    where eds.account_num = u.account_num and eds.emp_dep_id = ed.id and (u.`status` = '1' or u.`status` = '0')
+
+    <if test="search != null and search != ''">
+      and eds.account_num = #{search}
+    </if>
+  </select>
+
+  <update id="unlockDepSysByAccountNum" parameterType="java.lang.String">
+    update user set `status` = '1' where account_num = #{accountNum}
+  </update>
+
+  <update id="lockDepSysByAccountNum" parameterType="java.lang.String">
+    update user set `status` = '0' where account_num = #{accountNum}
+  </update>
+
+  <update id="passEmpDepSys" parameterType="java.lang.String">
+    update user set `status` = '1' where account_num = #{accountNum}
+  </update>
+
+  <update id="noPassEmpDepSys" parameterType="java.lang.String">
+    update user set `status` = '-2' where account_num = #{accountNum}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
