@@ -6,6 +6,7 @@
     <result column="job_id" jdbcType="INTEGER" property="jobId" />
     <result column="stu_num" jdbcType="VARCHAR" property="stuNum" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="verify_user" jdbcType="VARCHAR" property="verifyUser" />
     <result column="verify_time" jdbcType="TIMESTAMP" property="verifyTime" />
     <result column="confirm_user" jdbcType="VARCHAR" property="confirmUser" />
@@ -13,9 +14,32 @@
     <result column="mark" jdbcType="VARCHAR" property="mark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, job_id, stu_num, status, verify_user, verify_time, confirm_user, confirm_time, 
+    id, job_id, stu_num, status, create_time, verify_user, verify_time, confirm_user, confirm_time,
     mark
   </sql>
+
+  <select id="getUncheckedContractList" resultType="java.util.HashMap">
+    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.accept_num acceptNum,CASE jc.`status`
+    WHEN '0' THEN '待审核'
+    END status
+    from job j,job_contract jc,student s
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` = '0'
+    <if test="search != null and search != ''">
+      and jc.id = #{search}
+    </if> order by jc.id desc
+  </select>
+
+  <select id="getCheckedContractList" resultType="java.util.HashMap">
+    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.accept_num acceptNum,CASE jc.`status`
+    WHEN '1' THEN '审核通过'
+    END status,jc.verify_user verifyUser,DATE_FORMAT(jc.verify_time,'%Y-%m-%d %H:%i:%s') verifyTime
+    from job j,job_contract jc,student s
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` = '1'
+    <if test="search != null and search != ''">
+      and jc.id = #{search}
+    </if> order by jc.id desc
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -31,11 +55,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into job_contract (id, job_id, stu_num, 
-      status, verify_user, verify_time, 
+      status,,create_time, verify_user, verify_time,
       confirm_user, confirm_time, mark
       )
     values (#{id,jdbcType=INTEGER}, #{jobId,jdbcType=INTEGER}, #{stuNum,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{verifyUser,jdbcType=VARCHAR}, #{verifyTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{verifyUser,jdbcType=VARCHAR}, #{verifyTime,jdbcType=TIMESTAMP},
       #{confirmUser,jdbcType=VARCHAR}, #{confirmTime,jdbcType=TIMESTAMP}, #{mark,jdbcType=VARCHAR}
       )
   </insert>
@@ -54,6 +78,9 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="verifyUser != null">
         verify_user,
@@ -81,6 +108,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="verifyUser != null">
         #{verifyUser,jdbcType=VARCHAR},
@@ -111,6 +141,9 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="verifyUser != null">
         verify_user = #{verifyUser,jdbcType=VARCHAR},
       </if>
@@ -134,6 +167,7 @@
     set job_id = #{jobId,jdbcType=INTEGER},
       stu_num = #{stuNum,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       verify_user = #{verifyUser,jdbcType=VARCHAR},
       verify_time = #{verifyTime,jdbcType=TIMESTAMP},
       confirm_user = #{confirmUser,jdbcType=VARCHAR},

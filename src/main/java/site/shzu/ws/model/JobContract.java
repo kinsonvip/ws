@@ -11,6 +11,8 @@ public class JobContract {
 
     private String status;
 
+    private Date createTime;
+
     private String verifyUser;
 
     private Date verifyTime;
@@ -51,6 +53,14 @@ public class JobContract {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getVerifyUser() {

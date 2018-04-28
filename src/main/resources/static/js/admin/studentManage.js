@@ -32,7 +32,7 @@ $(function(){
             remote: function(params) {
                 return {
                     // 请求地址
-                    url: '/ws/admin/stuList',
+                    url: 'stuList',
                     // 请求类型
                     type: 'GET',
                     // 数据类型
@@ -71,7 +71,7 @@ $(function(){
         var stuNum = $('#unlockModal .stuNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/unlockStu',
+            url: 'unlockStu',
             data: {"stuNum":stuNum},
             cache: false,
             async : false,
@@ -104,7 +104,7 @@ $(function(){
         var stuNum = $('#lockModal .stuNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/lockStu',
+            url: 'lockStu',
             data: {"stuNum":stuNum},
             cache: false,
             async : false,

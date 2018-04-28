@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import site.shzu.ws.model.EmpDep;
-import site.shzu.ws.service.EmpDepService;
-import site.shzu.ws.service.EmpDepSysService;
-import site.shzu.ws.service.JobService;
-import site.shzu.ws.service.StudentService;
+import site.shzu.ws.model.JobContract;
+import site.shzu.ws.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -37,6 +35,9 @@ public class AdminController {
 
     @Autowired
     JobService jobService;
+
+    @Autowired
+    JobContractService jobContractService;
 
     /**
      * 请求管理员后台首页
@@ -410,4 +411,103 @@ public class AdminController {
         return resultMap;
     }
 
+    /**
+     * 请求待审核的学生申请岗位合同页面
+     * @return
+     */
+    @RequestMapping("/uncheckedContract")
+    public String uncheckedContract(){
+        return "admin/uncheckedContract";
+    }
+
+    /**
+     * 请求待审核的学生申请岗位合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/uncheckedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap uncheckedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getUncheckedContractList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 通过用该合同审核
+     * @param jobContractId
+     * @return
+     */
+    @RequestMapping(value = "/passContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap passContract(Integer jobContractId){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.passContract(jobContractId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 不通过用该合同审核
+     * @param jobContract
+     * @return
+     */
+    @RequestMapping(value = "/noPassContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap noPassContract(JobContract jobContract){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.noPassContract(jobContract);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求待已通过审核的学生申请岗位合同页面
+     * @return
+     */
+    @RequestMapping("/checkedContract")
+    public String checkedContract(){
+        return "admin/checkedContract";
+    }
+
+    /**
+     * 请求待审核的学生申请岗位合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/checkedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap checkedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getCheckedContractList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 删除岗位
+     * @param jobContractId
+     * @return
+     */
+    @RequestMapping(value = "/delContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delContract(Integer jobContractId){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.delContract(jobContractId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
 }

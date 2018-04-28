@@ -28,7 +28,7 @@ $(function(){
             remote: function(params) {
                 return {
                     // 请求地址
-                    url: '/ws/admin/uncheckedDepSysList',
+                    url: 'uncheckedDepSysList',
                     // 请求类型
                     type: 'GET',
                     // 数据类型
@@ -67,7 +67,7 @@ $(function(){
         var accountNum = $('#passModal .accountNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/passEmpDepSys',
+            url: 'passEmpDepSys',
             data: {"accountNum":accountNum},
             cache: false,
             async : false,
@@ -100,7 +100,7 @@ $(function(){
         var accountNum = $('#noPassModal .accountNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/noPassEmpDepSys',
+            url: 'noPassEmpDepSys',
             data: {"accountNum":accountNum},
             cache: false,
             async : false,

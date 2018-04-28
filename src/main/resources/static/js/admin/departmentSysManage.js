@@ -28,7 +28,7 @@ $(function(){
             remote: function(params) {
                 return {
                     // 请求地址
-                    url: '/ws/admin/depSysList',
+                    url: 'depSysList',
                     // 请求类型
                     type: 'GET',
                     // 数据类型
@@ -67,7 +67,7 @@ $(function(){
         var accountNum = $('#unlockModal .accountNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/unlockDepSys',
+            url: 'unlockDepSys',
             data: {"accountNum":accountNum},
             cache: false,
             async : false,
@@ -100,7 +100,7 @@ $(function(){
         var accountNum = $('#lockModal .accountNum').val();
         $.ajax({
             type: "post",
-            url: '/ws/admin/lockDepSys',
+            url: 'lockDepSys',
             data: {"accountNum":accountNum},
             cache: false,
             async : false,

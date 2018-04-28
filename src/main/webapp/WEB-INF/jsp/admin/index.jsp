@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8">
@@ -29,24 +30,35 @@
         <div class="container-fluid cl"><span class="logo navbar-slogan f-l mr-10 hidden-xs" style="font-size:18px"><i class="Hui-iconfont">&#xe72b;</i>勤工助学网站后台V1.0</span>
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                 <ul class="cl">
-                    <li>欢迎登录！管理员<i class="Hui-iconfont">&#xe62d;</i></li>
+                    <shiro:hasRole name="3">
+                        <li>欢迎登录！管理员</li>
+                    </shiro:hasRole>
+                    <shiro:hasRole name="4">
+                        <li>（超级管理员）</li>
+                    </shiro:hasRole>
                     <li class="dropDown dropDown_hover">
-                        <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <a href="#" class="dropDown_A">
+                            <i class="Hui-iconfont">&#xe62d;</i>
+                            <shiro:user>
+                                [<shiro:principal property="nickName"/>]
+                            </shiro:user>
+                            <i class="Hui-iconfont">&#xe6d5;</i>
+                        </a>
                         <ul class="dropDown-menu menu radius box-shadow">
                             <li><a href="javascript:;" onClick="myselfinfo()"><i class="Hui-iconfont">&#xe705;</i>个人信息</a></li>
-                            <li><a href="#"><i class="Hui-iconfont">&#xe62b;</i>切换账户</a></li>
-                            <li><a href="#"><i class="Hui-iconfont">&#xe726;</i>退出</a></li>
+                            <li><a href="${pageContext.request.contextPath}/login"><i class="Hui-iconfont">&#xe62b;</i>切换账户</a></li>
+                            <li><a href="${pageContext.request.contextPath}/logout"><i class="Hui-iconfont">&#xe726;</i>退出</a></li>
                         </ul>
                     </li>
                     <li id="Hui-skin" class="dropDown right dropDown_hover">
                         <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
-                        <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
-                            <li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
-                            <li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
-                            <li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
-                            <li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
-                            <li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+                        <ul class="dropDown-menu menu radius box-shadow"  style="width: 70px">
+                            <li style="background-color: #222"><a href="javascript:;" data-val="default" title="默认（黑色）">黑色</a></li>
+                            <li style="background-color: #00a0e9"><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+                            <li style="background-color: #19a97b"><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+                            <li style="background-color: #f43838"><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+                            <li style="background-color: #ffd200"><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+                            <li style="background-color: #f89406"><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -78,8 +90,8 @@
             <dt><i class="Hui-iconfont">&#xe636;</i>&nbsp;&nbsp;合同管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="admin/uncheckedContract.html" data-title="待审核合同" href="javascript:void(0)"><i class="Hui-iconfont">&#xe702;</i>&nbsp;&nbsp;待审核合同</a></li>
-                    <li><a data-href="admin/checkedContract.html" data-title="已审核合同" href="javascript:void(0)"><i class="Hui-iconfont">&#xe6ff;</i>&nbsp;&nbsp;已审核合同</a></li>
+                    <li><a data-href="uncheckedContract" data-title="待审核合同" href="javascript:void(0)"><i class="Hui-iconfont">&#xe702;</i>&nbsp;&nbsp;待审核合同</a></li>
+                    <li><a data-href="checkedContract" data-title="已审核合同" href="javascript:void(0)"><i class="Hui-iconfont">&#xe6ff;</i>&nbsp;&nbsp;已审核合同</a></li>
                 </ul>
             </dd>
         </dl>
@@ -101,16 +113,18 @@
                 </ul>
             </dd>
         </dl>
-        <dl id="menu-admin">
-            <dt><i class="Hui-iconfont">&#xe61d;</i>&nbsp;&nbsp;安全管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="role.html" data-title="角色管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe60d;</i>&nbsp;&nbsp;角色管理</a></li>
-                    <li><a data-href="permission.html" data-title="权限管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe611;</i>&nbsp;&nbsp;权限管理</a></li>
-                    <li><a data-href="adminManage.html" data-title="管理员列表" href="javascript:void(0)"><i class="Hui-iconfont">&#xe62d;</i>&nbsp;&nbsp;管理员列表</a></li>
-                </ul>
-            </dd>
-        </dl>
+        <shiro:hasRole name="4">
+            <dl id="menu-admin">
+                <dt><i class="Hui-iconfont">&#xe61d;</i>&nbsp;&nbsp;安全管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+                <dd>
+                    <ul>
+                        <li><a data-href="role.html" data-title="角色管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe60d;</i>&nbsp;&nbsp;角色管理</a></li>
+                        <li><a data-href="permission.html" data-title="权限管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe611;</i>&nbsp;&nbsp;权限管理</a></li>
+                        <li><a data-href="adminManage.html" data-title="管理员列表" href="javascript:void(0)"><i class="Hui-iconfont">&#xe62d;</i>&nbsp;&nbsp;管理员列表</a></li>
+                    </ul>
+                </dd>
+            </dl>
+        </shiro:hasRole>
     </div>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>

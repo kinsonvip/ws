@@ -44,7 +44,7 @@
                     </label>
                 </div>
                 <div class="form-group input-control has-icon-left">
-                    <P><input type="checkbox" name="rememberMe"  id="rememberMe" />记住我</P>
+                    <P><input type="checkbox" name="rememberMe"  id="rememberMe" />七天内免登录</P>
                 </div>
                 <%--<button id="login" class="btn btn-primary">提交</button>--%>
                 <input type="button" id="login" class="btn btn-primary" value="登录" />
@@ -64,7 +64,7 @@
             var passWord = $("#passWord").val();
             var vcode = $("#vcode").val();
             var rememberMe =$('#rememberMe').is(':checked');
-            $.post("${pageContext.request.contextPath}/doLogin", {
+            $.post("doLogin", {
                 "role" : role,
                 "userName" : userName,
                 "passWord" : passWord,

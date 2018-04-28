@@ -152,7 +152,7 @@
                 remote: function(params) {
                     return {
                         // 请求地址
-                        url: '/ws/admin/departmentList',
+                        url: 'departmentList',
                         // 请求类型
                         type: 'GET',
                         // 数据类型
@@ -194,7 +194,7 @@
             var depInfo = $('#depInfoInput').val();
             $.ajax({
                 type: "post",
-                url: '/ws/admin/editDepartment',
+                url: 'editDepartment',
                 data: {"id": id,"depName":depName,"depInfo":depInfo},
                 cache: false,
                 async : false,
@@ -227,7 +227,7 @@
             var id = $('#deleteModal .departmentId').val();
             $.ajax({
                 type: "post",
-                url: '/ws/admin/delDepartment',
+                url: 'delDepartment',
                 data: {"id":id},
                 cache: false,
                 async : false,
@@ -261,7 +261,7 @@
             var depInfo = $('#depInfoAddInput').val();
             $.ajax({
                 type: "post",
-                url: '/ws/admin/addDepartment',
+                url: 'addDepartment',
                 data: {"depName":depName,"depInfo":depInfo},
                 cache: false,
                 async : false,
