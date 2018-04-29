@@ -20,7 +20,7 @@
         <a class="btn btn-success" style="float: right;margin-right: 3%;margin-top: 20px" href="javascript:location.reload();" title="刷新" ><i class="icon icon-refresh"></i></a>
     </div>
     <div class="row" style="height: auto;margin-left: 2%;margin-right: 2%;margin-top: 1%">
-        <div id="uncheckedJobGrid" class="datagrid">
+        <div id="uncheckedJobGrid" class="datagrid datagrid-striped">
             <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchbox" style="margin-bottom: 10px; max-width: 300px;display: none">
                 <input id="inputSearch" type="search" class="form-control search-input" placeholder="输入岗位名称搜索">
                 <label for="inputSearch" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
@@ -134,8 +134,10 @@
         });
 
         $('#uncheckedJobGrid').datagrid({
+            height:'page',
             dataSource: {
                 cols:[
+                    {name: 'myCheckbox', label: '<i onclick="changeAllCheckbox(this)" class="icon icon-check-empty">', width: 36,className: 'text-center'},
                     {name: 'depName', label: '用人部门', width: 0.1,className: 'text-center'},
                     {name: 'tittle', label: '招聘标题', width: 0.15,className: 'text-center'},
                     {name: 'requireNum', label: '需求人数', width: 0.1,className: 'text-center'},
@@ -149,7 +151,7 @@
                 remote: function(params) {
                     return {
                         // 请求地址
-                        url: '${pageContext.request.contextPath}/admin/uncheckedJobList',
+                        url: 'uncheckedJobList',
                         // 请求类型
                         type: 'GET',
                         // 数据类型
@@ -161,6 +163,7 @@
                     for(var i = 0;i < responseData.data.length;i++){
                         var rowData = responseData.data[i];
                         var job = rowData.jobId+"╪"+rowData.depName+"╪"+rowData.tittle+"╪"+rowData.jobDesc+"╪"+rowData.requireNum+"╪"+rowData.jobReq+"╪"+rowData.sexReq+"╪"+rowData.salary+"╪"+rowData.addr+"╪"+rowData.linkMan+"╪"+rowData.linkPhone+"╪"+rowData.createTime+"╪"+rowData.endTime+"╪"+rowData.createUser+"╪"+rowData.status;
+                        responseData.data[i].myCheckbox='<i name="myCheckbox" onclick="changeCheckbox(this)" value="'+rowData.jobId+'" class="icon icon-check-empty">';
                         //添加操作按钮
                         responseData.data[i].operate= '<button class="btn btn-sm btn-info" type="button" title="详情" value="'+job+'" onclick="detail(this)"><i class="icon icon-zoom-in"></i></button>&nbsp&nbsp&nbsp&nbsp' +
                             '<button class="btn btn-sm btn-success" type="button" title="通过" value="'+job+'" onclick="pass(this)"><i class="icon icon-check"></i></button>&nbsp&nbsp&nbsp&nbsp' +
@@ -172,12 +175,12 @@
             states: {
                 pager: {page: 1,recPerPage: 10},
                 fixedLeftUntil: 0,    // 固定左侧第一列
-                fixedRightFrom: 9,   // 从第12列开始固定到右侧
+                fixedRightFrom: 10,   // 从第12列开始固定到右侧
                 fixedTopUntil: 0,     // 固定顶部第一行（标题行）
             },
             configs: {
-                C0: {},
-                C9: {html:true}
+                C1: {html:true},
+                C10: {html:true}
             },
             checkable: false,
             checkByClickRow: false,
@@ -190,7 +193,7 @@
             var jobId = $('#passModal .jobId').val();
             $.ajax({
                 type: "post",
-                url: '${pageContext.request.contextPath}/admin/passJob',
+                url: 'passJob',
                 data: {"jobId":jobId},
                 cache: false,
                 async : false,
@@ -223,7 +226,7 @@
             var jobId = $('#noPassModal .jobId').val();
             $.ajax({
                 type: "post",
-                url: '${pageContext.request.contextPath}/admin/noPassJob',
+                url: 'noPassJob',
                 data: {"jobId":jobId},
                 cache: false,
                 async : false,
@@ -288,6 +291,29 @@
         $('.jobId').val(job[0]);
         $('#noPassContent').html("确定不通过岗位：["+job[2]+"]的审核吗？");
         $('#noPassModal').modal('show', 'fit');
+    }
+
+    function changeCheckbox(obj) {
+        if($(obj).attr("class")=="icon icon-check-empty"){
+            $(obj).attr("class","icon icon-check-sign");
+        }else{
+            $(obj).attr("class","icon icon-check-empty")
+        }
+    }
+
+    function changeAllCheckbox(obj) {
+        var checkboxList = $('i[name="myCheckbox"]');
+        if($(obj).attr("class")=="icon icon-check-empty"){
+            $(obj).attr("class","icon icon-check-sign");
+            for(var i = 0; i < checkboxList.length; i++){
+                $(checkboxList[i]).attr("class","icon icon-check-sign");
+            }
+        }else{
+            for(var i = 0; i < checkboxList.length; i++){
+                $(obj).attr("class","icon icon-check-empty")
+                $(checkboxList[i]).attr("class","icon icon-check-empty");
+            }
+        }
     }
 </script>
 </body>
