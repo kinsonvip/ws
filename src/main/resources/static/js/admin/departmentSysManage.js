@@ -129,6 +129,13 @@ $(function(){
         });
     })
 
+    $("#recPerPage").change(function () {
+        var recPerPage = $(this).children('option:selected').val();
+        // 获取数据表格实例
+        var depSysGrid = $('#depSysGrid').data('zui.datagrid');
+        depSysGrid.setPager(-1,-1,parseInt(recPerPage));
+        depSysGrid.render();
+    })
 })
 
 function unlock(obj) {

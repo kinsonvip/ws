@@ -23,6 +23,7 @@
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
     <title>后台管理</title>
+    <link rel="icon" href="../icon/university.jpg">
 </head>
 <body>
 <header class="navbar-wrapper">

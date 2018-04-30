@@ -133,6 +133,13 @@ $(function(){
         });
     })
 
+    $("#recPerPage").change(function () {
+        var recPerPage = $(this).children('option:selected').val();
+        // 获取数据表格实例
+        var studentGrid = $('#studentGrid').data('zui.datagrid');
+        studentGrid.setPager(-1,-1,parseInt(recPerPage));
+        studentGrid.render();
+    })
 })
 
 function unlock(obj) {

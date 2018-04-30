@@ -40,7 +40,7 @@
     from job j,emp_dep ed
     where j.emp_dep_id = ed.id and j.`status` = '0'
     <if test="search != null and search != ''">
-      and j.tittle = #{search}
+      and ed.dep_name = #{search}
     </if> order by j.id desc
   </select>
 

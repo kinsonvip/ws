@@ -21,13 +21,31 @@
     </div>
     <div class="row" style="height: auto;margin-left: 2%;margin-right: 2%;margin-top: 1%">
         <div id="uncheckedJobGrid" class="datagrid datagrid-striped">
-            <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchbox" style="margin-bottom: 10px; max-width: 300px;display: none">
-                <input id="inputSearch" type="search" class="form-control search-input" placeholder="输入岗位名称搜索">
-                <label for="inputSearch" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
-                <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+            <div class="row">
+                <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchbox" style="margin-bottom: 10px; max-width: 300px;float: left">
+                    <input id="inputSearch" type="search" class="form-control search-input" placeholder="输入岗位名称搜索">
+                    <label for="inputSearch" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+                    <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+                </div>
+                <div style="float: left;margin-left: 2%">
+                    <button class="btn btn-success" type="button" title="批量通过" onclick="passSome()"><i class="icon icon-check"></i>批量通过</button>
+                </div>
+                <div style="float: left;margin-left: 2%">
+                    <button class="btn btn-warning" type="button" title="批量拒绝" onclick="noPassSome()"><i class="icon icon-times"></i>批量拒绝</button>
+                </div>
             </div>
+
             <div class="datagrid-container"></div>
-            <div id="myPager" class="pager" data-elements="size_menu,first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20" style="margin-left: 30%"></div>
+            <div class="row">
+                <div style="margin-left: 20%;margin-top:2%;margin-right:2%;float: left">
+                    每页<select id="recPerPage" class="select">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="100">100</option>
+                </select>项
+                </div>
+                <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -255,6 +273,13 @@
             });
         })
 
+        $("#recPerPage").change(function () {
+            var recPerPage = $(this).children('option:selected').val();
+            // 获取数据表格实例
+            var uncheckedJobGrid = $('#uncheckedJobGrid').data('zui.datagrid');
+            uncheckedJobGrid.setPager(-1,-1,parseInt(recPerPage));
+            uncheckedJobGrid.render();
+        })
     })
 
     function detail(obj) {
@@ -314,6 +339,15 @@
                 $(checkboxList[i]).attr("class","icon icon-check-empty");
             }
         }
+    }
+
+    function passSome() {
+        var checkboxList = $('i[name="myCheckbox"][class="icon icon-check-sign"]');
+        alert(checkboxList.length);
+    }
+
+    function noPassSome() {
+
     }
 </script>
 </body>

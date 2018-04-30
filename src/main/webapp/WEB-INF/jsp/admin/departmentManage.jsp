@@ -32,7 +32,16 @@
                 </div>
             </div>
             <div class="datagrid-container"></div>
-            <div id="myPager" class="pager" data-elements="size_menu,first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20" style="margin-left: 30%"></div>
+            <div class="row">
+                <div style="margin-left: 20%;margin-top:2%;margin-right:2%;float: left">
+                    每页<select id="recPerPage" class="select">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="100">100</option>
+                </select>项
+                </div>
+                <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -290,6 +299,13 @@
             });
         })
 
+        $("#recPerPage").change(function () {
+            var recPerPage = $(this).children('option:selected').val();
+            // 获取数据表格实例
+            var departmentGrid = $('#departmentGrid').data('zui.datagrid');
+            departmentGrid.setPager(-1,-1,parseInt(recPerPage));
+            departmentGrid.render();
+        })
     })
 
     function edit(obj) {
