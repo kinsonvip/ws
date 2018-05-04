@@ -28,10 +28,10 @@
                     <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
                 </div>
                 <div style="float: left;margin-left: 2%">
-                    <button class="btn btn-success" type="button" title="批量通过" onclick="passSome()"><i class="icon icon-check"></i>批量通过</button>
+                    <button class="btn btn-success" type="button" title="批量通过" onclick="passSome()"><i class="icon icon-check"></i>&nbsp&nbsp批量通过</button>
                 </div>
                 <div style="float: left;margin-left: 2%">
-                    <button class="btn btn-warning" type="button" title="批量拒绝" onclick="noPassSome()"><i class="icon icon-times"></i>批量拒绝</button>
+                    <button class="btn btn-warning" type="button" title="批量拒绝" onclick="noPassSome()"><i class="icon icon-times"></i>&nbsp&nbsp批量拒绝</button>
                 </div>
             </div>
 
@@ -126,6 +126,44 @@
                 <input type="hidden" value="" class="jobId">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="noPassBtn">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="passSomeModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">审核通过</h4>
+            </div>
+            <div class="modal-body">
+                <p id="passSomeContent">主题内容...</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" value="" class="jobIdArr">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="passSomeBtn">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="noPassSomeModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">审核拒绝</h4>
+            </div>
+            <div class="modal-body">
+                <p id="noPassSomeContent">主题内容...</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" value="" class="jobIdArr">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="noPassSomeBtn">确定</button>
             </div>
         </div>
     </div>
@@ -273,6 +311,72 @@
             });
         })
 
+        $('#passSomeBtn').click(function () {
+            var jobIdArr = $('#passSomeModal .jobIdArr').val();
+            $.ajax({
+                type: "post",
+                url: 'passSomeJob',
+                data: {"jobIdArr":jobIdArr},
+                cache: false,
+                async : false,
+                dataType: "json",
+                success: function (data ,textStatus, jqXHR){
+                    $('#passSomeModal').modal('hide');
+                    if("success"==data.status){
+                        var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
+                        uncheckedJobGrid.dataSource.data=null;
+                        uncheckedJobGrid.render();
+                        new $.zui.Messager('操作成功!', {
+                            icon:'ok',
+                            type: 'success',
+                            time: 2000
+                        }).show();
+                    }
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    $('#passSomeModal').modal('hide');
+                    new $.zui.Messager('操作失败!', {
+                        icon:'warning-sign',
+                        type: 'warning',
+                        time: 2000
+                    }).show();
+                }
+            });
+        })
+
+        $('#noPassSomeBtn').click(function () {
+            var jobIdArr = $('#noPassSomeModal .jobIdArr').val();
+            $.ajax({
+                type: "post",
+                url: 'noPassSomeJob',
+                data: {"jobIdArr":jobIdArr},
+                cache: false,
+                async : false,
+                dataType: "json",
+                success: function (data ,textStatus, jqXHR){
+                    $('#noPassSomeModal').modal('hide');
+                    if("success"==data.status){
+                        var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
+                        uncheckedJobGrid.dataSource.data=null;
+                        uncheckedJobGrid.render();
+                        new $.zui.Messager('操作成功!', {
+                            icon:'ok',
+                            type: 'success',
+                            time: 2000
+                        }).show();
+                    }
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    $('#noPassSomeModal').modal('hide');
+                    new $.zui.Messager('操作失败!', {
+                        icon:'warning-sign',
+                        type: 'warning',
+                        time: 2000
+                    }).show();
+                }
+            });
+        })
+
         $("#recPerPage").change(function () {
             var recPerPage = $(this).children('option:selected').val();
             // 获取数据表格实例
@@ -342,12 +446,41 @@
     }
 
     function passSome() {
+        var arr = new Array();
         var checkboxList = $('i[name="myCheckbox"][class="icon icon-check-sign"]');
-        alert(checkboxList.length);
+        if(checkboxList.length==0){
+            new $.zui.Messager('请选择要操作的数据!', {
+                icon:'warning-sign',
+                type: 'warning',
+                time: 2000
+            }).show();
+        }else{
+            for(var i = 0;i<checkboxList.length;i++){
+                arr.push($(checkboxList[i]).attr("value"));
+            }
+            $('.jobIdArr').val(arr);
+            $('#passSomeContent').html("确定要通过所选["+arr.length+"]个岗位的审核吗？");
+            $('#passSomeModal').modal('show', 'fit');
+        }
     }
 
     function noPassSome() {
-
+        var arr = new Array();
+        var checkboxList = $('i[name="myCheckbox"][class="icon icon-check-sign"]');
+        if(checkboxList.length==0){
+            new $.zui.Messager('请选择要操作的数据!', {
+                icon:'warning-sign',
+                type: 'warning',
+                time: 2000
+            }).show();
+        }else{
+            for(var i = 0;i<checkboxList.length;i++){
+                arr.push($(checkboxList[i]).attr("value"));
+            }
+            $('.jobIdArr').val(arr);
+            $('#noPassSomeContent').html("确定要拒绝所选["+arr.length+"]个岗位的审核吗？");
+            $('#noPassSomeModal').modal('show', 'fit');
+        }
     }
 </script>
 </body>

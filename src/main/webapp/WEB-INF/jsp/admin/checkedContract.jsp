@@ -112,7 +112,7 @@
                     for(var i = 0;i < responseData.data.length;i++){
                         var rowData = responseData.data[i];
                         //添加操作按钮
-                        responseData.data[i].operate='<button class="btn btn-sm btn-warning" type="button" title="删除" value="'+responseData.data[i].jobContractId+'" onclick="del(this)"><i class="icon icon-times"></i></button>';
+                        responseData.data[i].operate='<button class="btn btn-sm btn-danger" type="button" title="删除" value="'+responseData.data[i].jobContractId+'" onclick="del(this)"><i class="icon icon-trash"></i></button>';
                     }
                     return responseData;
                 }

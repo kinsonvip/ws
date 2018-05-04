@@ -59,6 +59,22 @@
     update job set `status` = '1' where id = #{jobId}
   </update>
 
+  <update id="passSomeJob" parameterType="java.util.ArrayList">
+    update job set `status` = '1'
+    WHERE id IN
+    <foreach collection="jobIdArr" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <update id="noPassSomeJob" parameterType="java.util.ArrayList">
+    update job set `status` = '-1'
+    WHERE id IN
+    <foreach collection="jobIdArr" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
   <update id="noPassJob" parameterType="java.lang.Integer">
     update job set `status` = '-1' where id = #{jobId}
   </update>

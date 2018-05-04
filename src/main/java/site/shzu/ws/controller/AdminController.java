@@ -371,6 +371,43 @@ public class AdminController {
     }
 
     /**
+     * 批量通过用人部门创立的岗位审核
+     * @param jobIdArr
+     * @return
+     */
+    @RequestMapping(value = "/passSomeJob", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap passSomeJob(Integer[] jobIdArr){
+        HashMap resultMap = new HashMap();
+        try {
+            jobService.passSomeJob(jobIdArr);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 批量拒绝用人部门创立的岗位审核
+     * @param jobIdArr
+     * @return
+     */
+    @RequestMapping(value = "/noPassSomeJob", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap noPassSomeJob(Integer[] jobIdArr){
+        HashMap resultMap = new HashMap();
+        try {
+            jobService.noPassSomeJob(jobIdArr);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
      * 请求通过审核的岗位管理页面
      * @return
      */

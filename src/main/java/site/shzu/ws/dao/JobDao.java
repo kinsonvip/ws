@@ -30,4 +30,8 @@ public interface JobDao {
     void passJob(@Param(value = "jobId") Integer jobId);
 
     void noPassJob(@Param(value = "jobId") Integer jobId);
+
+    void passSomeJob(@Param(value = "jobIdArr") Integer[] jobIdArr);
+
+    void noPassSomeJob(@Param(value = "jobIdArr") Integer[] jobIdArr);
 }

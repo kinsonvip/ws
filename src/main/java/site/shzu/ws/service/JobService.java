@@ -81,4 +81,12 @@ public class JobService {
     public void noPassJob(Integer jobId){
         jobDao.noPassJob(jobId);
     }
+
+    public void passSomeJob(Integer[] jobIdArr){
+        jobDao.passSomeJob(jobIdArr);
+    }
+
+    public void noPassSomeJob(Integer[] jobIdArr){
+        jobDao.noPassSomeJob(jobIdArr);
+    }
 }
