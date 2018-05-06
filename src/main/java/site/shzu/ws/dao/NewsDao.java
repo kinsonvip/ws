@@ -1,7 +1,11 @@
 package site.shzu.ws.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.shzu.ws.model.News;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 public interface NewsDao {
@@ -18,4 +22,8 @@ public interface NewsDao {
     int updateByPrimaryKeyWithBLOBs(News record);
 
     int updateByPrimaryKey(News record);
+
+    List<HashMap> getNewsList(@Param(value = "search") String search);
+
+    void delSomeNews(@Param(value = "newsIdArr") Integer[] newsIdArr);
 }

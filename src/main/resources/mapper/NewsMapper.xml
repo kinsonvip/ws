@@ -17,6 +17,23 @@
   <sql id="Blob_Column_List">
     content
   </sql>
+
+  <select id="getNewsList" resultType="java.util.HashMap">
+    select n.id newsId,n.publisher,DATE_FORMAT(n.publish_time,'%Y-%m-%d %H:%i:%s') publishTime,n.tittle,n.content
+    from news n
+    <if test="search != null and search != ''">
+      where n.tittle = #{search}
+    </if> order by n.id desc
+  </select>
+
+  <delete id="delSomeNews" parameterType="java.util.ArrayList">
+    delete from news
+    WHERE id IN
+    <foreach collection="newsIdArr" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />

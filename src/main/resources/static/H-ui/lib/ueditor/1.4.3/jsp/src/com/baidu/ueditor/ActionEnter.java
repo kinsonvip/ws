@@ -23,15 +23,24 @@ public class ActionEnter {
 	
 	private ConfigManager configManager = null;
 
-	public ActionEnter ( HttpServletRequest request, String rootPath ) {
-		
+	public ActionEnter(HttpServletRequest request, String rootPath, String configFileName){
+
+		this.request = request;
+		this.rootPath = rootPath;
+		this.actionType = request.getParameter("action");
+		this.configManager = ConfigManager.getInstance(this.rootPath, configFileName);
+
+	}
+
+	/*public ActionEnter ( HttpServletRequest request, String rootPath ) {
+
 		this.request = request;
 		this.rootPath = rootPath;
 		this.actionType = request.getParameter( "action" );
 		this.contextPath = request.getContextPath();
 		this.configManager = ConfigManager.getInstance( this.rootPath, this.contextPath, request.getRequestURI() );
-		
-	}
+
+	}*/
 	
 	public String exec () {
 		

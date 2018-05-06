@@ -12,6 +12,8 @@ public class Job {
 
     private Integer requireNum;
 
+    private Integer maxNum;
+
     private Integer acceptNum;
 
     private String sexReq;
@@ -72,6 +74,14 @@ public class Job {
 
     public void setRequireNum(Integer requireNum) {
         this.requireNum = requireNum;
+    }
+
+    public Integer getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(Integer maxNum) {
+        this.maxNum = maxNum;
     }
 
     public Integer getAcceptNum() {

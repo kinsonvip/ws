@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import site.shzu.ws.model.EmpDep;
 import site.shzu.ws.model.JobContract;
+import site.shzu.ws.model.News;
 import site.shzu.ws.service.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,9 @@ public class AdminController {
 
     @Autowired
     JobContractService jobContractService;
+
+    @Autowired
+    NewsService newsService;
 
     /**
      * 请求管理员后台首页
@@ -541,6 +545,83 @@ public class AdminController {
         HashMap resultMap = new HashMap();
         try {
             jobContractService.delContract(jobContractId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求待新闻管理页面
+     * @return
+     */
+    @RequestMapping("/newsManage")
+    public String newsManage(){
+        return "admin/newsManage";
+    }
+
+    /**
+     * 请求新闻列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/newsList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap newsList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return newsService.getNewsList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 删除新闻
+     * @param newsId
+     * @return
+     */
+    @RequestMapping(value = "/delNews", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delNews(Integer newsId){
+        HashMap resultMap = new HashMap();
+        try {
+            newsService.delNewsById(newsId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 批量删除新闻
+     * @param newsIdArr
+     * @return
+     */
+    @RequestMapping(value = "/delSomeNews", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delSomeNews(Integer[] newsIdArr){
+        HashMap resultMap = new HashMap();
+        try {
+            newsService.delSomeNews(newsIdArr);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 添加新闻
+     * @param news
+     * @return
+     */
+    @RequestMapping(value = "/addNews", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap addNews(News news){
+        HashMap resultMap = new HashMap();
+        try {
+            newsService.addNews(news);
             resultMap.put("status", "success");
         }catch (Exception e){
             resultMap.put("status", "fail");

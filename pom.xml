@@ -129,6 +129,13 @@
 			<artifactId>shiro-redis</artifactId>
 			<version>2.4.2.1-RELEASE</version>
 		</dependency>
+
+		<!-- UEditor相关依赖-->
+		<dependency>
+			<groupId>cn.songxinqiang</groupId>
+			<artifactId>com.baidu.ueditor</artifactId>
+			<version>1.1.2-edit-1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

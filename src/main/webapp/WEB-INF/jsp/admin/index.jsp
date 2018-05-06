@@ -73,8 +73,8 @@
             <dt><i class="Hui-iconfont">&#xe625;</i>&nbsp;&nbsp;网站管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="admin/noticeManage.html" data-title="公告管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe72d;</i>&nbsp;&nbsp;公告管理</a></li>
-                    <li><a data-href="admin/newsManage.html" data-title="新闻管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe616;</i>&nbsp;&nbsp;新闻管理</a></li>
+                    <li><a data-href="noticeManage" data-title="公告管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe72d;</i>&nbsp;&nbsp;公告管理</a></li>
+                    <li><a data-href="newsManage" data-title="新闻管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe616;</i>&nbsp;&nbsp;新闻管理</a></li>
                 </ul>
             </dd>
         </dl>

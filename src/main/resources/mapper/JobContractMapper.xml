@@ -19,7 +19,7 @@
   </sql>
 
   <select id="getUncheckedContractList" resultType="java.util.HashMap">
-    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.accept_num acceptNum,CASE jc.`status`
+    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
     WHEN '0' THEN '待审核'
     END status
     from job j,job_contract jc,student s
@@ -30,7 +30,7 @@
   </select>
 
   <select id="getCheckedContractList" resultType="java.util.HashMap">
-    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.accept_num acceptNum,CASE jc.`status`
+    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
     WHEN '1' THEN '审核通过'
     END status,jc.verify_user verifyUser,DATE_FORMAT(jc.verify_time,'%Y-%m-%d %H:%i:%s') verifyTime
     from job j,job_contract jc,student s
