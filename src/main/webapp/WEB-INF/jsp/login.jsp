@@ -75,7 +75,7 @@
                     if(role=='student'){
                         location.href = "${pageContext.request.contextPath}/grid";
                     }else if(role=='empDepSys'){
-                        location.href = "www.baidu.com";
+                        location.href = "${pageContext.request.contextPath}/depsys/index";
                     }else{
                         location.href = "${pageContext.request.contextPath}/admin/index";
                     }

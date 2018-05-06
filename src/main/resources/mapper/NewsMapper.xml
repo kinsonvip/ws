@@ -50,10 +50,10 @@
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into news (id, publisher, publish_time, 
+    insert into news (id, publisher, publish_time,
       tittle, url, content
       )
-    values (#{id,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP},
       #{tittle,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>

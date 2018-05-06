@@ -28,12 +28,12 @@
             </div>
             <div class="datagrid-container"></div>
             <div class="row">
-                <div style="margin-left: 20%;margin-top:2%;margin-right:2%;float: left">
-                    每页<select id="recPerPage" class="select">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="100">100</option>
-                </select>项
+                <div style="margin-left: 20%;margin-top:1.5%;margin-right:1%;float: left">
+                    <select id="recPerPage" class="select form-control">
+                        <option value="10">每页10项</option>
+                        <option value="20">每页20项</option>
+                        <option value="100">每页100项</option>
+                    </select>
                 </div>
                 <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
             </div>
@@ -69,6 +69,7 @@
                         <p><strong>岗位要求：</strong><span id="jobReq">内容</span></p>
                         <p><strong>性别要求：</strong><span id="sexReq">内容</span></p>
                         <p><strong>需要人数：</strong><span id="requireNum">内容</span>人</p>
+                        <p><strong>工作天数：</strong><span id="workdays">内容</span>天</p>
                         <p><strong>薪资：</strong><span id="salary">内容</span>元/天</p>
                         <p><strong>联系人：</strong><span id="linkMan">内容</span></p>
                         <p><strong>联系电话：</strong><span id="linkPhone">内容</span></p>
@@ -127,9 +128,10 @@
             dataSource: {
                 cols:[
                     {name: 'depName', label: '用人部门', width: 0.1,className: 'text-center'},
-                    {name: 'tittle', label: '招聘标题', width: 0.15,className: 'text-center'},
+                    {name: 'tittle', label: '岗位名称', width: 0.15,className: 'text-center'},
                     {name: 'requireNum', label: '需求人数', width: 0.1,className: 'text-center'},
                     {name: 'sexReq', label: '性别要求',width: 0.1,className: 'text-center'},
+                    {name: 'workdays', label: '工作天数',width: 0.1,className: 'text-center'},
                     {name: 'salary', label: '薪资/天',width: 0.1,className: 'text-center'},
                     {name: 'createUser', label: '创建人',width: 0.1,className: 'text-center'},
                     {name: 'createTime', label: '创建时间',width: 0.15,className: 'text-center'},
@@ -150,7 +152,7 @@
                     jqxhr = jqXHR;
                     for(var i = 0;i < responseData.data.length;i++){
                         var rowData = responseData.data[i];
-                        var job = rowData.jobId+"╪"+rowData.depName+"╪"+rowData.tittle+"╪"+rowData.jobDesc+"╪"+rowData.requireNum+"╪"+rowData.jobReq+"╪"+rowData.sexReq+"╪"+rowData.salary+"╪"+rowData.addr+"╪"+rowData.linkMan+"╪"+rowData.linkPhone+"╪"+rowData.createTime+"╪"+rowData.endTime+"╪"+rowData.createUser+"╪"+rowData.status;
+                        var job = rowData.jobId+"╪"+rowData.depName+"╪"+rowData.tittle+"╪"+rowData.jobDesc+"╪"+rowData.requireNum+"╪"+rowData.jobReq+"╪"+rowData.sexReq+"╪"+rowData.workdays+"╪"+rowData.salary+"╪"+rowData.addr+"╪"+rowData.linkMan+"╪"+rowData.linkPhone+"╪"+rowData.createTime+"╪"+rowData.endTime+"╪"+rowData.createUser+"╪"+rowData.status;
                         //添加操作按钮
                         responseData.data[i].operate= '<button class="btn btn-sm btn-info" type="button" title="详情" value="'+job+'" onclick="detail(this)"><i class="icon icon-zoom-in"></i></button>&nbsp&nbsp&nbsp&nbsp' +
                             '<button class="btn btn-sm btn-danger" type="button" title="删除" value="'+job+'" onclick="del(this)"><i class="icon icon-trash"></i></button>';
@@ -161,12 +163,12 @@
             states: {
                 pager: {page: 1,recPerPage: 10},
                 fixedLeftUntil: 0,    // 固定左侧第一列
-                fixedRightFrom: 9,   // 从第12列开始固定到右侧
+                fixedRightFrom: 10,   // 从第12列开始固定到右侧
                 fixedTopUntil: 0,     // 固定顶部第一行（标题行）
             },
             configs: {
                 C0: {},
-                C9: {html:true}
+                C10: {html:true}
             },
             checkable: false,
             checkByClickRow: false,
@@ -223,17 +225,18 @@
         $('.jobId').val(job[0]);
         $('#tittle').html(job[2]);
         $('#depName').html(job[1]);
-        $('#createUser').html(job[13]);
-        $('#createTime').html(job[11]);
-        $('#endTime').html(job[12]);
+        $('#createUser').html(job[14]);
+        $('#createTime').html(job[12]);
+        $('#endTime').html(job[13]);
         $('#jobDesc').html(job[3]);
-        $('#addr').html(job[8]);
+        $('#addr').html(job[9]);
         $('#jobReq').html(job[5]);
         $('#sexReq').html(job[6]);
         $('#requireNum').html(job[4]);
-        $('#salary').html(job[7]);
-        $('#linkMan').html(job[9]);
-        $('#linkPhone').html(job[10]);
+        $('#workdays').html(job[7]);
+        $('#salary').html(job[8]);
+        $('#linkMan').html(job[10]);
+        $('#linkPhone').html(job[11]);
         $('#detailModal').modal('show', 'fit');
     }
 

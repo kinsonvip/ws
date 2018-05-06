@@ -28,12 +28,12 @@
                 </div>
                 <div class="datagrid-container"></div>
                 <div class="row">
-                    <div style="margin-left: 20%;margin-top:2%;margin-right:2%;float: left">
-                        每页<select id="recPerPage" class="select">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="100">100</option>
-                    </select>项
+                    <div style="margin-left: 20%;margin-top:1.5%;margin-right:1%;float: left">
+                        <select id="recPerPage" class="select form-control">
+                            <option value="10">每页10项</option>
+                            <option value="20">每页20项</option>
+                            <option value="100">每页100项</option>
+                        </select>
                     </div>
                     <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
                 </div>

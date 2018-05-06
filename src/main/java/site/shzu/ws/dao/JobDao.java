@@ -25,6 +25,8 @@ public interface JobDao {
 
     List<HashMap> getUncheckedJobList(@Param(value = "search") String search);
 
+    List<HashMap> getUncheckedJobListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
     List<HashMap> getCheckedJobList(@Param(value = "search") String search);
 
     void passJob(@Param(value = "jobId") Integer jobId);

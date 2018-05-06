@@ -18,6 +18,8 @@ public class Job {
 
     private String sexReq;
 
+    private Integer workdays;
+
     private BigDecimal salary;
 
     private String addr;
@@ -98,6 +100,14 @@ public class Job {
 
     public void setSexReq(String sexReq) {
         this.sexReq = sexReq == null ? null : sexReq.trim();
+    }
+
+    public Integer getWorkdays() {
+        return workdays;
+    }
+
+    public void setWorkdays(Integer workdays) {
+        this.workdays = workdays;
     }
 
     public BigDecimal getSalary() {

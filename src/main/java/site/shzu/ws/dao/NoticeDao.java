@@ -1,7 +1,13 @@
 package site.shzu.ws.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import site.shzu.ws.model.Notice;
 
+import java.util.HashMap;
+import java.util.List;
+
+@Mapper
 public interface NoticeDao {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +22,8 @@ public interface NoticeDao {
     int updateByPrimaryKeyWithBLOBs(Notice record);
 
     int updateByPrimaryKey(Notice record);
+
+    List<HashMap> getNoticeList(@Param(value = "search") String search);
+
+    void delSomeNotice(@Param(value = "noticeIdArr") Integer[] noticeIdArr);
 }

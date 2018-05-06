@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import site.shzu.ws.model.EmpDep;
 import site.shzu.ws.model.JobContract;
 import site.shzu.ws.model.News;
+import site.shzu.ws.model.Notice;
 import site.shzu.ws.service.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,9 @@ public class AdminController {
 
     @Autowired
     NewsService newsService;
+
+    @Autowired
+    NoticeService noticeService;
 
     /**
      * 请求管理员后台首页
@@ -553,7 +557,7 @@ public class AdminController {
     }
 
     /**
-     * 请求待新闻管理页面
+     * 请求新闻管理页面
      * @return
      */
     @RequestMapping("/newsManage")
@@ -622,6 +626,83 @@ public class AdminController {
         HashMap resultMap = new HashMap();
         try {
             newsService.addNews(news);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求公告管理页面
+     * @return
+     */
+    @RequestMapping("/noticeManage")
+    public String noticeManage(){
+        return "admin/noticeManage";
+    }
+
+    /**
+     * 请求公告列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/noticeList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap noticeList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return noticeService.getNoticeList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 删除公告
+     * @param noticeId
+     * @return
+     */
+    @RequestMapping(value = "/delNotice", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delNotice(Integer noticeId){
+        HashMap resultMap = new HashMap();
+        try {
+            noticeService.delNoticeById(noticeId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 批量删除公告
+     * @param noticeIdArr
+     * @return
+     */
+    @RequestMapping(value = "/delSomeNotice", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delSomeNotice(Integer[] noticeIdArr){
+        HashMap resultMap = new HashMap();
+        try {
+            noticeService.delSomeNotice(noticeIdArr);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 添加公告
+     * @param notice
+     * @return
+     */
+    @RequestMapping(value = "/addNotice", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap addNotice(Notice notice){
+        HashMap resultMap = new HashMap();
+        try {
+            noticeService.addNotice(notice);
             resultMap.put("status", "success");
         }catch (Exception e){
             resultMap.put("status", "fail");
