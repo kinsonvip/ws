@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import site.shzu.ws.model.Job;
+import site.shzu.ws.model.JobContract;
 import site.shzu.ws.model.User;
 import site.shzu.ws.service.EmpDepSysService;
+import site.shzu.ws.service.JobContractService;
 import site.shzu.ws.service.JobService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,9 @@ public class EmpDepController {
 
     @Autowired
     EmpDepSysService empDepSysService;
+
+    @Autowired
+    JobContractService jobContractService;
 
     /**
      * 请求管理员后台首页
@@ -184,5 +189,123 @@ public class EmpDepController {
         int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
         String search = request.getParameter("search");
         return jobService.getCheckedJobListByDep(pageNum,pageSize,search);
+    }
+
+    /**
+     * 请求未确认的合同管理页面
+     * @return
+     */
+    @RequestMapping("/unconfirmedContract")
+    public String unconfirmedContract(){
+        return "depsys/unconfirmedContract";
+    }
+
+    /**
+     * 请求已录用的合同管理页面
+     * @return
+     */
+    @RequestMapping("/confirmedContract")
+    public String confirmedContract(){
+        return "depsys/confirmedContract";
+    }
+
+    /**
+     * 请求未确认的合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/unconfirmedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap unconfirmedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getUnconfirmedContractListByDep(pageNum,pageSize,search);
+    }
+
+    /**
+     * 确认该合同
+     * @param jobContractId
+     * @return
+     */
+    @RequestMapping(value = "/passContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap passContract(Integer jobContractId){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.confirmContract(jobContractId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 拒绝该合同
+     * @param jobContract
+     * @return
+     */
+    @RequestMapping(value = "/noPassContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap noPassContract(JobContract jobContract){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.noConfirmContract(jobContract);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求已录用的合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/confirmedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap confirmedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getConfirmedContractListByDep(pageNum,pageSize,search);
+    }
+
+    /**
+     * 删除合同
+     * @param jobContractId
+     * @return
+     */
+    @RequestMapping(value = "/delContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delContract(Integer jobContractId){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.delContract(jobContractId);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 批量删除合同
+     * @param jobContractIdArr
+     * @return
+     */
+    @RequestMapping(value = "/delSomeContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delSomeContract(Integer[] jobContractIdArr){
+        HashMap resultMap = new HashMap();
+        try {
+            jobContractService.delSomeContract(jobContractIdArr);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
     }
 }

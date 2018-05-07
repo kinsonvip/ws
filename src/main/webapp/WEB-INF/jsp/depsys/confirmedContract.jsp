@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>已审核岗位列表</title>
+    <title>已录用的学生合同列表</title>
     <!-- zui -->
     <link href="../zui/css/zui.css" rel="stylesheet">
     <link href="../zui/lib/datagrid/zui.datagrid.css" rel="stylesheet">
@@ -14,13 +14,13 @@
 <div class="container-fluid">
     <div class="row" style="background-color: #EDEDEE">
         <ol class="breadcrumb" style="float: left;margin-top: 20px">
-            <li><i class="icon icon-home"></i>&nbsp&nbsp岗位管理</li>
-            <li>已审核岗位列表</li>
+            <li><i class="icon icon-home"></i>&nbsp&nbsp合同管理</li>
+            <li>已录用学生的合同列表</li>
         </ol>
         <a class="btn btn-success" style="float: right;margin-right: 3%;margin-top: 20px" href="javascript:location.reload();" title="刷新" ><i class="icon icon-refresh"></i></a>
     </div>
     <div class="row" style="height: auto;margin-left: 2%;margin-right: 2%;margin-top: 1%">
-        <div id="checkedJobGrid" class="datagrid datagrid-striped">
+        <div id="confirmedContractGrid" class="datagrid">
             <div class="row">
                 <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchbox" style="margin-bottom: 10px; max-width: 300px;float: left">
                     <input id="inputSearch" type="search" class="form-control search-input" placeholder="输入岗位名称搜索">
@@ -31,7 +31,6 @@
                     <button class="btn btn-danger" type="button" title="批量删除" onclick="delSome()"><i class="icon icon-trash"></i>&nbsp&nbsp批量删除</button>
                 </div>
             </div>
-
             <div class="datagrid-container"></div>
             <div class="row">
                 <div style="margin-left: 20%;margin-top:1.5%;margin-right:1%;float: left">
@@ -42,50 +41,6 @@
                     </select>
                 </div>
                 <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="detailModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title">岗位详情</h4>
-            </div>
-            <div class="modal-body">
-                <article class="article">
-                    <header>
-                        <h1 class="text-center" id="tittle">岗位标题</h1>
-                        <dl class="dl-inline">
-                            <dt>所属部门：</dt>
-                            <dd id="depName">某某部门</dd>
-                            <dt>创建人：</dt>
-                            <dd id="createUser">某某人</dd>
-                            <dt>建立时间：</dt>
-                            <dd id="createTime">2018-04-27 00:19:47</dd>
-                            <dt>截止时间：</dt>
-                            <dd id="endTime">2018-04-27 00:19:47</dd>
-                        </dl>
-                    </header>
-                    <section class="content" style="text-indent: 2em">
-                        <p><strong>岗位介绍：</strong><span id="jobDesc">内容</span></p>
-                        <p><strong>工作地点：</strong><span id="addr">内容</span></p>
-                        <p><strong>岗位要求：</strong><span id="jobReq">内容</span></p>
-                        <p><strong>性别要求：</strong><span id="sexReq">内容</span></p>
-                        <p><strong>需要人数：</strong><span id="requireNum">内容</span>人</p>
-                        <p><strong>工作天数：</strong><span id="workdays">内容</span>天</p>
-                        <p><strong>薪资：</strong><span id="salary">内容</span>元/天</p>
-                        <p><strong>联系人：</strong><span id="linkMan">内容</span></p>
-                        <p><strong>联系电话：</strong><span id="linkPhone">内容</span></p>
-                    </section>
-
-                </article>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" value="" class="jobId">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>
@@ -102,7 +57,7 @@
                 <p id="delContent">主题内容...</p>
             </div>
             <div class="modal-footer">
-                <input type="hidden" value="" class="jobId">
+                <input type="hidden" value="" class="jobContractId">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="delBtn">确定</button>
             </div>
@@ -121,7 +76,7 @@
                 <p id="delSomeContent">主题内容...</p>
             </div>
             <div class="modal-footer">
-                <input type="hidden" value="" class="jobIdArr">
+                <input type="hidden" value="" class="jobContractIdArr">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="delSomeBtn">确定</button>
             </div>
@@ -149,26 +104,29 @@
             }
         });
 
-        $('#checkedJobGrid').datagrid({
-            height:'page',
+        $('#confirmedContractGrid').datagrid({
             dataSource: {
                 cols:[
                     {name: 'myCheckbox', label: '<i onclick="changeAllCheckbox(this)" class="icon icon-check-empty">', width: 36,className: 'text-center'},
-                    {name: 'depName', label: '用人部门', width: 0.1,className: 'text-center'},
-                    {name: 'tittle', label: '岗位名称', width: 0.15,className: 'text-center'},
-                    {name: 'requireNum', label: '需求人数', width: 0.1,className: 'text-center'},
-                    {name: 'sexReq', label: '性别要求',width: 0.1,className: 'text-center'},
-                    {name: 'workdays', label: '工作天数',width: 0.1,className: 'text-center'},
-                    {name: 'salary', label: '薪资/天',width: 0.1,className: 'text-center'},
-                    {name: 'createUser', label: '创建人',width: 0.1,className: 'text-center'},
-                    {name: 'createTime', label: '创建时间',width: 0.15,className: 'text-center'},
-                    {name: 'status', label: '状态',width: 0.1,className: 'text-center'},
-                    {name: 'operate', label: '操作',width: 0.2,className: 'text-center'}
+                    {name: 'jobContractId', label: '合同号', width: 0.1,className: 'text-center'},
+                    {name: 'createTime', label: '合同生成时间', width: 140,className: 'text-center'},
+                    {name: 'jobName', label: '岗位名称', width: 140,className: 'text-center'},
+                    {name: 'stuNum', label: '学号', width: 100,className: 'text-center'},
+                    {name: 'stuName', label: '姓名',width: 100,className: 'text-center'},
+                    {name: 'sex', label: '性别',width: 100,className: 'text-center'},
+                    {name: 'sexReq', label: '性别限制',width: 100,className: 'text-center'},
+                    {name: 'requireNum', label: '需要人数',width: 100,className: 'text-center'},
+                    {name: 'maxNum', label: '最多申请人数',width: 120,className: 'text-center'},
+                    {name: 'acceptNum', label: '已有人数',width: 100,className: 'text-center'},
+                    {name: 'status', label: '状态',width: 100,className: 'text-center'},
+                    {name: 'confirmUser', label: '确认人',width: 140,className: 'text-center'},
+                    {name: 'confirmTime', label: '确认时间',width: 140,className: 'text-center'},
+                    {name: 'operate', label: '操作',width: 50,className: 'text-center'}
                 ],
                 remote: function(params) {
                     return {
                         // 请求地址
-                        url: 'checkedJobList',
+                        url: 'confirmedContractList',
                         // 请求类型
                         type: 'GET',
                         // 数据类型
@@ -179,11 +137,9 @@
                     jqxhr = jqXHR;
                     for(var i = 0;i < responseData.data.length;i++){
                         var rowData = responseData.data[i];
-                        var job = rowData.jobId+"╪"+rowData.depName+"╪"+rowData.tittle+"╪"+rowData.jobDesc+"╪"+rowData.requireNum+"╪"+rowData.jobReq+"╪"+rowData.sexReq+"╪"+rowData.workdays+"╪"+rowData.salary+"╪"+rowData.addr+"╪"+rowData.linkMan+"╪"+rowData.linkPhone+"╪"+rowData.createTime+"╪"+rowData.endTime+"╪"+rowData.createUser+"╪"+rowData.status+"╪"+rowData.maxNum;
-                        responseData.data[i].myCheckbox='<i name="myCheckbox" onclick="changeCheckbox(this)" value="'+rowData.jobId+'" class="icon icon-check-empty">';
+                        responseData.data[i].myCheckbox='<i name="myCheckbox" onclick="changeCheckbox(this)" value="'+rowData.jobContractId+'" class="icon icon-check-empty">';
                         //添加操作按钮
-                        responseData.data[i].operate= '<button class="btn btn-sm btn-info" type="button" title="详情" value="'+job+'" onclick="detail(this)"><i class="icon icon-zoom-in"></i></button>&nbsp&nbsp&nbsp&nbsp' +
-                            '<button class="btn btn-sm btn-danger" type="button" title="删除" value="'+job+'" onclick="del(this)"><i class="icon icon-trash"></i></button>';
+                        responseData.data[i].operate='<button class="btn btn-sm btn-danger" type="button" title="删除" value="'+responseData.data[i].jobContractId+'" onclick="del(this)"><i class="icon icon-trash"></i></button>';
                     }
                     return responseData;
                 }
@@ -191,12 +147,12 @@
             states: {
                 pager: {page: 1,recPerPage: 10},
                 fixedLeftUntil: 0,    // 固定左侧第一列
-                fixedRightFrom: 11,   // 从第12列开始固定到右侧
+                fixedRightFrom: 15,   // 从第12列开始固定到右侧
                 fixedTopUntil: 0,     // 固定顶部第一行（标题行）
             },
             configs: {
                 C1: {html:true},
-                C11: {html:true}
+                C15: {html:true}
             },
             checkable: false,
             checkByClickRow: false,
@@ -206,20 +162,20 @@
         });
 
         $('#delBtn').click(function () {
-            var jobId = $('#delModal .jobId').val();
+            var jobContractId = $('#delModal .jobContractId').val();
             $.ajax({
                 type: "post",
-                url: 'delJob',
-                data: {"jobId":jobId},
+                url: 'delContract',
+                data: {"jobContractId":jobContractId},
                 cache: false,
                 async : false,
                 dataType: "json",
                 success: function (data ,textStatus, jqXHR){
                     $('#delModal').modal('hide');
                     if("success"==data.status){
-                        var checkedJobGrid   = $('#checkedJobGrid').data('zui.datagrid');
-                        checkedJobGrid.dataSource.data=null;
-                        checkedJobGrid.render();
+                        var confirmedContractGrid   = $('#confirmedContractGrid').data('zui.datagrid');
+                        confirmedContractGrid.dataSource.data=null;
+                        confirmedContractGrid.render();
                         new $.zui.Messager('操作成功!', {
                             icon:'ok',
                             type: 'success',
@@ -239,20 +195,20 @@
         })
 
         $('#delSomeBtn').click(function () {
-            var jobIdArr = $('#delSomeModal .jobIdArr').val();
+            $('#delSomeModal').modal('hide');
+            var jobContractIdArr = $('#delSomeModal .jobContractIdArr').val();
             $.ajax({
                 type: "post",
-                url: 'delSomeJob',
-                data: {"jobIdArr":jobIdArr},
+                url: 'delSomeContract',
+                data: {"jobContractIdArr":jobContractIdArr},
                 cache: false,
                 async : false,
                 dataType: "json",
                 success: function (data ,textStatus, jqXHR){
-                    $('#delSomeModal').modal('hide');
                     if("success"==data.status){
-                        var checkedJobGrid   = $('#checkedJobGrid').data('zui.datagrid');
-                        checkedJobGrid.dataSource.data=null;
-                        checkedJobGrid.render();
+                        var confirmedContractGrid   = $('#confirmedContractGrid').data('zui.datagrid');
+                        confirmedContractGrid.dataSource.data=null;
+                        confirmedContractGrid.render();
                         new $.zui.Messager('操作成功!', {
                             icon:'ok',
                             type: 'success',
@@ -261,7 +217,6 @@
                     }
                 },
                 error:function (jqXHR, textStatus, errorThrown) {
-                    $('#delSomeModal').modal('hide');
                     new $.zui.Messager('操作失败!', {
                         icon:'warning-sign',
                         type: 'warning',
@@ -274,39 +229,35 @@
         $("#recPerPage").change(function () {
             var recPerPage = $(this).children('option:selected').val();
             // 获取数据表格实例
-            var checkedJobGrid = $('#checkedJobGrid').data('zui.datagrid');
-            checkedJobGrid.setPager(-1,-1,parseInt(recPerPage));
-            checkedJobGrid.render();
+            var confirmedContractGrid = $('#confirmedContractGrid').data('zui.datagrid');
+            confirmedContractGrid.setPager(-1,-1,parseInt(recPerPage));
+            confirmedContractGrid.render();
         })
     })
 
-    function detail(obj) {
-        var job = new Array();
-        job = $(obj).val().split('╪');
-        $('.jobId').val(job[0]);
-        $('#tittle').html(job[2]);
-        $('#depName').html(job[1]);
-        $('#createUser').html(job[14]);
-        $('#createTime').html(job[12]);
-        $('#endTime').html(job[13]);
-        $('#jobDesc').html(job[3]);
-        $('#addr').html(job[9]);
-        $('#jobReq').html(job[5]);
-        $('#sexReq').html(job[6]);
-        $('#requireNum').html(job[4]);
-        $('#workdays').html(job[7]);
-        $('#salary').html(job[8]);
-        $('#linkMan').html(job[10]);
-        $('#linkPhone').html(job[11]);
-        $('#detailModal').modal('show', 'fit');
+    function del(obj) {
+        $('.jobContractId').val($(obj).val());
+        $('#delContent').html("确定要删除合同号为：["+$(obj).val()+"]的合同吗？");
+        $('#delModal').modal('show', 'fit');
     }
 
-    function del(obj) {
-        var job = new Array();
-        job = $(obj).val().split('╪');
-        $('.jobId').val(job[0]);
-        $('#delContent').html("确定要删除岗位：["+job[2]+"]吗？");
-        $('#delModal').modal('show', 'fit');
+    function delSome() {
+        var arr = new Array();
+        var checkboxList = $('i[name="myCheckbox"][class="icon icon-check-sign"]');
+        if(checkboxList.length==0){
+            new $.zui.Messager('请选择要操作的数据!', {
+                icon:'warning-sign',
+                type: 'warning',
+                time: 2000
+            }).show();
+        }else{
+            for(var i = 0;i<checkboxList.length;i++){
+                arr.push($(checkboxList[i]).attr("value"));
+            }
+            $('.jobContractIdArr').val(arr);
+            $('#delSomeContent').html("确定要删除所选["+arr.length+"]个岗位吗？");
+            $('#delSomeModal').modal('show', 'fit');
+        }
     }
 
     function changeCheckbox(obj) {
@@ -331,26 +282,6 @@
             }
         }
     }
-
-    function delSome() {
-        var arr = new Array();
-        var checkboxList = $('i[name="myCheckbox"][class="icon icon-check-sign"]');
-        if(checkboxList.length==0){
-            new $.zui.Messager('请选择要操作的数据!', {
-                icon:'warning-sign',
-                type: 'warning',
-                time: 2000
-            }).show();
-        }else{
-            for(var i = 0;i<checkboxList.length;i++){
-                arr.push($(checkboxList[i]).attr("value"));
-            }
-            $('.jobIdArr').val(arr);
-            $('#delSomeContent').html("确定要删除所选["+arr.length+"]个岗位吗？");
-            $('#delSomeModal').modal('show', 'fit');
-        }
-    }
-
 </script>
 </body>
 </html>

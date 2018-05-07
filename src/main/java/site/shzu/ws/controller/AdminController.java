@@ -539,7 +539,7 @@ public class AdminController {
     }
 
     /**
-     * 删除岗位
+     * 删除合同
      * @param jobContractId
      * @return
      */

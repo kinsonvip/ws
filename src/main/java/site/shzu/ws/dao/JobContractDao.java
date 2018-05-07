@@ -2,6 +2,7 @@ package site.shzu.ws.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import site.shzu.ws.model.Job;
 import site.shzu.ws.model.JobContract;
 
 import java.util.HashMap;
@@ -25,5 +26,11 @@ public interface JobContractDao {
 
     List<HashMap> getCheckedContractList(@Param(value = "search") String search);
 
-    void noPassContract(@Param(value = "jobContractId") Integer jobContractId);
+    List<HashMap> getUnconfirmedContractListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
+    List<HashMap> getConfirmedContractListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
+    void delSomeContract(@Param(value = "jobContractIdArr") Integer[] jobContractIdArr);
+
+    Job getAcceptNum(JobContract jobContract);
 }
