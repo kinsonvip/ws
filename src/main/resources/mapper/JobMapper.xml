@@ -49,7 +49,7 @@
   <select id="getUncheckedJobListByDep" resultType="java.util.HashMap">
     select j.id jobId,ed.dep_name depName,j.tittle,j.job_desc jobDesc,j.require_num requireNum,j.job_req jobReq,j.sex_req sexReq,j.workdays,j.salary,j.addr,j.linkMan,j.linkPhone,DATE_FORMAT(j.create_time,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(j.end_time,'%Y-%m-%d %H:%i:%s') endTime,j.create_user createUser,CASE j.`status`
     WHEN '0' THEN '待审核'
-    END status
+    END status,j.max_num maxNum
     from job j,emp_dep ed,emp_dep_sys eds
     where j.emp_dep_id = ed.id and j.`status` = '0' and j.create_user = eds.account_num and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})
     <if test="search != null and search != ''">
@@ -57,12 +57,25 @@
     </if> order by j.id desc
   </select>
 
+  <select id="getCheckedJobListByDep" resultType="java.util.HashMap">
+    select j.id jobId,ed.dep_name depName,j.tittle,j.job_desc jobDesc,j.require_num requireNum,j.job_req jobReq,j.sex_req sexReq,j.workdays,j.salary,j.addr,j.linkMan,j.linkPhone,DATE_FORMAT(j.create_time,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(j.end_time,'%Y-%m-%d %H:%i:%s') endTime,j.create_user createUser,CASE j.`status`
+    WHEN '1' THEN '已通过'
+    WHEN '-1' THEN '已拒绝'
+    END status,j.max_num maxNum
+    from job j,emp_dep ed,emp_dep_sys eds
+    where j.emp_dep_id = ed.id and j.`status` in ('-1','1') and j.create_user = eds.account_num and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})
+    <if test="search != null and search != ''">
+      and j.tittle = #{search}
+    </if> order by j.id desc
+  </select>
+
   <select id="getCheckedJobList" resultType="java.util.HashMap">
     select j.id jobId,ed.dep_name depName,j.tittle,j.job_desc jobDesc,j.require_num requireNum,j.job_req jobReq,j.sex_req sexReq,j.workdays,j.salary,j.addr,j.linkMan,j.linkPhone,DATE_FORMAT(j.create_time,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(j.end_time,'%Y-%m-%d %H:%i:%s') endTime,j.create_user createUser,CASE j.`status`
-    WHEN '1' THEN '已审核'
+    WHEN '1' THEN '已通过'
+    WHEN '-1' THEN '已拒绝'
     END status
     from job j,emp_dep ed
-    where j.emp_dep_id = ed.id and j.`status` = '1'
+    where j.emp_dep_id = ed.id and j.`status` in ('-1','1')
     <if test="search != null and search != ''">
       and j.tittle = #{search}
     </if> order by j.id desc
@@ -88,9 +101,33 @@
     </foreach>
   </update>
 
+  <delete id="delSomeJob" parameterType="java.util.ArrayList">
+    delete from job
+    WHERE id IN
+    <foreach collection="jobIdArr" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
   <update id="noPassJob" parameterType="java.lang.Integer">
     update job set `status` = '-1' where id = #{jobId}
   </update>
+
+  <insert id="insertJob" parameterType="site.shzu.ws.model.Job">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into job (id, emp_dep_id, tittle,
+    require_num, max_num, accept_num,sex_req,workdays,
+    salary, addr, linkMan,
+    linkPhone, create_time, end_time,
+    create_user,status,job_desc,job_req)
+    values (#{id,jdbcType=INTEGER}, #{empDepId,jdbcType=INTEGER}, #{tittle,jdbcType=VARCHAR},
+    #{requireNum,jdbcType=INTEGER}, #{maxNum,jdbcType=INTEGER}, #{acceptNum,jdbcType=INTEGER}, #{sexReq,jdbcType=VARCHAR},
+    #{workdays,jdbcType=INTEGER},#{salary,jdbcType=DECIMAL}, #{addr,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR},
+    #{linkphone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
+    #{createUser,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{jobDesc,jdbcType=LONGVARCHAR},#{jobReq,jdbcType=LONGVARCHAR})
+  </insert>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 

@@ -74,6 +74,31 @@ public class JobService {
         return map;
     }
 
+    public HashMap getCheckedJobListByDep(int pageNum, int pageSize, String search){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        HashMap<Object,Object> map = new HashMap<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> uncheckedJobList = jobDao.getCheckedJobListByDep(user.getAccountNum(),search);
+
+        PageInfo page = new PageInfo(uncheckedJobList);
+        Pager pager = PagerUtil.getPager(page);
+
+        if(uncheckedJobList==null||uncheckedJobList.size()==0){
+            map.put("result","fail");
+            map.put("data",uncheckedJobList);
+            map.put("message","没有查到相应数据，请重试！！");
+            map.put("pager",pager);
+            return map;
+        }
+
+        map.put("result","success");
+        map.put("data",uncheckedJobList);
+        map.put("message","正常！");
+        map.put("pager",pager);
+
+        return map;
+    }
+
     public HashMap getCheckedJobList(int pageNum, int pageSize, String search){
         HashMap<Object,Object> map = new HashMap<>();
         PageHelper.startPage(pageNum, pageSize);
@@ -99,7 +124,7 @@ public class JobService {
     }
 
     public void addJob(Job job){
-
+        jobDao.insertJob(job);
     }
 
     public void delJob(Integer jobId){
@@ -120,5 +145,13 @@ public class JobService {
 
     public void noPassSomeJob(Integer[] jobIdArr){
         jobDao.noPassSomeJob(jobIdArr);
+    }
+
+    public void delSomeJob(Integer[] jobIdArr){
+        jobDao.delSomeJob(jobIdArr);
+    }
+
+    public void updateJob(Job job){
+        jobDao.updateByPrimaryKeySelective(job);
     }
 }

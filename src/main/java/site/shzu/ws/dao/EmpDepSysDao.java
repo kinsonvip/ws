@@ -32,4 +32,6 @@ public interface EmpDepSysDao {
     void unlockDepSysByAccountNum(@Param(value = "accountNum") String accountNum);
 
     void lockDepSysByAccountNum(@Param(value = "accountNum") String accountNum);
+
+    Integer getDepIdByAccountNum(@Param(value = "accountNum") String accountNum);
 }

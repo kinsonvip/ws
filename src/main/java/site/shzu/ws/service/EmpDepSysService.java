@@ -85,4 +85,8 @@ public class EmpDepSysService {
     public void lockDepSys(String accountNum){
         empDepSysDao.lockDepSysByAccountNum(accountNum);
     }
+
+    public Integer getDepIdByAccountNum(String accountNum){
+        return empDepSysDao.getDepIdByAccountNum(accountNum);
+    }
 }

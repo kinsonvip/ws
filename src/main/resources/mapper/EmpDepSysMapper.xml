@@ -55,6 +55,10 @@
     update user set `status` = '-2' where account_num = #{accountNum}
   </update>
 
+  <select id="getDepIdByAccountNum" resultType="java.lang.Integer">
+    select emp_dep_id from emp_dep_sys where account_num = #{accountNum,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

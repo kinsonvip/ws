@@ -31,10 +31,11 @@
 
   <select id="getCheckedContractList" resultType="java.util.HashMap">
     select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
-    WHEN '1' THEN '审核通过'
+    WHEN '1' THEN '已通过'
+    WHEN '-1' THEN '已拒绝'
     END status,jc.verify_user verifyUser,DATE_FORMAT(jc.verify_time,'%Y-%m-%d %H:%i:%s') verifyTime
     from job j,job_contract jc,student s
-    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` = '1'
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` in ('-1','1')
     <if test="search != null and search != ''">
       and jc.id = #{search}
     </if> order by jc.id desc

@@ -27,6 +27,8 @@ public interface JobDao {
 
     List<HashMap> getUncheckedJobListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
 
+    List<HashMap> getCheckedJobListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
     List<HashMap> getCheckedJobList(@Param(value = "search") String search);
 
     void passJob(@Param(value = "jobId") Integer jobId);
@@ -36,4 +38,8 @@ public interface JobDao {
     void passSomeJob(@Param(value = "jobIdArr") Integer[] jobIdArr);
 
     void noPassSomeJob(@Param(value = "jobIdArr") Integer[] jobIdArr);
+
+    void delSomeJob(@Param(value = "jobIdArr") Integer[] jobIdArr);
+
+    int insertJob(Job record);
 }

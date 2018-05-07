@@ -31,6 +31,9 @@
                 <div style="float: left;margin-left: 2%">
                     <button class="btn btn-info" type="button" title="发布岗位" onclick="add()"><i class="icon icon-plus"></i>&nbsp&nbsp发布岗位</button>
                 </div>
+                <div style="float: left;margin-left: 2%">
+                    <button class="btn btn-danger" type="button" title="批量拒绝" onclick="delSome()"><i class="icon icon-trash"></i>&nbsp&nbsp批量删除</button>
+                </div>
             </div>
 
             <div class="datagrid-container"></div>
@@ -106,6 +109,101 @@
                 <input type="hidden" value="" class="jobId">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="delBtn">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delSomeModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">批量删除</h4>
+            </div>
+            <div class="modal-body">
+                <p id="delSomeContent">主题内容...</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" value="" class="jobIdArr">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="delSomeBtn">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">发布岗位</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>岗位名称：</h5></label>
+                    <div class="col-md-10 col-sm-10">
+                        <input type="text" class="form-control" id="editTittle" placeholder="请输入岗位名称">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>需求人数：</h5></label>
+                    <div class="col-md-2 col-sm-2">
+                        <input type="text" class="form-control" id="editRequireNum" placeholder="请输入需求人数">
+                    </div>
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>最大申请人数：</h5></label>
+                    <div class="col-md-2 col-sm-2">
+                        <input type="text" class="form-control" id="editMaxNum" placeholder="最大申请人数">
+                    </div>
+                    <label class="col-md-1 col-sm-1"><h5><i style="color: red">*</i>截止：</h5></label>
+                    <div class="col-md-3 col-sm-3">
+                        <input type="text" class="form-control form-datetime" id="editEndTime">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>性别要求：</h5></label>
+                    <div class="col-md-2 col-sm-2">
+                        <select class="form-control" id="editSexReq">
+                            <option value ="不限">不限</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作天数：</h5></label>
+                    <div class="col-md-2 col-sm-2">
+                        <input type="text" class="form-control" id="editWorkdays" placeholder="请输入工作天数">
+                    </div>
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>薪资（/天）：</h5></label>
+                    <div class="col-md-2 col-sm-2">
+                        <input type="text" class="form-control" id="editSalary" placeholder="请输入薪资">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作地址：</h5></label>
+                    <div class="col-md-10 col-sm-10">
+                        <input type="text" class="form-control" id="editAddr" placeholder="请输入工作地址">
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系人：</h5></label>
+                    <div class="col-md-4 col-sm-4">
+                        <input type="text" class="form-control" id="editLinkMan" placeholder="请输入联系人">
+                    </div>
+                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系电话：</h5></label>
+                    <div class="col-md-4 col-sm-4">
+                        <input type="text" class="form-control" id="editLinkPhone" placeholder="请输入联系电话">
+                    </div>
+                </div>
+                <h5><i style="color: red">*</i>岗位描述：</h5>
+                <script id="editor3" type="text/plain" style="height: 300px"></script>
+                <h5><i style="color: red">*</i>岗位要求：</h5>
+                <script id="editor4" type="text/plain" style="height: 300px"></script>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" value="" class="jobId">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="updateBtn">确定</button>
             </div>
         </div>
     </div>
@@ -198,6 +296,8 @@
 <script>
     var ue = UE.getEditor('editor');
     var ue2 = UE.getEditor('editor2');
+    var ue3 = UE.getEditor('editor3');
+    var ue4 = UE.getEditor('editor4');
     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
         if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
@@ -241,6 +341,7 @@
             height:'page',
             dataSource: {
                 cols:[
+                    {name: 'myCheckbox', label: '<i onclick="changeAllCheckbox(this)" class="icon icon-check-empty">', width: 36,className: 'text-center'},
                     {name: 'depName', label: '用人部门', width: 0.1,className: 'text-center'},
                     {name: 'tittle', label: '岗位名称', width: 0.15,className: 'text-center'},
                     {name: 'requireNum', label: '需求人数', width: 0.1,className: 'text-center'},
@@ -266,10 +367,11 @@
                     jqxhr = jqXHR;
                     for(var i = 0;i < responseData.data.length;i++){
                         var rowData = responseData.data[i];
-                        var job = rowData.jobId+"╪"+rowData.depName+"╪"+rowData.tittle+"╪"+rowData.jobDesc+"╪"+rowData.requireNum+"╪"+rowData.jobReq+"╪"+rowData.sexReq+"╪"+rowData.workdays+"╪"+rowData.salary+"╪"+rowData.addr+"╪"+rowData.linkMan+"╪"+rowData.linkPhone+"╪"+rowData.createTime+"╪"+rowData.endTime+"╪"+rowData.createUser+"╪"+rowData.status;
+                        var job = rowData.jobId+"╪"+rowData.depName+"╪"+rowData.tittle+"╪"+rowData.jobDesc+"╪"+rowData.requireNum+"╪"+rowData.jobReq+"╪"+rowData.sexReq+"╪"+rowData.workdays+"╪"+rowData.salary+"╪"+rowData.addr+"╪"+rowData.linkMan+"╪"+rowData.linkPhone+"╪"+rowData.createTime+"╪"+rowData.endTime+"╪"+rowData.createUser+"╪"+rowData.status+"╪"+rowData.maxNum;
                         responseData.data[i].myCheckbox='<i name="myCheckbox" onclick="changeCheckbox(this)" value="'+rowData.jobId+'" class="icon icon-check-empty">';
                         //添加操作按钮
                         responseData.data[i].operate= '<button class="btn btn-sm btn-info" type="button" title="详情" value="'+job+'" onclick="detail(this)"><i class="icon icon-zoom-in"></i></button>&nbsp&nbsp&nbsp&nbsp' +
+                            '<button class="btn btn-sm btn-success" type="button" title="修改" value="'+job+'" onclick="edit(this)"><i class="icon icon-edit"></i></button>&nbsp&nbsp&nbsp&nbsp' +
                             '<button class="btn btn-sm btn-danger" type="button" title="删除" value="'+job+'" onclick="del(this)"><i class="icon icon-trash"></i></button>';
                     }
                     return responseData;
@@ -278,12 +380,12 @@
             states: {
                 pager: {page: 1,recPerPage: 10},
                 fixedLeftUntil: 0,    // 固定左侧第一列
-                fixedRightFrom: 10,   // 从第12列开始固定到右侧
+                fixedRightFrom: 11,   // 从第12列开始固定到右侧
                 fixedTopUntil: 0,     // 固定顶部第一行（标题行）
             },
             configs: {
                 C1: {html:true},
-                C10: {html:true}
+                C11: {html:true}
             },
             checkable: false,
             checkByClickRow: false,
@@ -325,7 +427,41 @@
             });
         })
 
+        $('#delSomeBtn').click(function () {
+            var jobIdArr = $('#delSomeModal .jobIdArr').val();
+            $.ajax({
+                type: "post",
+                url: 'delSomeJob',
+                data: {"jobIdArr":jobIdArr},
+                cache: false,
+                async : false,
+                dataType: "json",
+                success: function (data ,textStatus, jqXHR){
+                    $('#delSomeModal').modal('hide');
+                    if("success"==data.status){
+                        var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
+                        uncheckedJobGrid.dataSource.data=null;
+                        uncheckedJobGrid.render();
+                        new $.zui.Messager('操作成功!', {
+                            icon:'ok',
+                            type: 'success',
+                            time: 2000
+                        }).show();
+                    }
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    $('#delSomeModal').modal('hide');
+                    new $.zui.Messager('操作失败!', {
+                        icon:'warning-sign',
+                        type: 'warning',
+                        time: 2000
+                    }).show();
+                }
+            });
+        })
+
         $('#addBtn').click(function () {
+            var reg=/"/g;
             var sexReq = $('#inputSexReq').children('option:selected').val();
             var tittle = $('#inputTittle').val();
             var requireNum = $('#inputRequireNum').val();
@@ -336,8 +472,8 @@
             var addr = $('#inputAddr').val();
             var linkMan = $('#inputLinkMan').val();
             var linkPhone = $('#inputLinkPhone').val();
-            var jobDesc = ue.getContent();
-            var jobReq = ue2.getContent();
+            var jobDesc = ue.getContent().replace(reg,'\'');
+            var jobReq = ue2.getContent().replace(reg,'\'');
             $.ajax({
                 type: "post",
                 url: 'addJob',
@@ -350,8 +486,8 @@
                     "workdays":workdays,
                     "salary":salary,
                     "addr":addr,
-                    "linkMan":linkMan,
-                    "linkPhone":linkPhone,
+                    "linkman":linkMan,
+                    "linkphone":linkPhone,
                     "jobDesc":jobDesc,
                     "jobReq":jobReq
                 },
@@ -373,6 +509,65 @@
                 },
                 error:function (jqXHR, textStatus, errorThrown) {
                     $('#addModal').modal('hide');
+                    new $.zui.Messager('操作失败!', {
+                        icon:'warning-sign',
+                        type: 'warning',
+                        time: 2000
+                    }).show();
+                }
+            });
+        })
+
+        $('#updateBtn').click(function () {
+            $('#editModal').modal('hide');
+            var reg=/"/g;
+            var jobId = $('#editModal .jobId').val();
+            var sexReq = $('#editSexReq').children('option:selected').val();
+            var tittle = $('#editTittle').val();
+            var requireNum = $('#editRequireNum').val();
+            var maxNum = $('#editMaxNum').val();
+            var endTime = $('#editEndTime').val();
+            var workdays = $('#editWorkdays').val();
+            var salary = $('#editSalary').val();
+            var addr = $('#editAddr').val();
+            var linkMan = $('#editLinkMan').val();
+            var linkPhone = $('#editLinkPhone').val();
+            var jobDesc = ue3.getContent().replace(reg,'\'');
+            var jobReq = ue4.getContent().replace(reg,'\'');
+            $.ajax({
+                type: "post",
+                url: 'updateJob',
+                data: {
+                    "id":jobId,
+                    "sexReq":sexReq,
+                    "tittle":tittle,
+                    "requireNum":requireNum,
+                    "maxNum":maxNum,
+                    "time":endTime,
+                    "workdays":workdays,
+                    "salary":salary,
+                    "addr":addr,
+                    "linkman":linkMan,
+                    "linkphone":linkPhone,
+                    "jobDesc":jobDesc,
+                    "jobReq":jobReq
+                },
+                cache: false,
+                async : false,
+                dataType: "json",
+                success: function (data ,textStatus, jqXHR){
+                    if("success"==data.status){
+                        var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
+                        uncheckedJobGrid.dataSource.data=null;
+                        uncheckedJobGrid.render();
+                        new $.zui.Messager('操作成功!', {
+                            icon:'ok',
+                            type: 'success',
+                            time: 2000
+                        }).show();
+                    }
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
                     new $.zui.Messager('操作失败!', {
                         icon:'warning-sign',
                         type: 'warning',
@@ -448,6 +643,7 @@
         $('#inputRequireNum').val("");
         $('#inputMaxNum').val("");
         $('#inputEndTime').val("");
+        $('#inputSexReq').val("不限");
         $('#inputWorkdays').val("");
         $('#inputSalary').val("");
         $('#inputAddr').val("");
@@ -456,6 +652,44 @@
         ue.setContent('');
         ue2.setContent('');
         $('#addModal').modal('show', 'fit');
+    }
+
+    function edit(obj) {
+        var job = new Array();
+        job = $(obj).val().split('╪');
+        $('.jobId').val(job[0]);
+        $('#editTittle').val(job[2]);
+        $('#editRequireNum').val(job[4]);
+        $('#editMaxNum').val(job[16]);
+        $('#editEndTime').val(job[13]);
+        $('#editSexReq').val(job[6]);
+        $('#editWorkdays').val(job[7]);
+        $('#editSalary').val(job[8]);
+        $('#editAddr').val(job[9]);
+        $('#editLinkMan').val(job[10]);
+        $('#editLinkPhone').val(job[11]);
+        ue3.setContent(job[3]);
+        ue4.setContent(job[5]);
+        $('#editModal').modal('show', 'fit');
+    }
+
+    function delSome() {
+        var arr = new Array();
+        var checkboxList = $('i[name="myCheckbox"][class="icon icon-check-sign"]');
+        if(checkboxList.length==0){
+            new $.zui.Messager('请选择要操作的数据!', {
+                icon:'warning-sign',
+                type: 'warning',
+                time: 2000
+            }).show();
+        }else{
+            for(var i = 0;i<checkboxList.length;i++){
+                arr.push($(checkboxList[i]).attr("value"));
+            }
+            $('.jobIdArr').val(arr);
+            $('#delSomeContent').html("确定要删除所选["+arr.length+"]个岗位吗？");
+            $('#delSomeModal').modal('show', 'fit');
+        }
     }
 
 </script>
