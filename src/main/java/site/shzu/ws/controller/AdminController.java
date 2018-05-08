@@ -709,4 +709,27 @@ public class AdminController {
         }
         return resultMap;
     }
+
+    /**
+     * 请求已评价合同管理页面
+     * @return
+     */
+    @RequestMapping("/allEvaluatedContract")
+    public String allEvaluatedContract(){
+        return "admin/allEvaluatedContract";
+    }
+
+    /**
+     * 请求待评价合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/allEvaluatedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap evaluatedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getAllEvaluatedContractList(pageNum,pageSize,search);
+    }
 }

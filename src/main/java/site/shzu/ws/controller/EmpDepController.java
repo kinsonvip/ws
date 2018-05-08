@@ -1,5 +1,6 @@
 package site.shzu.ws.controller;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -7,10 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import site.shzu.ws.model.Evaluate;
 import site.shzu.ws.model.Job;
 import site.shzu.ws.model.JobContract;
 import site.shzu.ws.model.User;
 import site.shzu.ws.service.EmpDepSysService;
+import site.shzu.ws.service.EvaluateService;
 import site.shzu.ws.service.JobContractService;
 import site.shzu.ws.service.JobService;
 
@@ -37,6 +40,9 @@ public class EmpDepController {
 
     @Autowired
     JobContractService jobContractService;
+
+    @Autowired
+    EvaluateService evaluateService;
 
     /**
      * 请求管理员后台首页
@@ -307,5 +313,69 @@ public class EmpDepController {
             resultMap.put("status", "fail");
         }
         return resultMap;
+    }
+
+    /**
+     * 请求待评价合同管理页面
+     * @return
+     */
+    @RequestMapping("/unevaluatedContract")
+    public String unevaluatedContract(){
+        return "depsys/unevaluatedContract";
+    }
+
+    /**
+     * 请求待评价合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/unevaluatedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap unevaluatedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getUnevaluatedContractListByDep(pageNum,pageSize,search);
+    }
+
+    /**
+     * 评价合同
+     * @param evaluate
+     * @return
+     */
+    @RequestMapping(value = "/evalContract", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap evalContract(Evaluate evaluate){
+        HashMap resultMap = new HashMap();
+        try {
+            evaluateService.evalContract(evaluate);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求已评价合同管理页面
+     * @return
+     */
+    @RequestMapping("/evaluatedContract")
+    public String evaluatedContract(){
+        return "depsys/evaluatedContract";
+    }
+
+    /**
+     * 请求待评价合同列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/evaluatedContractList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap evaluatedContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getEvaluatedContractListByDep(pageNum,pageSize,search);
     }
 }

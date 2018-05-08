@@ -30,6 +30,12 @@ public interface JobContractDao {
 
     List<HashMap> getConfirmedContractListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
 
+    List<HashMap> getUnevaluatedContractListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
+    List<HashMap> getEvaluatedContractListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
+    List<HashMap> getAllEvaluatedContractList(@Param(value = "search") String search);
+
     void delSomeContract(@Param(value = "jobContractIdArr") Integer[] jobContractIdArr);
 
     Job getAcceptNum(JobContract jobContract);

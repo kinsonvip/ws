@@ -29,6 +29,18 @@
     </if> order by jc.id desc
   </select>
 
+  <select id="getCheckedContractList" resultType="java.util.HashMap">
+    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
+    WHEN '1' THEN '已通过'
+    WHEN '-1' THEN '已拒绝'
+    END status,jc.verify_user verifyUser,DATE_FORMAT(jc.verify_time,'%Y-%m-%d %H:%i:%s') verifyTime
+    from job j,job_contract jc,student s
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` in ('-1','1')
+    <if test="search != null and search != ''">
+      and j.tittle = #{search}
+    </if> order by jc.id desc
+  </select>
+
   <select id="getUnconfirmedContractListByDep" resultType="java.util.HashMap">
     select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
     WHEN '1' THEN '待确认'
@@ -53,13 +65,28 @@
     </if> order by jc.id desc
   </select>
 
-  <select id="getCheckedContractList" resultType="java.util.HashMap">
-    select jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
-    WHEN '1' THEN '已通过'
-    WHEN '-1' THEN '已拒绝'
-    END status,jc.verify_user verifyUser,DATE_FORMAT(jc.verify_time,'%Y-%m-%d %H:%i:%s') verifyTime
-    from job j,job_contract jc,student s
-    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` in ('-1','1')
+  <select id="getUnevaluatedContractListByDep" resultType="java.util.HashMap">
+    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.salary,j.workdays,jc.confirm_user confirmUser,DATE_FORMAT(jc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime
+    from job j,job_contract jc,student s,emp_dep_sys eds
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` = '2' and j.emp_dep_id = eds.emp_dep_id and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum}) and (TO_DAYS(NOW())-TO_DAYS(jc.confirm_time)>=j.workdays)
+    <if test="search != null and search != ''">
+      and j.tittle = #{search}
+    </if> order by jc.id desc
+  </select>
+
+  <select id="getEvaluatedContractListByDep" resultType="java.util.HashMap">
+    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.salary,j.workdays,jc.confirm_user confirmUser,DATE_FORMAT(jc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime,e.evaluater,DATE_FORMAT(e.evaluate_time,'%Y-%m-%d %H:%i:%s') evaluateTime,e.sxpd,e.jyjs,e.gztd,e.gznl,e.xzjs,e.zhsz,e.evaInfo
+    from job j,job_contract jc,student s,emp_dep_sys eds,evaluate e
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` = '3' and j.emp_dep_id = eds.emp_dep_id and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})	and jc.id = e.job_contract_id
+    <if test="search != null and search != ''">
+      and j.tittle = #{search}
+    </if> order by jc.id desc
+  </select>
+
+  <select id="getAllEvaluatedContractList" resultType="java.util.HashMap">
+    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.salary,j.workdays,jc.confirm_user confirmUser,DATE_FORMAT(jc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime,e.evaluater,DATE_FORMAT(e.evaluate_time,'%Y-%m-%d %H:%i:%s') evaluateTime,e.sxpd,e.jyjs,e.gztd,e.gznl,e.xzjs,e.zhsz,e.evaInfo
+    from job j,job_contract jc,student s,emp_dep_sys eds,evaluate e
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` = '3' and j.emp_dep_id = eds.emp_dep_id and jc.id = e.job_contract_id
     <if test="search != null and search != ''">
       and j.tittle = #{search}
     </if> order by jc.id desc

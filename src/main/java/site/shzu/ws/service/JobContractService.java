@@ -128,6 +128,80 @@ public class JobContractService {
         return map;
     }
 
+    public HashMap getUnevaluatedContractListByDep(int pageNum, int pageSize, String search){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        HashMap<Object,Object> map = new HashMap<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> unevaluatedContractListByDep = jobContractDao.getUnevaluatedContractListByDep(user.getAccountNum(),search);
+
+        PageInfo page = new PageInfo(unevaluatedContractListByDep);
+        Pager pager = PagerUtil.getPager(page);
+
+        if(unevaluatedContractListByDep==null||unevaluatedContractListByDep.size()==0){
+            map.put("result","fail");
+            map.put("data",unevaluatedContractListByDep);
+            map.put("message","没有查到相应数据，请重试！！");
+            map.put("pager",pager);
+            return map;
+        }
+
+        map.put("result","success");
+        map.put("data",unevaluatedContractListByDep);
+        map.put("message","正常！");
+        map.put("pager",pager);
+
+        return map;
+    }
+
+    public HashMap getEvaluatedContractListByDep(int pageNum, int pageSize, String search){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        HashMap<Object,Object> map = new HashMap<Object, Object>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> evaluatedContractListByDep = jobContractDao.getEvaluatedContractListByDep(user.getAccountNum(),search);
+
+        PageInfo page = new PageInfo(evaluatedContractListByDep);
+        Pager pager = PagerUtil.getPager(page);
+
+        if(evaluatedContractListByDep==null||evaluatedContractListByDep.size()==0){
+            map.put("result","fail");
+            map.put("data",evaluatedContractListByDep);
+            map.put("message","没有查到相应数据，请重试！！");
+            map.put("pager",pager);
+            return map;
+        }
+
+        map.put("result","success");
+        map.put("data",evaluatedContractListByDep);
+        map.put("message","正常！");
+        map.put("pager",pager);
+
+        return map;
+    }
+
+    public HashMap getAllEvaluatedContractList(int pageNum, int pageSize, String search){
+        HashMap<Object,Object> map = new HashMap<Object, Object>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> allEvaluatedContractList = jobContractDao.getAllEvaluatedContractList(search);
+
+        PageInfo page = new PageInfo(allEvaluatedContractList);
+        Pager pager = PagerUtil.getPager(page);
+
+        if(allEvaluatedContractList==null||allEvaluatedContractList.size()==0){
+            map.put("result","fail");
+            map.put("data",allEvaluatedContractList);
+            map.put("message","没有查到相应数据，请重试！！");
+            map.put("pager",pager);
+            return map;
+        }
+
+        map.put("result","success");
+        map.put("data",allEvaluatedContractList);
+        map.put("message","正常！");
+        map.put("pager",pager);
+
+        return map;
+    }
+
     public void passContract(Integer jobContractId){
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         JobContract jobContract = new JobContract();

@@ -96,6 +96,14 @@
                 </ul>
             </dd>
         </dl>
+        <dl id="menu-evaluate">
+            <dt><i class="Hui-iconfont">&#xe687;</i>&nbsp;&nbsp;评价管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a data-href="allEvaluatedContract" data-title="合同评价" href="javascript:void(0)"><i class="Hui-iconfont">&#xe639;</i>&nbsp;&nbsp;合同评价</a></li>
+                </ul>
+            </dd>
+        </dl>
         <dl id="menu-person">
             <dt><i class="Hui-iconfont">&#xe611;</i>&nbsp;&nbsp;学生管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
