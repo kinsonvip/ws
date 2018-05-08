@@ -43,10 +43,11 @@
   <select id="getConfirmedContractListByDep" resultType="java.util.HashMap">
     select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,jc.confirm_user confirmUser,DATE_FORMAT(jc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime,CASE jc.`status`
     WHEN '2' THEN '已录用'
+    WHEN '3' THEN '已录用'
     WHEN '-2' THEN '未录用'
     END status
     from job j,job_contract jc,student s,emp_dep_sys eds
-    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` in ('2','-2') and j.emp_dep_id = eds.emp_dep_id and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})
+    where j.id = jc.job_id and jc.stu_num = s.stu_num and jc.`status` in ('2','-2','3') and j.emp_dep_id = eds.emp_dep_id and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})
     <if test="search != null and search != ''">
       and j.tittle = #{search}
     </if> order by jc.id desc

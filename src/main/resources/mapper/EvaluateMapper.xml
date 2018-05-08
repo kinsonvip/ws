@@ -4,10 +4,18 @@
   <resultMap id="BaseResultMap" type="site.shzu.ws.model.Evaluate">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="job_contract_id" jdbcType="INTEGER" property="jobContractId" />
+    <result column="sxpd" jdbcType="VARCHAR" property="sxpd" />
+    <result column="jyjs" jdbcType="VARCHAR" property="jyjs" />
+    <result column="gztd" jdbcType="VARCHAR" property="gztd" />
+    <result column="gznl" jdbcType="VARCHAR" property="gznl" />
+    <result column="xzjs" jdbcType="VARCHAR" property="xzjs" />
+    <result column="zhsz" jdbcType="VARCHAR" property="zhsz" />
     <result column="evaInfo" jdbcType="VARCHAR" property="evainfo" />
+    <result column="evaluater" jdbcType="VARCHAR" property="evaluater" />
+    <result column="evaluate_time" jdbcType="TIMESTAMP" property="evaluateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, job_contract_id, evaInfo
+    id, job_contract_id, sxpd, jyjs, gztd, gznl, xzjs, zhsz, evaInfo, evaluater, evaluate_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,10 +31,14 @@
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into evaluate (id, job_contract_id, evaInfo
-      )
-    values (#{id,jdbcType=INTEGER}, #{jobContractId,jdbcType=INTEGER}, #{evainfo,jdbcType=VARCHAR}
-      )
+    insert into evaluate (id, job_contract_id, sxpd, 
+      jyjs, gztd, gznl, xzjs, 
+      zhsz, evaInfo, evaluater, 
+      evaluate_time)
+    values (#{id,jdbcType=INTEGER}, #{jobContractId,jdbcType=INTEGER}, #{sxpd,jdbcType=VARCHAR}, 
+      #{jyjs,jdbcType=VARCHAR}, #{gztd,jdbcType=VARCHAR}, #{gznl,jdbcType=VARCHAR}, #{xzjs,jdbcType=VARCHAR}, 
+      #{zhsz,jdbcType=VARCHAR}, #{evainfo,jdbcType=VARCHAR}, #{evaluater,jdbcType=VARCHAR}, 
+      #{evaluateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.Evaluate">
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
@@ -38,8 +50,32 @@
       <if test="jobContractId != null">
         job_contract_id,
       </if>
+      <if test="sxpd != null">
+        sxpd,
+      </if>
+      <if test="jyjs != null">
+        jyjs,
+      </if>
+      <if test="gztd != null">
+        gztd,
+      </if>
+      <if test="gznl != null">
+        gznl,
+      </if>
+      <if test="xzjs != null">
+        xzjs,
+      </if>
+      <if test="zhsz != null">
+        zhsz,
+      </if>
       <if test="evainfo != null">
         evaInfo,
+      </if>
+      <if test="evaluater != null">
+        evaluater,
+      </if>
+      <if test="evaluateTime != null">
+        evaluate_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -47,8 +83,32 @@
       <if test="jobContractId != null">
         #{jobContractId,jdbcType=INTEGER},
       </if>
+      <if test="sxpd != null">
+        #{sxpd,jdbcType=VARCHAR},
+      </if>
+      <if test="jyjs != null">
+        #{jyjs,jdbcType=VARCHAR},
+      </if>
+      <if test="gztd != null">
+        #{gztd,jdbcType=VARCHAR},
+      </if>
+      <if test="gznl != null">
+        #{gznl,jdbcType=VARCHAR},
+      </if>
+      <if test="xzjs != null">
+        #{xzjs,jdbcType=VARCHAR},
+      </if>
+      <if test="zhsz != null">
+        #{zhsz,jdbcType=VARCHAR},
+      </if>
       <if test="evainfo != null">
         #{evainfo,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluater != null">
+        #{evaluater,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateTime != null">
+        #{evaluateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -58,8 +118,32 @@
       <if test="jobContractId != null">
         job_contract_id = #{jobContractId,jdbcType=INTEGER},
       </if>
+      <if test="sxpd != null">
+        sxpd = #{sxpd,jdbcType=VARCHAR},
+      </if>
+      <if test="jyjs != null">
+        jyjs = #{jyjs,jdbcType=VARCHAR},
+      </if>
+      <if test="gztd != null">
+        gztd = #{gztd,jdbcType=VARCHAR},
+      </if>
+      <if test="gznl != null">
+        gznl = #{gznl,jdbcType=VARCHAR},
+      </if>
+      <if test="xzjs != null">
+        xzjs = #{xzjs,jdbcType=VARCHAR},
+      </if>
+      <if test="zhsz != null">
+        zhsz = #{zhsz,jdbcType=VARCHAR},
+      </if>
       <if test="evainfo != null">
         evaInfo = #{evainfo,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluater != null">
+        evaluater = #{evaluater,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateTime != null">
+        evaluate_time = #{evaluateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -67,7 +151,15 @@
   <update id="updateByPrimaryKey" parameterType="site.shzu.ws.model.Evaluate">
     update evaluate
     set job_contract_id = #{jobContractId,jdbcType=INTEGER},
-      evaInfo = #{evainfo,jdbcType=VARCHAR}
+      sxpd = #{sxpd,jdbcType=VARCHAR},
+      jyjs = #{jyjs,jdbcType=VARCHAR},
+      gztd = #{gztd,jdbcType=VARCHAR},
+      gznl = #{gznl,jdbcType=VARCHAR},
+      xzjs = #{xzjs,jdbcType=VARCHAR},
+      zhsz = #{zhsz,jdbcType=VARCHAR},
+      evaInfo = #{evainfo,jdbcType=VARCHAR},
+      evaluater = #{evaluater,jdbcType=VARCHAR},
+      evaluate_time = #{evaluateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
