@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../calendar/simple-calendar.css">
+    <script type="text/javascript" src="../calendar/simple-calendar.js"></script>
+</head>
+<body style="margin: 0px;padding: 0px">
+    <div id="calendar"></div>
+</body>
+<script>
+    var options = {
+        width: '250px',
+        height: '250px',
+        language: 'CH', //语言
+        showLunarCalendar: true, //阴历
+        showHoliday: true, //休假
+        showFestival: true, //节日
+        showLunarFestival: true, //农历节日
+        showSolarTerm: true, //节气
+        showMark: true, //标记
+        timeRange: {
+            startYear: 1900,
+            endYear: 2049
+        },
+        mark: {
+        },
+        theme: {
+            changeAble: true,
+            weeks: {
+                backgroundColor: '#FBEC9C',
+                fontColor: '#4A4A4A',
+                fontSize: '20px',
+            },
+            days: {
+                backgroundColor: '#ffffff',
+                fontColor: '#565555',
+                fontSize: '24px'
+            },
+            todaycolor: '#0288D1',
+            activeSelectColor: '#0288D1',
+        }
+    }
+    var myCalendar = new SimpleCalendar('#calendar',options);
+</script>
+</html>

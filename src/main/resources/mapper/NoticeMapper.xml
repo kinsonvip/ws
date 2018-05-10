@@ -18,6 +18,14 @@
     content
   </sql>
 
+  <select id="getNoticeListByStu" resultType="java.util.HashMap">
+    select id,tittle,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime from notice order by id desc
+  </select>
+
+  <select id="getLast3Notice" resultType="java.util.HashMap">
+    select id,tittle,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime from notice order by id desc limit 3
+  </select>
+
   <select id="getNoticeList" resultType="java.util.HashMap">
     select n.id noticeId,n.publisher,DATE_FORMAT(n.publish_time,'%Y-%m-%d %H:%i:%s') publishTime,n.tittle,n.content
     from notice n
@@ -33,6 +41,11 @@
       #{item}
     </foreach>
   </delete>
+
+  <select id="getNoticeById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    select id,publisher,publish_time publishTime,tittle,content from notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
@@ -58,9 +71,6 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.Notice">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into notice
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,

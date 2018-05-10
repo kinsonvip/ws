@@ -25,6 +25,10 @@ public class JobService {
     @Autowired
     JobDao jobDao;
 
+    public List<HashMap> getLast3Job(){
+        return jobDao.getLast3Job();
+    }
+
     public HashMap getUncheckedJobList(int pageNum, int pageSize, String search){
         HashMap<Object,Object> map = new HashMap<>();
         PageHelper.startPage(pageNum, pageSize);
@@ -123,8 +127,19 @@ public class JobService {
         return map;
     }
 
+    public List<HashMap> getCheckedJobListByStu(int pageNum, int pageSize, String search){
+        HashMap<Object,Object> map = new HashMap<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> jobList =  jobDao.getCheckedJobListByStu(search);
+        return jobList;
+    }
+
     public void addJob(Job job){
-        jobDao.insertJob(job);
+        jobDao.insertSelective(job);
+    }
+
+    public List<HashMap> getJobInfoById(Integer id){
+        return jobDao.getJobInfoById(id);
     }
 
     public void delJob(Integer jobId){

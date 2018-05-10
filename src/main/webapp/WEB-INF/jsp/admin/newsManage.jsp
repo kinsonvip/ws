@@ -68,7 +68,7 @@
                             <dd id="publishTime">2018-04-27 00:19:47</dd>
                         </dl>
                     </header>
-                    <section class="content" style="text-indent: 2em">
+                    <section class="content">
                         <p><span id="content">内容</span></p>
                     </section>
 

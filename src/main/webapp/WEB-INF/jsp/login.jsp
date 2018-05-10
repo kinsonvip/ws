@@ -73,7 +73,7 @@
             }, function(result) {
                 if (result.status == 200) {
                     if(role=='student'){
-                        location.href = "${pageContext.request.contextPath}/grid";
+                        location.href = "${pageContext.request.contextPath}/index";
                     }else if(role=='empDepSys'){
                         location.href = "${pageContext.request.contextPath}/depsys/index";
                     }else{

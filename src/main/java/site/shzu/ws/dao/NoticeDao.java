@@ -25,5 +25,11 @@ public interface NoticeDao {
 
     List<HashMap> getNoticeList(@Param(value = "search") String search);
 
+    List<HashMap> getLast3Notice();
+
+    List<HashMap> getNoticeListByStu(@Param(value = "search") String search);
+
+    List<HashMap> getNoticeById(@Param(value = "id") Integer id);
+
     void delSomeNotice(@Param(value = "noticeIdArr") Integer[] noticeIdArr);
 }

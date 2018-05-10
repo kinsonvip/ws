@@ -25,5 +25,11 @@ public interface NewsDao {
 
     List<HashMap> getNewsList(@Param(value = "search") String search);
 
+    List<HashMap> getLast3News();
+
+    List<HashMap> getNewsById(@Param(value = "id") Integer id);
+
+    List<HashMap> getNewsListByStu(@Param(value = "search") String search);
+
     void delSomeNews(@Param(value = "newsIdArr") Integer[] newsIdArr);
 }

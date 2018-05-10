@@ -35,6 +35,10 @@
     job_desc, job_req
   </sql>
 
+  <select id="getLast3Job" resultType="java.util.HashMap">
+    select id,tittle,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') createTime from job where `status` = '1' order by id desc limit 3
+  </select>
+
   <select id="getUncheckedJobList" resultType="java.util.HashMap">
     select j.id jobId,ed.dep_name depName,j.tittle,j.job_desc jobDesc,j.require_num requireNum,j.job_req jobReq,j.sex_req sexReq,j.workdays,j.salary,j.addr,j.linkMan,j.linkPhone,DATE_FORMAT(j.create_time,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(j.end_time,'%Y-%m-%d %H:%i:%s') endTime,j.create_user createUser,CASE j.`status`
     WHEN '0' THEN '待审核'
@@ -79,6 +83,16 @@
     <if test="search != null and search != ''">
       and j.tittle = #{search}
     </if> order by j.id desc
+  </select>
+
+  <select id="getJobInfoById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    select j.id jobId,ed.dep_name depName,j.tittle,j.job_desc jobDesc,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,j.job_req jobReq,j.sex_req sexReq,j.workdays,j.salary,j.addr,j.linkMan,j.linkPhone,DATE_FORMAT(j.create_time,'%Y-%m-%d %H:%i:%s') createTime,DATE_FORMAT(j.end_time,'%Y-%m-%d %H:%i:%s') endTime,j.create_user createUser
+    from job j,emp_dep ed
+    where j.emp_dep_id = ed.id and j.`status` = '1' and j.id = #{id}
+  </select>
+
+  <select id="getCheckedJobListByStu" resultType="java.util.HashMap">
+    select j.id,j.tittle,DATE_FORMAT(j.create_time,'%Y-%m-%d %H:%i:%s') createTime,ed.dep_name depName from job j,emp_dep ed where j.emp_dep_id = ed.id and j.`status` = '1' order by j.id desc
   </select>
 
   <update id="passJob" parameterType="java.lang.Integer">
@@ -161,9 +175,6 @@
       #{jobReq,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.Job">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into job
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,

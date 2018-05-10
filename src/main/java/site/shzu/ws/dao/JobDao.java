@@ -23,6 +23,10 @@ public interface JobDao {
 
     int updateByPrimaryKey(Job record);
 
+    List<HashMap> getLast3Job();
+
+    List<HashMap> getJobInfoById(@Param(value = "id") Integer id);
+
     List<HashMap> getUncheckedJobList(@Param(value = "search") String search);
 
     List<HashMap> getUncheckedJobListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
@@ -30,6 +34,8 @@ public interface JobDao {
     List<HashMap> getCheckedJobListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
 
     List<HashMap> getCheckedJobList(@Param(value = "search") String search);
+
+    List<HashMap> getCheckedJobListByStu(@Param(value = "search") String search);
 
     void passJob(@Param(value = "jobId") Integer jobId);
 

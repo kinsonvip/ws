@@ -18,6 +18,19 @@
     content
   </sql>
 
+  <select id="getNewsById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    select id,publisher,publish_time publishTime,tittle,content from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getNewsListByStu" resultType="java.util.HashMap">
+    select id,tittle,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime from news order by id desc
+  </select>
+
+  <select id="getLast3News" resultType="java.util.HashMap">
+    select id,tittle,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime from news order by id desc limit 3
+  </select>
+
   <select id="getNewsList" resultType="java.util.HashMap">
     select n.id newsId,n.publisher,DATE_FORMAT(n.publish_time,'%Y-%m-%d %H:%i:%s') publishTime,n.tittle,n.content
     from news n
@@ -58,9 +71,6 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.News">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into news
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,

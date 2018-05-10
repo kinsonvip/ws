@@ -26,6 +26,21 @@ public class NewsService {
     @Autowired
     NewsDao newsDao;
 
+    public List<HashMap> getLast3News(){
+        return newsDao.getLast3News();
+    }
+
+    public List<HashMap> getNewsListByStu(int pageNum, int pageSize, String search){
+        HashMap<Object,Object> map = new HashMap<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> newsListByStu =  newsDao.getNewsListByStu(search);
+        return newsListByStu;
+    }
+
+    public List<HashMap> getNewsInfoById(Integer id){
+        return newsDao.getNewsById(id);
+    }
+
     public HashMap getNewsList(int pageNum, int pageSize, String search){
         HashMap<Object,Object> map = new HashMap<>();
         PageHelper.startPage(pageNum, pageSize);
@@ -62,6 +77,6 @@ public class NewsService {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         news.setPublisher(user.getAccountNum());
         news.setPublishTime(new Date());
-        newsDao.insert(news);
+        newsDao.insertSelective(news);
     }
 }

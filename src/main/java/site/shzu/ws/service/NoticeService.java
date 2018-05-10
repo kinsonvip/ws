@@ -11,6 +11,7 @@ import site.shzu.ws.model.User;
 import site.shzu.ws.util.Pager;
 import site.shzu.ws.util.PagerUtil;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,21 @@ import java.util.List;
 public class NoticeService {
     @Autowired
     NoticeDao noticeDao;
+
+    public List<HashMap> getLast3Notice(){
+        return noticeDao.getLast3Notice();
+    }
+
+    public List<HashMap> getNoticeListByStu(int pageNum, int pageSize, String search){
+        HashMap<Object,Object> map = new HashMap<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> noticeListByStu =  noticeDao.getNoticeListByStu(search);
+        return noticeListByStu;
+    }
+
+    public List<HashMap> getNoticeInfoById(Integer id){
+        return noticeDao.getNoticeById(id);
+    }
 
     public HashMap getNoticeList(int pageNum, int pageSize, String search){
         HashMap<Object,Object> map = new HashMap<>();
@@ -62,6 +78,6 @@ public class NoticeService {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         notice.setPublisher(user.getAccountNum());
         notice.setPublishTime(new Date());
-        noticeDao.insert(notice);
+        noticeDao.insertSelective(notice);
     }
 }

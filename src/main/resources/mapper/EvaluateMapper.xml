@@ -41,9 +41,6 @@
       #{evaluateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.Evaluate">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into evaluate
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,

@@ -39,9 +39,6 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.EmpDep">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into emp_dep
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,
