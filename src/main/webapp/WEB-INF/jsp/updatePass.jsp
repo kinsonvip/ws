@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>时事新闻</title>
+    <title>公告中心</title>
     <link href="css/public.css" type="stylesheet">
     <!-- zui -->
     <link href="zui/css/zui.css" rel="stylesheet">
     <link href="zui/css/zui-theme.css" rel="stylesheet">
+
     <link href="css/index.css" type="text/css" rel="stylesheet">
     <link rel="icon" href="icon/university.jpg">
 </head>
@@ -64,30 +65,30 @@
 
     <span  name="gotop"></span>
 
-    <div class="middle">
+    <div class="middle" style="height: 510px;background-color: #F1F1F1">
         <div class="container-fluid">
-            <div class="col-md-offset-2 col-md-8">
-                <div class="list">
-                    <!-- 列表头部 -->
-                    <header>
-                        <h1 style="text-align: center">时事新闻</h1>
-                    </header>
-                    <!-- 列表项组 -->
-                    <section class="items items-hover">
-                        <c:forEach items="${requestScope.newsList }" var="news">
-                            <div class="item">
-                                <div class="item-heading">
-                                    <div class="pull-right label label-success">news</div>
-                                    <h4><a target="_blank" href="newsDetail?id=${news.id}">${news.tittle}</a></h4>
-                                </div>
-                                <div class="item-footer">
-                                    <span class="text-muted">发布时间：${news.publishTime}</span>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </section>
-                    <div style="text-align: center;margin-top: 2%"><span id="tip" style="display: none"><h4>别拉了，到底了，真的没有了~~</h4></span></div>
+            <div class="col-md-offset-3 col-md-6">
+                <h2 class="text-center" style="margin-top: 20%">修改密码</h2>
+                <div class="row" style="margin-top: 20px">
+                    <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>原密码：</h5></label>
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" id="oldPassword" placeholder="请输入原密码">
+                    </div>
                 </div>
+                <div class="row" style="margin-top: 20px">
+                    <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>新密码：</h5></label>
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" id="newPassword" placeholder="请输入新密码">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px">
+                    <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>确认密码：</h5></label>
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="请确认密码">
+                    </div>
+                </div>
+                <h4 class="text-center" style="color: red" id="msg"></h4>
+                <button title="修改信息" style="float: right;margin-top: 5px;margin-right: 20%" onclick="confirm()" type="button" class="btn btn-info">修改</button>
             </div>
         </div>
     </div>
@@ -95,10 +96,29 @@
     <a href="#gotop">
         <img data-toggle="tooltip" data-tip-class="tooltip-info" title="去顶部" src="pictures/toTop.png" id="gotop" style="position: fixed;right:40px;bottom: 120px;display: none;">
     </a>
+
     <div class="bottom">
         <div class="bottom-text">
             <p>Copyright © 2017-2018 <a href="http://www.shzu.edu.cn" style="color: red">石河子大学</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案/许可证编号：京ICP备18001038 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp powered by Kinson</p>
             <p>地址：新疆维吾尔自治区石河子市石河子大学 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮编：832000 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮箱：kinsonvip@gmail.com</p>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title">确定修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    确认要修改密码吗？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="updateBtn">确定</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -108,54 +128,56 @@
 <!-- ZUI Javascript组件 -->
 <script src="zui/js/zui.min.js"></script>
 <script>
-    var pageNum = 2;
-    var pageSize = 10;
     $(function () {
-        var pages = ${requestScope.pages};
-        var winH = $(window).height(); //页面可视区域高度
-        $(window).scroll(function() {
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop(); //滚动条top
-            var aa = (pageH - winH - scrollT) / winH;
-            if (aa < 0.02&&pageNum<=pages) {
-                $.ajax({
-                    type: "post",
-                    url: 'loadNewsList',
-                    data: {"pageSize":pageSize,"pageNum":pageNum},
-                    cache: false,
-                    async : false,
-                    dataType: "json",
-                    success: function (data ,textStatus, jqXHR){
-                        if("success"==data.status){
-                            $.each(data.newsList,function (i,news) {
-                                var str ="<div class=\"item\">\n" +
-                                    "                                <div class=\"item-heading\">\n" +
-                                    "                                    <div class=\"pull-right label label-success\">news</div>\n" +
-                                    "                                    <h4><a href=\"newsDetail?id="+news.id+"\">"+news.tittle+"</a></h4>\n" +
-                                    "                                </div>\n" +
-                                    "                                <div class=\"item-footer\">\n" +
-                                    "                                    <span class=\"text-muted\">发布时间："+news.publishTime+"</span>\n" +
-                                    "                                </div>\n" +
-                                    "                            </div>";
-                                $(".items").append(str);
-                            })
-                            pageNum++;
-                        }
-                    },
-                    error:function (jqXHR, textStatus, errorThrown) {
-                        new $.zui.Messager('操作失败!', {
-                            icon:'warning-sign',
-                            type: 'warning',
-                            time: 2000
+        $('#updateBtn').click(function () {
+            $('#confirmModal').modal('hide');
+            var oldPassword = $('#oldPassword').val();
+            var newPassword = $('#newPassword').val();
+            $.ajax({
+                type: "post",
+                url: 'updatePassword',
+                data: {
+                    "oldPassword":oldPassword,
+                    "newPassword":newPassword,
+                },
+                cache: false,
+                async : false,
+                dataType: "json",
+                success: function (data ,textStatus, jqXHR){
+                    if("success"==data.status){
+                        $("#msg").html("");
+                        new $.zui.Messager('操作成功!', {
+                            icon:'ok',
+                            type: 'success',
+                            time: 0
                         }).show();
+                        setTimeout(function() {
+                            window.location.href="login";
+                        }, 3000);
+                    }else {
+                        $("#msg").html(data.msg)
                     }
-                });
-            }else if((aa < 0.01&&pageNum>pages)) {
-                $('#tip').attr("style","display:block;");
-            }
-        });
-
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    new $.zui.Messager('操作失败!', {
+                        icon:'warning-sign',
+                        type: 'warning',
+                        time: 2000
+                    }).show();
+                }
+            });
+        })
     })
+
+    function confirm() {
+        if($('#newPassword').val()==$('#confirmPassword').val()){
+            $("#msg").html("");
+            $('#confirmModal').modal('show', 'fit');
+        }else{
+            $("#msg").html("新密码两次输入不一致!!")
+        }
+
+    }
 </script>
 <script>
     $(function () {

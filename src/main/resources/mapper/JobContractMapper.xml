@@ -42,7 +42,9 @@
   </select>
 
   <select id="getUnconfirmedContractListByDep" resultType="java.util.HashMap">
-    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,CASE jc.`status`
+    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,(select count(distinct jc.id)
+    from job j,job_contract jc,emp_dep_sys eds
+    where j.id = jc.job_id and jc.`status` in ('2','3') and j.emp_dep_id = eds.emp_dep_id and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})) acceptNum,CASE jc.`status`
     WHEN '1' THEN '待确认'
     END status
     from job j,job_contract jc,student s,emp_dep_sys eds
@@ -53,7 +55,9 @@
   </select>
 
   <select id="getConfirmedContractListByDep" resultType="java.util.HashMap">
-    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,j.accept_num acceptNum,jc.confirm_user confirmUser,DATE_FORMAT(jc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime,CASE jc.`status`
+    select distinct jc.id jobContractId,DATE_FORMAT(jc.create_time,'%Y-%m-%d %H:%i:%s') createTime,j.tittle jobName,jc.stu_num stuNum,s.`name` stuName,s.sex,j.sex_req sexReq,j.require_num requireNum,j.max_num maxNum,(select count(distinct jc.id)
+    from job j,job_contract jc,emp_dep_sys eds
+    where j.id = jc.job_id and jc.`status` in ('2','3') and j.emp_dep_id = eds.emp_dep_id and eds.emp_dep_id = (select emp_dep_id from emp_dep_sys eds where eds.account_num = #{accountNum})) acceptNum,jc.confirm_user confirmUser,DATE_FORMAT(jc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime,CASE jc.`status`
     WHEN '2' THEN '已录用'
     WHEN '3' THEN '已录用'
     WHEN '-2' THEN '未录用'
@@ -103,7 +107,18 @@
   <select id="getAcceptNum" parameterType="site.shzu.ws.model.JobContract" resultType="site.shzu.ws.model.Job">
     select  count(jc.id) acceptNum,jc.job_id id
     from job_contract jc
-    where jc.job_id = (select job_id from job_contract where id = #{id}) and jc.`status` = '2'
+    where jc.job_id =
+    <if test="jobId != null">
+      #{jobId}
+    </if>
+    <if test="id != null">
+      (select job_id from job_contract where id = #{id})
+    </if>
+      and jc.`status` in ('2','1','3','0')
+  </select>
+
+  <select id="getJObContractNum" parameterType="site.shzu.ws.model.JobContract" resultType="java.lang.Integer">
+    select count(id) from job_contract where job_id = #{jobId} and stu_num = #{stuNum} and status in('1','2','3','0');
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -130,9 +145,6 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.JobContract">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into job_contract
     <trim prefix="(" suffix=")" suffixOverrides=",">
       id,

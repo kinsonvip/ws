@@ -2,6 +2,7 @@ package site.shzu.ws.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jdk.nashorn.internal.scripts.JO;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -202,6 +203,17 @@ public class JobContractService {
         return map;
     }
 
+    public int getJObContractNum(JobContract jobContract){
+        return jobContractDao.getJObContractNum(jobContract);
+    }
+
+    public void addJobContract(JobContract jobContract){
+        jobContract.setStatus("0");
+        jobContract.setCreateTime(new Date());
+        jobContractDao.insertSelective(jobContract);
+        jobDao.updateByPrimaryKeySelective(jobContractDao.getAcceptNum(jobContract));
+    }
+
     public void passContract(Integer jobContractId){
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         JobContract jobContract = new JobContract();
@@ -210,6 +222,7 @@ public class JobContractService {
         jobContract.setVerifyUser(user.getAccountNum());
         jobContract.setVerifyTime(new Date());
         jobContractDao.updateByPrimaryKeySelective(jobContract);
+        jobDao.updateByPrimaryKeySelective(jobContractDao.getAcceptNum(jobContract));
     }
 
     public void noPassContract(JobContract jobContract){
@@ -218,6 +231,7 @@ public class JobContractService {
         jobContract.setVerifyUser(user.getAccountNum());
         jobContract.setVerifyTime(new Date());
         jobContractDao.updateByPrimaryKeySelective(jobContract);
+        jobDao.updateByPrimaryKeySelective(jobContractDao.getAcceptNum(jobContract));
     }
 
     public void confirmContract(Integer jobContractId){
@@ -237,6 +251,7 @@ public class JobContractService {
         jobContract.setConfirmUser(user.getAccountNum());
         jobContract.setConfirmTime(new Date());
         jobContractDao.updateByPrimaryKeySelective(jobContract);
+        jobDao.updateByPrimaryKeySelective(jobContractDao.getAcceptNum(jobContract));
     }
 
     public void delContract(Integer jobContractId){

@@ -2,9 +2,12 @@ package site.shzu.ws.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.shzu.ws.dao.StudentDao;
+import site.shzu.ws.model.Student;
+import site.shzu.ws.model.User;
 import site.shzu.ws.util.Pager;
 import site.shzu.ws.util.PagerUtil;
 
@@ -44,6 +47,15 @@ public class StudentService {
         map.put("pager",pager);
 
         return map;
+    }
+
+    public HashMap getStudentInfo(){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        return studentDao.getStudentInfo(user.getAccountNum());
+    }
+
+    public void updateStudentByStuNum(Student student){
+        studentDao.updateStudentByStuNum(student);
     }
 
     public void unlockStu(String stuNum){

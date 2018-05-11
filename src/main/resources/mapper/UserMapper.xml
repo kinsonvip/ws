@@ -14,6 +14,14 @@
     id, account_num, password, nick_name, create_time, last_login_time, status
   </sql>
 
+  <update id="updateNickNameByAccountNum">
+    update user set nick_name = #{nickName} where account_num = #{accountNum}
+  </update>
+
+  <update id="updatePassword">
+    update user set password = #{password} where account_num = #{accountNum}
+  </update>
+
   <select id="checkIsExistUser" parameterType="java.lang.String" resultType="java.lang.Integer">
     select count(u.id)
     from user u,user_role ur,role r

@@ -16,7 +16,7 @@ a:focus {
   color: #353535;
   background-color: #fff;
   border-color: #ccc;
-  border-radius: 0;
+  border-radius: 5px;
   }
 .btn:hover,
 .btn:focus,
@@ -688,7 +688,7 @@ a.hl-primary:hover {
   background-color: #cfd6db;
   }
 .form-control {
-  border-radius: 0;
+  border-radius: 5px;
   }
 .form-control:focus,
 .form-control.focus {
@@ -1314,7 +1314,7 @@ table.tablesorter thead tr .headerSortDown:after {
   color: rgba(255, 255, 255, .8);
   }
 .modal-dialog {
-  border-radius: 1px;
+  border-radius: 5px;
   }
 .card {
   border-radius: 0;

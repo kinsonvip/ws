@@ -27,9 +27,13 @@
                     <!-- 一般导航项目 -->
                     <ul class="nav navbar-nav navbarTittleLeft">
                         <li><a href="index">首页</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="your/nice/url">中心简介</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="jobList">招聘信息</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="noticeList">公告中心</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="newsList">时事新闻</a></li>
                     </ul>
                     <!-- 右侧的导航项目 -->
@@ -44,7 +48,8 @@
                                     <i class="icon icon-user"></i>&nbsp&nbsp[<shiro:principal property="nickName"/>]
                                     <b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="your/nice/url"><i class="icon icon-info"></i>&nbsp&nbsp个人信息</a></li>
+                                    <li><a href="personalInfo"><i class="icon icon-info"></i>&nbsp&nbsp个人信息</a></li>
+                                    <li><a href="updatePass"><i class="icon icon-key"></i>&nbsp&nbsp修改密码</a></li>
                                     <li><a href="login"><i class="icon icon-group"></i>&nbsp&nbsp切换用户</a></li>
                                     <li class="divider"></li>
                                     <li><a href="logout"><i class="icon icon-signout"></i>&nbsp&nbsp退出登录</a></li>
@@ -89,6 +94,7 @@
                             <p><strong>联系电话：</strong><span>${job.linkPhone}</span></p>
                         </section>
                         <footer>
+                            <h2 class="text-center" style="float: left;color: red" id="msg"></h2>
                             <button title="申请职位" style="float: right;margin-top: 5px;margin-bottom: 5px" id="want" type="button" class="btn btn-lg btn-info" value="${job.jobId}"><i class="icon icon-heart"></i>  申请</button>
                         </footer>
                     </article>
@@ -121,7 +127,36 @@
         }
 
         $('#want').click(function () {
-            alert($(this).val());
+            var jobId = $(this).val();
+            $.ajax({
+                type: "post",
+                url: 'applyForJob',
+                data: {
+                    "jobId":jobId,
+                },
+                cache: false,
+                async : false,
+                dataType: "json",
+                success: function (data ,textStatus, jqXHR){
+                    if("success"==data.status){
+                        $("#msg").html("申请提交成功，等待管理员审核！");
+                        new $.zui.Messager('操作成功!', {
+                            icon:'ok',
+                            type: 'success',
+                            time: 2000
+                        }).show();
+                    }else {
+                        $("#msg").html(data.msg)
+                    }
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    new $.zui.Messager('操作失败!', {
+                        icon:'warning-sign',
+                        type: 'warning',
+                        time: 2000
+                    }).show();
+                }
+            });
         })
 
         $('[data-toggle="tooltip"]').tooltip();

@@ -26,9 +26,13 @@
                     <!-- 一般导航项目 -->
                     <ul class="nav navbar-nav navbarTittleLeft">
                         <li><a href="index">首页</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="your/nice/url">中心简介</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="jobList">招聘信息</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="noticeList">公告中心</a></li>
+                        <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="newsList">时事新闻</a></li>
                     </ul>
                     <!-- 右侧的导航项目 -->
@@ -43,7 +47,8 @@
                                     <i class="icon icon-user"></i>&nbsp&nbsp[<shiro:principal property="nickName"/>]
                                     <b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="your/nice/url"><i class="icon icon-info"></i>&nbsp&nbsp个人信息</a></li>
+                                    <li><a href="personalInfo"><i class="icon icon-info"></i>&nbsp&nbsp个人信息</a></li>
+                                    <li><a href="updatePass"><i class="icon icon-key"></i>&nbsp&nbsp修改密码</a></li>
                                     <li><a href="login"><i class="icon icon-group"></i>&nbsp&nbsp切换用户</a></li>
                                     <li class="divider"></li>
                                     <li><a href="logout"><i class="icon icon-signout"></i>&nbsp&nbsp退出登录</a></li>
@@ -110,7 +115,7 @@
                                 <div class="item">
                                     <div class="item-heading">
                                         <div class="pull-right label label-success">recruit</div>
-                                        <h4><a href="jobDetail?id=${job.id}">${job.tittle}</a></h4>
+                                        <h4><a target="_blank" href="jobDetail?id=${job.id}">${job.tittle}</a></h4>
                                     </div>
                                     <div class="item-footer">
                                         <span class="text-muted">发布时间：${job.createTime}</span>
@@ -133,7 +138,7 @@
                                 <div class="item">
                                     <div class="item-heading">
                                         <div class="pull-right label label-success">notice</div>
-                                        <h4><a href="noticeDetail?id=${notice.id}">${notice.tittle}</a></h4>
+                                        <h4><a target="_blank" href="noticeDetail?id=${notice.id}">${notice.tittle}</a></h4>
                                     </div>
                                     <div class="item-footer">
                                         <span class="text-muted">发布时间：${notice.publishTime}</span>
@@ -156,7 +161,7 @@
                                 <div class="item">
                                     <div class="item-heading">
                                         <div class="pull-right label label-success">notice</div>
-                                        <h4><a href="newsDetail?id=${news.id}">${news.tittle}</a></h4>
+                                        <h4><a target="_blank" href="newsDetail?id=${news.id}">${news.tittle}</a></h4>
                                     </div>
                                     <div class="item-footer">
                                         <span class="text-muted">发布时间：${news.publishTime}</span>
@@ -173,7 +178,7 @@
 
     <div class="bottom">
         <div class="bottom-text">
-            <p>Copyright © 2017-2018 <a href="http://www.shzu.edu.cn" style="color: red">石河子大学</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案/许可证编号：京ICP备18001038 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp powered by Kinson</p>
+            <p>Copyright © 2017-2018 <a target="_blank" href="http://www.shzu.edu.cn" style="color: red">石河子大学</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案/许可证编号：京ICP备18001038 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp powered by Kinson</p>
             <p>地址：新疆维吾尔自治区石河子市石河子大学 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮编：832000 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮箱：kinsonvip@gmail.com</p>
         </div>
     </div>

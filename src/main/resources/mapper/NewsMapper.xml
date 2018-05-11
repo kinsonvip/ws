@@ -19,7 +19,7 @@
   </sql>
 
   <select id="getNewsById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
-    select id,publisher,publish_time publishTime,tittle,content from news
+    select id,publisher,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime,tittle,content from news
     where id = #{id,jdbcType=INTEGER}
   </select>
 

@@ -26,4 +26,8 @@ public interface StudentDao {
     void unlockStuByStuNum(@Param(value = "stuNum") String stuNum);
 
     void lockStuByStuNum(@Param(value = "stuNum") String stuNum);
+
+    HashMap getStudentInfo(@Param(value = "accountNum") String accountNum);
+
+    int updateStudentByStuNum(Student student);
 }

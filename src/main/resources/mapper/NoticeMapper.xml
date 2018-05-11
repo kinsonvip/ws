@@ -43,7 +43,7 @@
   </delete>
 
   <select id="getNoticeById" parameterType="java.lang.Integer" resultType="java.util.HashMap">
-    select id,publisher,publish_time publishTime,tittle,content from notice
+    select id,publisher,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime,tittle,content from notice
     where id = #{id,jdbcType=INTEGER}
   </select>
   

@@ -29,4 +29,12 @@ public class UserService {
     public int checkIsExistUser(String userName,String role){
         return userDao.checkIsExistUser(userName,role);
     }
+
+    public void updateNickNameByAccountNum(String accountNum,String nickName){
+        userDao.updateNickNameByAccountNum(accountNum,nickName);
+    }
+
+    public void updatePassword(User user){
+        userDao.updatePassword(user);
+    }
 }

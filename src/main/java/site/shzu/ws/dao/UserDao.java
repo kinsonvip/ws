@@ -23,4 +23,8 @@ public interface UserDao {
     List<User> selectByUser (User user);
 
     int checkIsExistUser(@Param(value = "userName") String userName,@Param(value = "role") String role);
+
+    void updateNickNameByAccountNum(@Param(value = "accountNum") String accountNum,@Param(value = "nickName") String nickName);
+
+    void updatePassword(User user);
 }

@@ -112,7 +112,7 @@
                     {name: 'sexReq', label: '性别限制',width: 0.1,className: 'text-center'},
                     {name: 'requireNum', label: '需要人数',width: 0.1,className: 'text-center'},
                     {name: 'maxNum', label: '最多申请人数',width: 0.15,className: 'text-center'},
-                    {name: 'acceptNum', label: '已有人数',width: 0.1,className: 'text-center'},
+                    {name: 'acceptNum', label: '已申请人数',width: 0.1,className: 'text-center'},
                     {name: 'status', label: '状态',width: 0.1,className: 'text-center'},
                     {name: 'operate', label: '操作',width: 150,className: 'text-center'}
                 ],

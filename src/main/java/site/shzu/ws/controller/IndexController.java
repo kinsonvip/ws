@@ -1,9 +1,9 @@
 package site.shzu.ws.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import site.shzu.ws.model.Job;
-import site.shzu.ws.model.Notice;
-import site.shzu.ws.service.JobService;
-import site.shzu.ws.service.NewsService;
-import site.shzu.ws.service.NoticeService;
-import site.shzu.ws.service.UserService;
+import site.shzu.ws.model.JobContract;
+import site.shzu.ws.model.Student;
+import site.shzu.ws.model.User;
+import site.shzu.ws.service.*;
 import site.shzu.ws.vcode.Captcha;
 import site.shzu.ws.vcode.GifCaptcha;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +54,12 @@ public class IndexController {
 
     @Autowired
     NewsService newsService;
+
+    @Autowired
+    StudentService studentService;
+
+    @Autowired
+    JobContractService jobContractService;
 
     @RequestMapping("/login")
     public String login(){
@@ -228,6 +234,108 @@ public class IndexController {
         ModelAndView modelAndView = new ModelAndView("newsDetail");
         modelAndView.addObject("news",news);
         return modelAndView;
+    }
+
+    /**
+     * 请求新闻详情页面
+     * @return
+     */
+    @RequestMapping("/personalInfo")
+    public ModelAndView personalInfo(){
+        HashMap studentInfo = studentService.getStudentInfo();
+        ModelAndView modelAndView = new ModelAndView("personalInfo");
+        modelAndView.addObject("studentInfo",studentInfo);
+        return modelAndView;
+    }
+
+    /**
+     * 修改学生个人信息
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updateStudent", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap updateStudent(Student student, String nickName,String day){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        HashMap resultMap = new HashMap();
+        User user = (User)SecurityUtils.getSubject().getPrincipal();
+        String accountNum  = user.getAccountNum();
+        try {
+            userService.updateNickNameByAccountNum(user.getAccountNum(),nickName);
+            Date date = sdf.parse(day);
+            student.setStuNum(user.getAccountNum());
+            student.setBirth(date);
+            studentService.updateStudentByStuNum(student);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求修改密码页面
+     * @return
+     */
+    @RequestMapping("/updatePass")
+    public String updatePass(){
+        return "updatePass";
+    }
+
+    /**
+     * 修改学生密码
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap updatePassword(String oldPassword, String newPassword){
+        HashMap resultMap = new HashMap();
+        User user = (User)SecurityUtils.getSubject().getPrincipal();
+        String oldMd5Pswd = new Md5Hash(oldPassword, user.getAccountNum(), 2).toString();
+        user.setPassword(oldMd5Pswd);
+        try {
+            List<User> userList = userService.selectByUser(user);
+            if(userList.size()==0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","原密码输入错误！！");
+            }else {
+                String newMd5Pswd = new Md5Hash(newPassword, user.getAccountNum(), 2).toString();
+                user.setPassword(newMd5Pswd);
+                userService.updatePassword(user);
+                SecurityUtils.getSubject().logout();
+                resultMap.put("status", "success");
+            }
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 修改学生密码
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/applyForJob", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap applyForJob(JobContract jobContract){
+        HashMap resultMap = new HashMap();
+        User user = (User)SecurityUtils.getSubject().getPrincipal();
+        jobContract.setStuNum(user.getAccountNum());
+        try {
+            int num = jobContractService.getJObContractNum(jobContract);
+            if(num!=0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","你已经提交过申请，请勿重复申请！！");
+            }else {
+                jobContractService.addJobContract(jobContract);
+                resultMap.put("status", "success");
+            }
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
     }
 
     /**

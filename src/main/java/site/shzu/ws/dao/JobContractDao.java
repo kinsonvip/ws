@@ -22,6 +22,8 @@ public interface JobContractDao {
 
     int updateByPrimaryKey(JobContract record);
 
+    int getJObContractNum(JobContract jobContract);
+
     List<HashMap> getUncheckedContractList(@Param(value = "search") String search);
 
     List<HashMap> getCheckedContractList(@Param(value = "search") String search);
