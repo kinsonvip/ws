@@ -9,11 +9,18 @@
   <sql id="Base_Column_List">
     id, uid, rid
   </sql>
+
   <select id="selectRoleByUserId" parameterType="site.shzu.ws.model.User" resultType="java.lang.String">
     select r.type
     from user u,role r,user_role ur
     where u.id=ur.uid and r.id=ur.rid and u.id=#{id}
   </select>
+
+  <insert id="addAdmin" parameterType="site.shzu.ws.model.User">
+    insert into user_role(uid,rid)
+    values ((select id from user where account_num = #{accountNum}),3)
+  </insert>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

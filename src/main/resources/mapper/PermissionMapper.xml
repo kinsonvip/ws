@@ -9,6 +9,14 @@
   <sql id="Base_Column_List">
     id, url, desc
   </sql>
+
+  <select id="getPermissionList" resultType="java.util.HashMap">
+    select * from permission
+    <if test="search != null and search != ''">
+      where url = #{search}
+    </if> order by id desc
+  </select>
+
   <select id="selectAllPermission" resultMap="BaseResultMap">
     select * from permission order by id desc
   </select>
@@ -32,25 +40,20 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.Permission">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      id,
       <if test="url != null">
         url,
       </if>
-      <if test="desc != null">
-        desc,
+      <if test="`desc` != null">
+        `desc`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      #{id,jdbcType=INTEGER},
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
+      <if test="`desc` != null">
         #{desc,jdbcType=VARCHAR},
       </if>
     </trim>

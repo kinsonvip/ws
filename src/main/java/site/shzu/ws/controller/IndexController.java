@@ -237,7 +237,7 @@ public class IndexController {
     }
 
     /**
-     * 请求新闻详情页面
+     * 请求学生个人信息页面
      * @return
      */
     @RequestMapping("/personalInfo")
@@ -261,7 +261,9 @@ public class IndexController {
         User user = (User)SecurityUtils.getSubject().getPrincipal();
         String accountNum  = user.getAccountNum();
         try {
-            userService.updateNickNameByAccountNum(user.getAccountNum(),nickName);
+            if(nickName!=null){
+                userService.updateNickNameByAccountNum(user.getAccountNum(),nickName);
+            }
             Date date = sdf.parse(day);
             student.setStuNum(user.getAccountNum());
             student.setBirth(date);
@@ -308,12 +310,13 @@ public class IndexController {
             }
         }catch (Exception e){
             resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
         }
         return resultMap;
     }
 
     /**
-     * 修改学生密码
+     * 学生申请岗位
      * @param
      * @return
      */
@@ -336,6 +339,29 @@ public class IndexController {
             resultMap.put("status", "fail");
         }
         return resultMap;
+    }
+
+    /**
+     * 请求我的合同页面
+     * @return
+     */
+    @RequestMapping("/myContract")
+    public String myContract(){
+        return "myContract";
+    }
+
+    /**
+     * 我的合同列表
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/myContractList", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap myContractList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return jobContractService.getContractByAccountNum(pageNum,pageSize,search);
     }
 
     /**

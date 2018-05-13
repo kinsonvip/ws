@@ -18,9 +18,9 @@ $(function(){
             cols:[
                 {name: 'stuNum', label: '学号', width: 100,className: 'text-center'},
                 {name: 'majorName', label: '专业', width: 200,className: 'text-center'},
-                {name: 'stuName', label: '姓名', width: 100,className: 'text-center'},
-                {name: 'sex', label: '性别',width: 50,className: 'text-center'},
-                {name: 'ethnic', label: '民族',width: 50,className: 'text-center'},
+                {name: 'stuName', label: '姓名', width: 150,className: 'text-center'},
+                {name: 'sex', label: '性别',width: 100,className: 'text-center'},
+                {name: 'ethnic', label: '民族',width: 150,className: 'text-center'},
                 {name: 'birth', label: '出生日期',width: 100,className: 'text-center'},
                 {name: 'policitalStatus', label: '政治面貌',width: 80,className: 'text-center'},
                 {name: 'phone', label: '手机号',width: 100,className: 'text-center'},

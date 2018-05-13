@@ -2,25 +2,22 @@ package site.shzu.ws.controller;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import site.shzu.ws.model.Evaluate;
-import site.shzu.ws.model.Job;
-import site.shzu.ws.model.JobContract;
-import site.shzu.ws.model.User;
-import site.shzu.ws.service.EmpDepSysService;
-import site.shzu.ws.service.EvaluateService;
-import site.shzu.ws.service.JobContractService;
-import site.shzu.ws.service.JobService;
+import org.springframework.web.servlet.ModelAndView;
+import site.shzu.ws.model.*;
+import site.shzu.ws.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: Kinson
@@ -43,6 +40,9 @@ public class EmpDepController {
 
     @Autowired
     EvaluateService evaluateService;
+
+    @Autowired
+    UserService userService;
 
     /**
      * 请求管理员后台首页
@@ -377,5 +377,81 @@ public class EmpDepController {
         int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
         String search = request.getParameter("search");
         return jobContractService.getEvaluatedContractListByDep(pageNum,pageSize,search);
+    }
+
+    /**
+     * 请求管理员个人信息页面
+     * @return
+     */
+    @RequestMapping("/personalInfo")
+    public ModelAndView personalInfo(){
+        HashMap  depsysInfo= empDepSysService.getDepsysInfo();
+        ModelAndView modelAndView = new ModelAndView("depsys/personalInfo");
+        modelAndView.addObject("depsysInfo",depsysInfo);
+        return modelAndView;
+    }
+
+    /**
+     * 修改个人信息
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updateDepSys", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap updateStudent(EmpDepSys empDepSys, String nickName){
+        HashMap resultMap = new HashMap();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        String accountNum  = user.getAccountNum();
+        try {
+            if(nickName!=null){
+                userService.updateNickNameByAccountNum(user.getAccountNum(),nickName);
+            }
+            empDepSys.setAccountNum(user.getAccountNum());
+            empDepSysService.updateByAccountNum(empDepSys);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求修改密码页面
+     * @return
+     */
+    @RequestMapping("/updatePass")
+    public String updatePass(){
+        return "depsys/updatePass";
+    }
+
+    /**
+     * 修改密码
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap updatePassword(String oldPassword, String newPassword){
+        HashMap resultMap = new HashMap();
+        User user = (User)SecurityUtils.getSubject().getPrincipal();
+        String oldMd5Pswd = new Md5Hash(oldPassword, user.getAccountNum(), 2).toString();
+        user.setPassword(oldMd5Pswd);
+        try {
+            List<User> userList = userService.selectByUser(user);
+            if(userList.size()==0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","原密码输入错误！！");
+            }else {
+                String newMd5Pswd = new Md5Hash(newPassword, user.getAccountNum(), 2).toString();
+                user.setPassword(newMd5Pswd);
+                userService.updatePassword(user);
+                SecurityUtils.getSubject().logout();
+                resultMap.put("status", "success");
+            }
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
+        }
+        return resultMap;
     }
 }

@@ -7,11 +7,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>时事新闻</title>
+    <title>我的合同</title>
     <link href="css/public.css" type="stylesheet">
     <!-- zui -->
     <link href="zui/css/zui.css" rel="stylesheet">
     <link href="zui/css/zui-theme.css" rel="stylesheet">
+    <link href="zui/lib/datagrid/zui.datagrid.css" rel="stylesheet">
+
     <link href="css/index.css" type="text/css" rel="stylesheet">
     <link rel="icon" href="icon/university.jpg">
 </head>
@@ -63,117 +65,88 @@
         </nav>
     </div>
 
-    <span  name="gotop"></span>
-
     <div class="middle">
         <div class="container-fluid">
-            <div class="col-md-offset-2 col-md-8">
-                <div class="list">
-                    <!-- 列表头部 -->
-                    <header>
-                        <h1 style="text-align: center">时事新闻</h1>
-                    </header>
-                    <!-- 列表项组 -->
-                    <section class="items items-hover">
-                        <c:forEach items="${requestScope.newsList }" var="news">
-                            <div class="item">
-                                <div class="item-heading">
-                                    <div class="pull-right label label-success">news</div>
-                                    <h4><a target="_blank" href="newsDetail?id=${news.id}">${news.tittle}</a></h4>
-                                </div>
-                                <div class="item-footer">
-                                    <span class="text-muted">发布时间：${news.publishTime}</span>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </section>
-                    <div style="text-align: center;margin-top: 2%"><span id="tip" style="display: none"><h4>别拉了，到底了，真的没有了~~</h4></span></div>
+            <div id="contractGrid" class="datagrid">
+                <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchbox" style="margin-bottom: 10px; max-width: 300px">
+                    <input id="inputSearch" type="search" class="form-control search-input" placeholder="输入岗位名称搜索">
+                    <label for="inputSearch" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+                    <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+                </div>
+                <div class="datagrid-container"></div>
+                <div class="row">
+                    <div style="margin-left: 20%;margin-top:1.5%;margin-right:1%;float: left">
+                        <select id="recPerPage" class="select form-control">
+                            <option value="10">每页10项</option>
+                            <option value="20">每页20项</option>
+                            <option value="100">每页100项</option>
+                        </select>
+                    </div>
+                    <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <a href="#gotop">
-        <img data-toggle="tooltip" data-tip-class="tooltip-info" title="去顶部" src="pictures/toTop.png" id="gotop" style="position: fixed;right:40px;bottom: 120px;display: none;">
-    </a>
     <div class="bottom">
         <div class="bottom-text">
             <p>Copyright © 2017-2018 <a href="http://www.shzu.edu.cn" style="color: red">石河子大学</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案/许可证编号：京ICP备18001038 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp powered by Kinson</p>
             <p>地址：新疆维吾尔自治区石河子市石河子大学 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮编：832000 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮箱：kinsonvip@gmail.com</p>
         </div>
     </div>
-
+    
 </div>
 <script src="js/public.js"></script>
 <script src="jquery/jquery-3.2.1.min.js"></script>
 <!-- ZUI Javascript组件 -->
 <script src="zui/js/zui.min.js"></script>
+<script src="zui/lib/datagrid/zui.datagrid.js"></script>
 <script>
-    var pageNum = 2;
-    var pageSize = 10;
     $(function () {
-        var pages = ${requestScope.pages};
-        var winH = $(window).height(); //页面可视区域高度
-        $(window).scroll(function() {
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop(); //滚动条top
-            var aa = (pageH - winH - scrollT) / winH;
-            if (aa < 0.02&&pageNum<=pages) {
-                $.ajax({
-                    type: "post",
-                    url: 'loadNewsList',
-                    data: {"pageSize":pageSize,"pageNum":pageNum},
-                    cache: false,
-                    async : false,
-                    dataType: "json",
-                    success: function (data ,textStatus, jqXHR){
-                        if("success"==data.status){
-                            $.each(data.newsList,function (i,news) {
-                                var str ="<div class=\"item\">\n" +
-                                    "                                <div class=\"item-heading\">\n" +
-                                    "                                    <div class=\"pull-right label label-success\">news</div>\n" +
-                                    "                                    <h4><a href=\"newsDetail?id="+news.id+"\">"+news.tittle+"</a></h4>\n" +
-                                    "                                </div>\n" +
-                                    "                                <div class=\"item-footer\">\n" +
-                                    "                                    <span class=\"text-muted\">发布时间："+news.publishTime+"</span>\n" +
-                                    "                                </div>\n" +
-                                    "                            </div>";
-                                $(".items").append(str);
-                            })
-                            pageNum++;
-                        }
-                    },
-                    error:function (jqXHR, textStatus, errorThrown) {
-                        new $.zui.Messager('操作失败!', {
-                            icon:'warning-sign',
-                            type: 'warning',
-                            time: 2000
-                        }).show();
+        $('#contractGrid').datagrid({
+            dataSource: {
+                cols:[
+                    {name: 'jobContractId', label: '合同号', width: 100,className: 'text-center'},
+                    {name: 'createTime', label: '合同生成时间', width: 140,className: 'text-center'},
+                    {name: 'tittle', label: '岗位名称', width: 140,className: 'text-center'},
+                    {name: 'stuNum', label: '学号', width: 100,className: 'text-center'},
+                    {name: 'name', label: '姓名',width: 100,className: 'text-center'},
+                    {name: 'salary', label: '薪资/天',width: 100,className: 'text-center'},
+                    {name: 'workdays', label: '工作天数',width: 100,className: 'text-center'},
+                    {name: 'status', label: '需要人数',width: 100,className: 'text-center'},
+                    {name: 'mark', label: '备注',className: 'text-center'},
+                ],
+                remote: function(params) {
+                    return {
+                        // 请求地址
+                        url: 'myContractList',
+                        // 请求类型
+                        type: 'POST',
+                        // 数据类型
+                        dataType: 'json'
+                    };
+                },
+                remoteConverter:function (responseData,textStatus,jqXHR,datagrid) {
+                    jqxhr = jqXHR;
+                    for(var i = 0;i < responseData.data.length;i++){
+                        var rowData = responseData.data[i];
+                        //添加操作按钮
                     }
-                });
-            }else if((aa < 0.01&&pageNum>pages)) {
-                $('#tip').attr("style","display:block;");
-            }
-        });
-
-    })
-</script>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-        $(function(){
-            $(window).scroll(function(){
-                if($(window).scrollTop() > 100){
-                    $("#gotop").fadeIn(1000);//一秒渐入动画
-                }else{
-                    $("#gotop").fadeOut(1000);//一秒渐隐动画
+                    return responseData;
                 }
-            });
-            $("#gotop").click(function(){
-                $('body,html').animate({scrollTop:0},1000);
-            });
+            },
+            states: {
+                pager: {page: 1,recPerPage: 10},
+            },
+            configs: {
+            },
+            checkable: false,
+            checkByClickRow: false,
+            showRowIndex: true
+
+            // ... 其他初始化选项
         });
-    });
+    })
 </script>
 </body>
 </html>

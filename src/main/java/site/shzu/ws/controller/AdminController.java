@@ -1,19 +1,22 @@
 package site.shzu.ws.controller;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import site.shzu.ws.model.EmpDep;
-import site.shzu.ws.model.JobContract;
-import site.shzu.ws.model.News;
-import site.shzu.ws.model.Notice;
+import org.springframework.web.servlet.ModelAndView;
+import site.shzu.ws.model.*;
 import site.shzu.ws.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: Kinson
@@ -46,6 +49,18 @@ public class AdminController {
 
     @Autowired
     NoticeService noticeService;
+
+    @Autowired
+    SysService sysService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserRoleService userRoleService;
+
+    @Autowired
+    PermissionService permissionService;
 
     /**
      * 请求管理员后台首页
@@ -731,5 +746,220 @@ public class AdminController {
         int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
         String search = request.getParameter("search");
         return jobContractService.getAllEvaluatedContractList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 请求管理员个人信息页面
+     * @return
+     */
+    @RequestMapping("/personalInfo")
+    public ModelAndView personalInfo(){
+        HashMap  adminInfo= sysService.getAdminInfo();
+        ModelAndView modelAndView = new ModelAndView("admin/personalInfo");
+        modelAndView.addObject("adminInfo",adminInfo);
+        return modelAndView;
+    }
+
+    /**
+     * 修改个人信息
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updateAdmin", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap updateStudent(Sys sys, String nickName){
+        HashMap resultMap = new HashMap();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        String accountNum  = user.getAccountNum();
+        try {
+            if(nickName!=null){
+                userService.updateNickNameByAccountNum(user.getAccountNum(),nickName);
+            }
+            sys.setAccountNum(user.getAccountNum());
+            sysService.updateByAccountNum(sys);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求修改密码页面
+     * @return
+     */
+    @RequestMapping("/updatePass")
+    public String updatePass(){
+        return "admin/updatePass";
+    }
+
+    /**
+     * 修改密码
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap updatePassword(String oldPassword, String newPassword){
+        HashMap resultMap = new HashMap();
+        User user = (User)SecurityUtils.getSubject().getPrincipal();
+        String oldMd5Pswd = new Md5Hash(oldPassword, user.getAccountNum(), 2).toString();
+        user.setPassword(oldMd5Pswd);
+        try {
+            List<User> userList = userService.selectByUser(user);
+            if(userList.size()==0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","原密码输入错误！！");
+            }else {
+                String newMd5Pswd = new Md5Hash(newPassword, user.getAccountNum(), 2).toString();
+                user.setPassword(newMd5Pswd);
+                userService.updatePassword(user);
+                SecurityUtils.getSubject().logout();
+                resultMap.put("status", "success");
+            }
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求管理员管理页面
+     * @return
+     */
+    @RequestMapping("/adminManage")
+    public String adminManage(){
+        return "admin/adminManage";
+    }
+
+    /**
+     * 请求管理员列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/adminList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap adminList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return sysService.getAdminList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 添加管理员
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/addAdmin", method= RequestMethod.POST)
+    @ResponseBody
+    @Transactional
+    public HashMap addAdmin(String account, Sys sys,User user){
+        HashMap resultMap = new HashMap();
+        user.setAccountNum(account);
+        try {
+            int num = userService.checkIsExistAccountNum(user);
+            if(num!=0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","该账号已经存在，请重新输入");
+            }else {
+                String md5Pswd = new Md5Hash(user.getPassword(), account, 2).toString();
+                user.setPassword(md5Pswd);
+                user.setNickName(account);
+                user.setCreateTime(new Date());
+                user.setStatus("1");
+                userService.addUser(user);
+                userRoleService.addAdmin(user);
+                sys.setAccountNum(account);
+                sysService.add(sys);
+                resultMap.put("status", "success");
+            }
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 删除管理员
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/delAdmin", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delAdmin(User user){
+        HashMap resultMap = new HashMap();
+        try {
+            userService.delUser(user);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 请求权限管理页面
+     * @return
+     */
+    @RequestMapping("/permission")
+    public String permission(){
+        return "admin/permission";
+    }
+
+    /**
+     * 请求权限列表数据
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/permissionList", method= RequestMethod.GET)
+    @ResponseBody
+    public HashMap permissionList(HttpServletRequest request){
+        int pageNum = Integer.valueOf(request.getParameter("page"));
+        int pageSize = Integer.valueOf(request.getParameter("recPerPage"));
+        String search = request.getParameter("search");
+        return permissionService.getPermissionList(pageNum,pageSize,search);
+    }
+
+    /**
+     * 添加权限
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/addPermission", method= RequestMethod.POST)
+    @ResponseBody
+    @Transactional
+    public HashMap addPermission(Permission permission){
+        HashMap resultMap = new HashMap();
+        try {
+            permissionService.addPermission(permission);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 删除权限
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/delPermission", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap delPermission(Integer id){
+        HashMap resultMap = new HashMap();
+        try {
+            permissionService.delPermissionById(id);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+            resultMap.put("msg","操作失败！！");
+        }
+        return resultMap;
     }
 }

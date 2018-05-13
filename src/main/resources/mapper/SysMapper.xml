@@ -11,6 +11,33 @@
   <sql id="Base_Column_List">
     id, account_num, name, phone, email
   </sql>
+
+  <select id="getAdminInfo" resultType="java.util.HashMap">
+    select u.account_num accountNum,u.nick_name nickName,u.last_login_time lastLoginTime,s.name,s.phone,s.email
+    from sys s,user u where s.account_num = u.account_num and u.account_num = #{accountNum}
+  </select>
+
+  <select id="getAdminList" resultType="java.util.HashMap">
+    select u.id,s.account_num accountNum,s.name,s.phone,s.email,DATE_FORMAT(u.last_login_time,'%Y-%m-%d %H:%i:%s') lastLoginTime
+    from sys s,user u where s.account_num = u.account_num
+    <if test="search != null and search != ''">
+      and s.account_num = #{search}
+    </if> order by s.id desc
+  </select>
+
+  <update id="updateByAccountNum" parameterType="site.shzu.ws.model.Sys">
+    update sys
+    <set>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_num = #{accountNum,jdbcType=VARCHAR}
+  </update>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -31,12 +58,8 @@
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.Sys">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into sys
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      id,
       <if test="accountNum != null">
         account_num,
       </if>
@@ -51,7 +74,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      #{id,jdbcType=INTEGER},
       <if test="accountNum != null">
         #{accountNum,jdbcType=VARCHAR},
       </if>

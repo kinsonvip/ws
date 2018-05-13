@@ -21,4 +21,6 @@ public interface UserRoleDao {
     int updateByPrimaryKey(UserRole record);
 
     List<String> selectRoleByUserId(User user);
+
+    int addAdmin(User user);
 }

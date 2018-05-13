@@ -37,6 +37,10 @@
     </if>
   </select>
 
+  <select id="checkIsExistAccountNum" parameterType="site.shzu.ws.model.User" resultType="java.lang.Integer">
+    select count(id) from user where account_num = #{accountNum}
+  </select>
+
   <select id="selectByUser" parameterType="site.shzu.ws.model.User" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -66,12 +70,8 @@
       #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="site.shzu.ws.model.User">
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      id,
       <if test="accountNum != null">
         account_num,
       </if>
@@ -92,7 +92,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      #{id,jdbcType=INTEGER},
       <if test="accountNum != null">
         #{accountNum,jdbcType=VARCHAR},
       </if>

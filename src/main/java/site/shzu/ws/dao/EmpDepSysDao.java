@@ -34,4 +34,8 @@ public interface EmpDepSysDao {
     void lockDepSysByAccountNum(@Param(value = "accountNum") String accountNum);
 
     Integer getDepIdByAccountNum(@Param(value = "accountNum") String accountNum);
+
+    HashMap getDepsysInfo(@Param(value = "accountNum") String accountNum);
+
+    int updateByAccountNum(EmpDepSys empDepSys);
 }

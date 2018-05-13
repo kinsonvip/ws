@@ -46,9 +46,10 @@
                             <i class="Hui-iconfont">&#xe6d5;</i>
                         </a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="javascript:;" onClick="myselfinfo()"><i class="Hui-iconfont">&#xe705;</i>个人信息</a></li>
-                            <li><a href="${pageContext.request.contextPath}/login"><i class="Hui-iconfont">&#xe62b;</i>切换账户</a></li>
-                            <li><a href="${pageContext.request.contextPath}/logout"><i class="Hui-iconfont">&#xe726;</i>退出</a></li>
+                            <li><a href="javascript:;" onClick="myselfinfo()"><i class="Hui-iconfont">&#xe705;</i>&nbsp;&nbsp;个人信息</a></li>
+                            <li><a href="javascript:;" onClick="updatePassword()"><i class="Hui-iconfont">&#xe63f;</i>&nbsp;&nbsp;密码修改</a></li>
+                            <li><a href="${pageContext.request.contextPath}/login"><i class="Hui-iconfont">&#xe62b;</i>&nbsp;&nbsp;切换账户</a></li>
+                            <li><a href="${pageContext.request.contextPath}/logout"><i class="Hui-iconfont">&#xe726;</i>&nbsp;&nbsp;退出</a></li>
                         </ul>
                     </li>
                     <li id="Hui-skin" class="dropDown right dropDown_hover">
@@ -127,9 +128,8 @@
                 <dt><i class="Hui-iconfont">&#xe61d;</i>&nbsp;&nbsp;安全管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
                 <dd>
                     <ul>
-                        <li><a data-href="role.html" data-title="角色管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe60d;</i>&nbsp;&nbsp;角色管理</a></li>
-                        <li><a data-href="permission.html" data-title="权限管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe611;</i>&nbsp;&nbsp;权限管理</a></li>
-                        <li><a data-href="adminManage.html" data-title="管理员列表" href="javascript:void(0)"><i class="Hui-iconfont">&#xe62d;</i>&nbsp;&nbsp;管理员列表</a></li>
+                        <li><a data-href="permission" data-title="权限管理" href="javascript:void(0)"><i class="Hui-iconfont">&#xe611;</i>&nbsp;&nbsp;权限管理</a></li>
+                        <li><a data-href="adminManage" data-title="管理员列表" href="javascript:void(0)"><i class="Hui-iconfont">&#xe62d;</i>&nbsp;&nbsp;管理员列表</a></li>
                     </ul>
                 </dd>
             </dl>
@@ -179,15 +179,26 @@
     /*个人信息*/
     function myselfinfo() {
         layer.open({
-            type: 1,
-            area: ['300px', '200px'],
-            fix: false, //不固定
-            maxmin: true,
-            shade: 0.4,
-            title: '查看信息',
-            content: '<div>管理员信息</div>'
+            type: 2,
+            title: '个人详情',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['680px', '60%'],
+            content: 'personalInfo' //iframe的url
         });
     }
+
+    function updatePassword() {
+        layer.open({
+            type: 2,
+            title: '密码修改',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['680px', '65%'],
+            content: 'updatePass' //iframe的url
+        });
+    }
+
 </script>
 </body>
 </html>

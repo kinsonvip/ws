@@ -179,6 +179,31 @@ public class JobContractService {
         return map;
     }
 
+    public HashMap getContractByAccountNum(int pageNum, int pageSize, String search){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        HashMap<Object,Object> map = new HashMap<Object, Object>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<HashMap> list = jobContractDao.getContractByAccountNum(user.getAccountNum(),search);
+
+        PageInfo page = new PageInfo(list);
+        Pager pager = PagerUtil.getPager(page);
+
+        if(list==null||list.size()==0){
+            map.put("result","fail");
+            map.put("data",list);
+            map.put("message","没有查到相应数据，请重试！！");
+            map.put("pager",pager);
+            return map;
+        }
+
+        map.put("result","success");
+        map.put("data",list);
+        map.put("message","正常！");
+        map.put("pager",pager);
+
+        return map;
+    }
+
     public HashMap getAllEvaluatedContractList(int pageNum, int pageSize, String search){
         HashMap<Object,Object> map = new HashMap<Object, Object>();
         PageHelper.startPage(pageNum, pageSize);

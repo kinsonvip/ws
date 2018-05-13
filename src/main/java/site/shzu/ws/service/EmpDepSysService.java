@@ -2,9 +2,12 @@ package site.shzu.ws.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.shzu.ws.dao.EmpDepSysDao;
+import site.shzu.ws.model.EmpDepSys;
+import site.shzu.ws.model.User;
 import site.shzu.ws.util.Pager;
 import site.shzu.ws.util.PagerUtil;
 
@@ -21,6 +24,15 @@ import java.util.List;
 public class EmpDepSysService {
     @Autowired
     EmpDepSysDao empDepSysDao;
+
+    public HashMap getDepsysInfo(){
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        return empDepSysDao.getDepsysInfo(user.getAccountNum());
+    }
+
+    public void updateByAccountNum(EmpDepSys empDepSys){
+        empDepSysDao.updateByAccountNum(empDepSys);
+    }
 
     public HashMap getUncheckedEmpDepSysList(int pageNum, int pageSize, String search){
         HashMap<Object,Object> map = new HashMap<>();

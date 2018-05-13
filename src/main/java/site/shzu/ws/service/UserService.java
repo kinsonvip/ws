@@ -30,11 +30,23 @@ public class UserService {
         return userDao.checkIsExistUser(userName,role);
     }
 
+    public int checkIsExistAccountNum(User user){
+        return userDao.checkIsExistAccountNum(user);
+    }
+
     public void updateNickNameByAccountNum(String accountNum,String nickName){
         userDao.updateNickNameByAccountNum(accountNum,nickName);
     }
 
     public void updatePassword(User user){
         userDao.updatePassword(user);
+    }
+
+    public void addUser(User user){
+        userDao.insertSelective(user);
+    }
+
+    public void delUser(User user){
+        userDao.deleteByPrimaryKey(user.getId());
     }
 }

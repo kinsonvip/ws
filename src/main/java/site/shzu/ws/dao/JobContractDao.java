@@ -36,6 +36,8 @@ public interface JobContractDao {
 
     List<HashMap> getEvaluatedContractListByDep(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
 
+    List<HashMap> getContractByAccountNum(@Param(value = "accountNum") String accountNum,@Param(value = "search") String search);
+
     List<HashMap> getAllEvaluatedContractList(@Param(value = "search") String search);
 
     void delSomeContract(@Param(value = "jobContractIdArr") Integer[] jobContractIdArr);

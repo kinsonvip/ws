@@ -21,4 +21,8 @@ public class UserRoleService {
     public List<String> selectRoleByUserId(User user){
         return userRoleDao.selectRoleByUserId(user);
     }
+
+    public int addAdmin(User user){
+        return userRoleDao.addAdmin(user);
+    }
 }

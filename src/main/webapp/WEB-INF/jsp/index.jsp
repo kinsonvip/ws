@@ -48,6 +48,7 @@
                                     <b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="personalInfo"><i class="icon icon-info"></i>&nbsp&nbsp个人信息</a></li>
+                                    <li><a href="myContract"><i class="icon icon-list-alt"></i>&nbsp&nbsp我的合同</a></li>
                                     <li><a href="updatePass"><i class="icon icon-key"></i>&nbsp&nbsp修改密码</a></li>
                                     <li><a href="login"><i class="icon icon-group"></i>&nbsp&nbsp切换用户</a></li>
                                     <li class="divider"></li>
