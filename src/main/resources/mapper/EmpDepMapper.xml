@@ -10,6 +10,10 @@
     id, dep_name, dep_info
   </sql>
 
+  <select id="getEmpDepIdByDepName" resultType="java.lang.Integer">
+    select id from emp_dep where dep_name = #{depName}
+  </select>
+
   <select id="getDepartmentList" resultType="java.util.HashMap">
     select ed.id,ed.dep_name depName,ed.dep_info depInfo
     from emp_dep ed
@@ -17,6 +21,10 @@
       where ed.dep_name = #{search}
     </if>
     order by ed.id desc
+  </select>
+
+  <select id="getDepList" resultType="java.lang.String">
+    select dep_name from emp_dep
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

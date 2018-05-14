@@ -65,7 +65,7 @@
 
     <span  name="gotop"></span>
 
-    <div class="middle" style="height: 510px">
+    <div class="middle" style="height: 700px">
         <div class="container-fluid">
             <div class="col-md-offset-2 col-md-8">
                 <c:forEach items="${requestScope.news }" var="news">

@@ -47,6 +47,10 @@ public class EmpDepService {
         return map;
     }
 
+    public List getDepList(){
+        return empDepDao.getDepList();
+    }
+
     public void updateDepSys(EmpDep empDep){
         empDepDao.updateByPrimaryKey(empDep);
     }

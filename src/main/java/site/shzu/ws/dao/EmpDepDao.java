@@ -22,4 +22,8 @@ public interface EmpDepDao {
     int updateByPrimaryKey(EmpDep record);
 
     List<HashMap> getDepartmentList(@Param(value = "search") String search);
+
+    List getDepList();
+
+    Integer getEmpDepIdByDepName(@Param(value = "depName") String depName);
 }

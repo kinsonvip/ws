@@ -5,6 +5,7 @@ import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import site.shzu.ws.model.PermissionInit;
 import site.shzu.ws.service.PermissionInitService;
 
@@ -18,6 +19,7 @@ import java.util.Map;
  * @Date: Created in 2018/04/07 21:31
  * @Version: 1.0
  */
+@Service
 public class ShiroService {
     @Autowired
     ShiroFilterFactoryBean shiroFilterFactoryBean;
@@ -45,8 +47,7 @@ public class ShiroService {
         synchronized (shiroFilterFactoryBean) {
             AbstractShiroFilter shiroFilter = null;
             try {
-                shiroFilter = (AbstractShiroFilter) shiroFilterFactoryBean
-                        .getObject();
+                shiroFilter = (AbstractShiroFilter) shiroFilterFactoryBean.getObject();
             } catch (Exception e) {
                 throw new RuntimeException(
                         "get ShiroFilter from shiroFilterFactoryBean error!");

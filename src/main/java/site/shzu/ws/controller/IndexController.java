@@ -1,5 +1,6 @@
 package site.shzu.ws.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import site.shzu.ws.model.EmpDepSys;
 import site.shzu.ws.model.JobContract;
 import site.shzu.ws.model.Student;
 import site.shzu.ws.model.User;
@@ -60,6 +63,12 @@ public class IndexController {
 
     @Autowired
     JobContractService jobContractService;
+
+    @Autowired
+    EmpDepService empDepService;
+
+    @Autowired
+    EmpDepSysService empDepSysService;
 
     @RequestMapping("/login")
     public String login(){
@@ -365,6 +374,60 @@ public class IndexController {
     }
 
     /**
+     * 请求部门列表
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/getDepList", method= RequestMethod.POST)
+    @ResponseBody
+    public HashMap getDepList(){
+        HashMap resultMap = new HashMap();
+        try {
+            List depList = empDepService.getDepList();
+            resultMap.put("depList", depList);
+            resultMap.put("status", "success");
+        }catch (Exception e){
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 注册用人部门人员
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/addDepSys", method= RequestMethod.POST)
+    @ResponseBody
+    @Transactional
+    public HashMap addDepSys(User user,EmpDepSys empDepSys,String accountNum,String depName){
+        HashMap resultMap = new HashMap();
+        user.setAccountNum(accountNum);
+
+        try {
+            int num = userService.checkIsExistAccountNum(user);
+            if(num!=0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","该账号已经存在，请重新输入");
+            }else {
+                user.setNickName(accountNum);
+                user.setCreateTime(new Date());
+                empDepSys.setAccountNum(accountNum);
+                String md5Pswd = new Md5Hash(user.getPassword(), user.getAccountNum(), 2).toString();
+                user.setPassword(md5Pswd);
+                user.setStatus("2");
+                userService.addUser(user);
+                empDepSysService.addDepSys(empDepSys,depName);
+                resultMap.put("status", "success");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
+
+    /**
      * 登录请求
      * @param userName
      * @param passWord
@@ -392,21 +455,21 @@ public class IndexController {
         }
 
         //判断是否存在对应的用户
-        if("student".equals(role)){
+        if("学生".equals(role)){
             if(userService.checkIsExistUser(userName,role)==0){
                 resultMap.put("status", 500);
                 resultMap.put("message", "不存在该学生用户，请重试！");
                 return resultMap;
             }
         }
-        if("empDepSys".equals(role)){
+        if("用人部门人员".equals(role)){
             if(userService.checkIsExistUser(userName,role)==0){
                 resultMap.put("status", 500);
                 resultMap.put("message", "不存在该用人部门人员，请重试！");
                 return resultMap;
             }
         }
-        if("sys".equals(role)){
+        if("系统管理员".equals(role)){
             if(userService.checkIsExistUser(userName,role)==0){
                 resultMap.put("status", 500);
                 resultMap.put("message", "不存在该系统管理员，请重试！");

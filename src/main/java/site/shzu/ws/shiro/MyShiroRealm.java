@@ -111,6 +111,10 @@ public class MyShiroRealm extends AuthorizingRealm {
              * 如果用户的status为禁用。那么就抛出<code>DisabledAccountException</code>
              */
             throw new DisabledAccountException("帐号已经被禁止登录！");
+        }else if("2".equals(user.getStatus())){
+            throw new DisabledAccountException("帐号正在审核中，请耐心等待管理审核！");
+        }else if("-2".equals(user.getStatus())){
+            throw new DisabledAccountException("账号未通过管理员审核，请联系管理员！");
         }else{
             //更新登录时间 last login time
             user.setLastLoginTime(new Date());

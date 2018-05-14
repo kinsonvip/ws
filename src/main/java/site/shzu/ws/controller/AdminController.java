@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import site.shzu.ws.model.*;
 import site.shzu.ws.service.*;
+import site.shzu.ws.shiro.ShiroService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -61,6 +62,9 @@ public class AdminController {
 
     @Autowired
     PermissionService permissionService;
+
+    @Autowired
+    ShiroService shiroService;
 
     /**
      * 请求管理员后台首页
@@ -862,7 +866,7 @@ public class AdminController {
             int num = userService.checkIsExistAccountNum(user);
             if(num!=0){
                 resultMap.put("status", "fail");
-                resultMap.put("msg","该账号已经存在，请重新输入");
+                resultMap.put("msg","该账号已经存在，请重新申请");
             }else {
                 String md5Pswd = new Md5Hash(user.getPassword(), account, 2).toString();
                 user.setPassword(md5Pswd);
@@ -936,6 +940,7 @@ public class AdminController {
         HashMap resultMap = new HashMap();
         try {
             permissionService.addPermission(permission);
+            shiroService.updatePermission();
             resultMap.put("status", "success");
         }catch (Exception e){
             resultMap.put("status", "fail");
@@ -955,6 +960,7 @@ public class AdminController {
         HashMap resultMap = new HashMap();
         try {
             permissionService.delPermissionById(id);
+            shiroService.updatePermission();
             resultMap.put("status", "success");
         }catch (Exception e){
             resultMap.put("status", "fail");

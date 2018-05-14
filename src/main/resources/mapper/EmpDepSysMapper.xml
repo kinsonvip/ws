@@ -13,6 +13,44 @@
     id, emp_dep_id, account_num, name, phone, email
   </sql>
 
+  <insert id="addDepSys" parameterType="site.shzu.ws.model.EmpDepSys">
+    insert into emp_dep_sys
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empDepId != null">
+        emp_dep_id,
+      </if>
+      <if test="accountNum != null">
+        account_num,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empDepId != null">
+        #{empDepId,jdbcType=INTEGER},
+      </if>
+      <if test="accountNum != null">
+        #{accountNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
   <select id="getDepsysInfo" resultType="java.util.HashMap">
     select u.account_num accountNum,u.nick_name nickName,u.last_login_time lastLoginTime,eds.name,eds.phone,eds.email
     from emp_dep_sys eds,user u where eds.account_num = u.account_num and u.account_num = #{accountNum}

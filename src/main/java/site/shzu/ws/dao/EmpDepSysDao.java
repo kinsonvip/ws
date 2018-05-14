@@ -27,6 +27,8 @@ public interface EmpDepSysDao {
 
     void passEmpDepSys(@Param(value = "accountNum") String accountNum);
 
+    void addDepSys(EmpDepSys empDepSys);
+
     void noPassEmpDepSys(@Param(value = "accountNum") String accountNum);
 
     void unlockDepSysByAccountNum(@Param(value = "accountNum") String accountNum);

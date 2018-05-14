@@ -26,13 +26,13 @@
     select count(u.id)
     from user u,user_role ur,role r
     where u.id = ur.uid and r.id = ur.rid and u.account_num = #{userName} and
-    <if test="role == 'student'">
+    <if test="role == '学生'">
       r.type=1
     </if>
-    <if test="role == 'empDepSys'">
+    <if test="role == '用人部门人员'">
       r.type=2
     </if>
-    <if test="role == 'sys'">
+    <if test="role == '系统管理员'">
       r.type=3
     </if>
   </select>

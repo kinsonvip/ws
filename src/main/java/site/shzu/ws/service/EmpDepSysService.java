@@ -5,7 +5,9 @@ import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import site.shzu.ws.dao.EmpDepDao;
 import site.shzu.ws.dao.EmpDepSysDao;
+import site.shzu.ws.model.EmpDep;
 import site.shzu.ws.model.EmpDepSys;
 import site.shzu.ws.model.User;
 import site.shzu.ws.util.Pager;
@@ -24,6 +26,9 @@ import java.util.List;
 public class EmpDepSysService {
     @Autowired
     EmpDepSysDao empDepSysDao;
+
+    @Autowired
+    EmpDepDao empDepDao;
 
     public HashMap getDepsysInfo(){
         User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -60,6 +65,11 @@ public class EmpDepSysService {
 
     public void passEmpDepSys(String accountNum){
         empDepSysDao.passEmpDepSys(accountNum);
+    }
+
+    public void addDepSys(EmpDepSys empDepSys,String depName){
+        empDepSys.setEmpDepId(empDepDao.getEmpDepIdByDepName(depName));
+        empDepSysDao.addDepSys(empDepSys);
     }
 
     public void noPassEmpDepSys(String accountNum){

@@ -36,7 +36,7 @@
   </sql>
 
   <select id="getLast3Job" resultType="java.util.HashMap">
-    select id,tittle,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') createTime from job where `status` = '1' order by id desc limit 3
+    select id,tittle,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') createTime from job where `status` = '1' order by id desc limit 4
   </select>
 
   <select id="getUncheckedJobList" resultType="java.util.HashMap">

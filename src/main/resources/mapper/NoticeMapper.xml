@@ -23,7 +23,7 @@
   </select>
 
   <select id="getLast3Notice" resultType="java.util.HashMap">
-    select id,tittle,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime from notice order by id desc limit 3
+    select id,tittle,DATE_FORMAT(publish_time,'%Y-%m-%d %H:%i:%s') publishTime from notice order by id desc limit 4
   </select>
 
   <select id="getNoticeList" resultType="java.util.HashMap">
