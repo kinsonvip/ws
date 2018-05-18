@@ -28,7 +28,7 @@
                     <ul class="nav navbar-nav navbarTittleLeft">
                         <li><a href="index">首页</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
-                        <li><a href="your/nice/url">中心简介</a></li>
+                        <li><a href="cenInfo">中心简介</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="jobList">招聘信息</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
@@ -121,6 +121,20 @@
 <script src="zui/js/zui.min.js"></script>
 <script>
     $(function () {
+        var jqxhr;
+        //设置ajax请求完成后运行的函数,
+        $.ajaxSetup({
+            complete:function(){
+                if("REDIRECT" == jqxhr.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
+                    var win = window;
+                    while(win != win.top){
+                        win = win.top;
+                    }
+                    win.location.href = jqxhr.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,使用win.location.href去实现重定向的要求
+                }
+            }
+        });
+
         var maxNum = ${requestScope.job[0].maxNum};
         var acceptNum = ${requestScope.job[0].acceptNum};
         if(maxNum<=acceptNum){
@@ -151,7 +165,8 @@
                     }
                 },
                 error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
+                    jqxhr = jqXHR;
+                    new $.zui.Messager('请登录后操作!', {
                         icon:'warning-sign',
                         type: 'warning',
                         time: 2000

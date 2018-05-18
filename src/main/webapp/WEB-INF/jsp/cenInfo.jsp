@@ -7,13 +7,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>我的合同</title>
+    <title>岗位详情</title>
     <link href="css/public.css" type="stylesheet">
     <!-- zui -->
     <link href="zui/css/zui.css" rel="stylesheet">
     <link href="zui/css/zui-theme.css" rel="stylesheet">
-    <link href="zui/lib/datagrid/zui.datagrid.css" rel="stylesheet">
-
     <link href="css/index.css" type="text/css" rel="stylesheet">
     <link rel="icon" href="icon/university.jpg">
 </head>
@@ -67,23 +65,25 @@
 
     <div class="middle">
         <div class="container-fluid">
-            <div id="contractGrid" class="datagrid">
-                <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchbox" style="margin-bottom: 10px; max-width: 300px">
-                    <input id="inputSearch" type="search" class="form-control search-input" placeholder="输入岗位名称搜索">
-                    <label for="inputSearch" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
-                    <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
-                </div>
-                <div class="datagrid-container"></div>
-                <div class="row">
-                    <div style="margin-left: 20%;margin-top:1.5%;margin-right:1%;float: left">
-                        <select id="recPerPage" class="select form-control">
-                            <option value="10">每页10项</option>
-                            <option value="20">每页20项</option>
-                            <option value="100">每页100项</option>
-                        </select>
-                    </div>
-                    <div id="myPager" class="pager" data-elements="first,prev,goto,next,last,page_of_total_text" data-page-Size-Options="10,15,20"></div>
-                </div>
+            <div class="col-md-offset-2 col-md-8">
+                <article class="article">
+                    <section class="content" style="text-indent: 2em">
+                        <p>1、负责全校学生奖助学金工作，完善我校助学体系;</p>
+                        <p>2、做好贫困生认定工作，建立和维护贫困家庭学生档案数据库;</p>
+                        <p>3、会同经办银行认真落实国家助学贷款银校合作协议;</p>
+                        <p>4、负责做好我校国家助学贷款需求额度上报工作;</p>
+                        <p>5、负责国家助学贷款的咨询、资格审核及协助发放、贷后管理和诚信教育;</p>
+                        <p>6、按期向教育部全国学生管理中心报送国家助学贷款工作进展情况;</p>
+                        <p>7、负责国家助学贷款学生个人信息采集、汇总及上报工作;</p>
+                        <p>8、国家助学贷款代偿资助的宣传、动员，报送申请国家助学贷款代偿资助学生材料工作;</p>
+                        <p>9、负责办理继续攻读硕士学位的贷款毕业生展期手续;</p>
+                        <p>10、负责我校国家奖学金、国家励志奖学金、国家助学金的评审和发放;并监督获奖学生奖助学金的使用;</p>
+                        <p>11、联络、评审和发放社会各类奖助学金;</p>
+                        <p>12、负责临时困难补助;</p>
+                        <p>13、负责全校勤工助学活动的管理，开辟和管理勤工助学岗位;</p>
+                        <p>14、完成上级交办的其他任务。</p>
+                    </section>
+                </article>
             </div>
         </div>
     </div>
@@ -94,59 +94,11 @@
             <p>地址：新疆维吾尔自治区石河子市石河子大学 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮编：832000 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮箱：kinsonvip@gmail.com</p>
         </div>
     </div>
-    
+
 </div>
 <script src="js/public.js"></script>
 <script src="jquery/jquery-3.2.1.min.js"></script>
 <!-- ZUI Javascript组件 -->
 <script src="zui/js/zui.min.js"></script>
-<script src="zui/lib/datagrid/zui.datagrid.js"></script>
-<script>
-    $(function () {
-        $('#contractGrid').datagrid({
-            dataSource: {
-                cols:[
-                    {name: 'jobContractId', label: '合同号', width: 100,className: 'text-center'},
-                    {name: 'createTime', label: '合同生成时间', width: 140,className: 'text-center'},
-                    {name: 'tittle', label: '岗位名称', width: 140,className: 'text-center'},
-                    {name: 'stuNum', label: '学号', width: 100,className: 'text-center'},
-                    {name: 'name', label: '姓名',width: 100,className: 'text-center'},
-                    {name: 'salary', label: '薪资/天',width: 100,className: 'text-center'},
-                    {name: 'workdays', label: '工作天数',width: 100,className: 'text-center'},
-                    {name: 'status', label: '需要人数',width: 100,className: 'text-center'},
-                    {name: 'mark', label: '备注',className: 'text-center'},
-                ],
-                remote: function(params) {
-                    return {
-                        // 请求地址
-                        url: 'myContractList',
-                        // 请求类型
-                        type: 'POST',
-                        // 数据类型
-                        dataType: 'json'
-                    };
-                },
-                remoteConverter:function (responseData,textStatus,jqXHR,datagrid) {
-                    jqxhr = jqXHR;
-                    for(var i = 0;i < responseData.data.length;i++){
-                        var rowData = responseData.data[i];
-                        //添加操作按钮
-                    }
-                    return responseData;
-                }
-            },
-            states: {
-                pager: {page: 1,recPerPage: 10},
-            },
-            configs: {
-            },
-            checkable: false,
-            checkByClickRow: false,
-            showRowIndex: true
-
-            // ... 其他初始化选项
-        });
-    })
-</script>
 </body>
 </html>

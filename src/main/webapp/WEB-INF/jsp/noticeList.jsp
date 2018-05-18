@@ -28,7 +28,7 @@
                     <ul class="nav navbar-nav navbarTittleLeft">
                         <li><a href="index">首页</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
-                        <li><a href="your/nice/url">中心简介</a></li>
+                        <li><a href="cenInfo">中心简介</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="jobList">招聘信息</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>

@@ -80,6 +80,11 @@ public class IndexController {
         return "403";
     }
 
+    @RequestMapping("/cenInfo")
+    public String cenInfo(){
+        return "cenInfo";
+    }
+
     @RequestMapping({"/index","/"})
     public ModelAndView index(){
         List<HashMap> jobList = jobService.getLast3Job();
@@ -509,7 +514,7 @@ public class IndexController {
              * gif格式动画验证码
              * 宽，高，位数。
              */
-            Captcha captcha = new GifCaptcha(146,33,4);
+            Captcha captcha = new GifCaptcha(120,31,4);
             //输出
             captcha.out(response.getOutputStream());
             HttpSession session = request.getSession(true);

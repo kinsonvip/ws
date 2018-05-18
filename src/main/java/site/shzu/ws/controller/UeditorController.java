@@ -2,6 +2,7 @@ package site.shzu.ws.controller;
 
 import com.baidu.ueditor.ActionEnter;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,10 +33,13 @@ import static org.apache.shiro.web.filter.mgt.DefaultFilter.port;
 public class UeditorController implements ServletContextAware {
     private String rootPath;
 
+    @Value("${web.upload-path}")
+    private String diskPath;
+
     @RequestMapping("/ueditorConfig")
     @ResponseBody
     public String ueditorConfig(HttpServletRequest request, HttpServletResponse response) {
-        return new ActionEnter(request, rootPath, UeditorController.class.getClassLoader().getResource("config.json").getPath()).exec();
+        return new ActionEnter(request, diskPath, UeditorController.class.getClassLoader().getResource("config.json").getPath()).exec();
 
     }
 
@@ -70,10 +75,10 @@ public class UeditorController implements ServletContextAware {
                 }
                 System.out.println(storePath + "----storePath");
                 // 将图片和视频保存在本地服务器
-                String pathRoot = req.getSession().getServletContext()
-                        .getRealPath("");
-                String path = pathRoot + "/" + storePath;
-                System.out.println(pathRoot + "----pathRoot");
+                //String pathRoot = req.getSession().getServletContext().getRealPath("");
+                //String path = pathRoot + "/" + storePath;
+                String path = diskPath + "/" + storePath;
+                System.out.println(diskPath + "----pathRoot");
                 File dest = new File(path + fileName);
                 if (!dest.getParentFile().exists()) {
                     dest.getParentFile().mkdirs();

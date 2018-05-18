@@ -28,9 +28,9 @@
 <body id="bg">
 <canvas id="canvas"></canvas>
 <div class="container">
-    <div class="row" style="height: auto;margin-top: 20%">
+    <div class="row" style="height: auto;margin-top: 24%">
         <div class="col-md-4 col-md-offset-4" >
-            <h4 id="erro"></h4>
+            <h3 id="erro" style="color: white"></h3>
             <form>
                 <div class="form-group input-control has-icon-left">
                     <input id="userName" name="userName" type="text" class="form-control" placeholder="账    号">
@@ -42,16 +42,17 @@
                 </div>
                 <div class="form-group input-control has-icon-left has-icon-right">
                     <label for="vcode" class="input-control-icon-left"><i class="icon icon-barcode"></i></label>
-                    <a onclick="changeVcode()" class="input-control-icon-right" style="margin-right: 40%"><i class="icon icon-refresh"></i></a>
-                    <input type="text" name="vcode" id="vcode" class="form-control" style="width: 60%;float: left" placeholder="请输入右侧验证码">
+                    <a onclick="changeVcode()" class="input-control-icon-right" style="margin-right: 70%"><i class="icon icon-refresh"></i></a>
+                    <input type="text" name="vcode" id="vcode" class="form-control" style="width: 30%;float: left" placeholder="验证码">
                     <img style="border-radius: 5px" onclick="changeVcode()" alt="验证码" src="${pageContext.request.contextPath}/getGifCode" id="vcodeImg">
-                </div>
-                <div class="form-group input-control">
-                    <select class="form-control" id="role" style="width: 60%">
-                        <option value ="学生">学生</option>
-                        <option value="用人部门人员">用人部门人员</option>
-                        <option value="系统管理员">系统管理员</option>
-                    </select>
+                    <div style="width: 37%;float: right">
+                        <select class="form-control input-control" id="role">
+                            <option value ="学生">学生</option>
+                            <option value="用人部门人员">用人部门人员</option>
+                            <option value="系统管理员">系统管理员</option>
+                        </select>
+                    </div>
+
                 </div>
                 <div class="form-group input-control">
                     <input type="checkbox" name="rememberMe"  id="rememberMe" /><span style="color:white">七天内免登录</span>

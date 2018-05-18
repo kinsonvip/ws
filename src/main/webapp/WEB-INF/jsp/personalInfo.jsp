@@ -30,7 +30,7 @@
                     <ul class="nav navbar-nav navbarTittleLeft">
                         <li><a href="index">首页</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
-                        <li><a href="your/nice/url">中心简介</a></li>
+                        <li><a href="cenInfo">中心简介</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
                         <li><a href="jobList">招聘信息</a></li>
                         <li><h4 style="color: white;margin-left: 20px;margin-right: 20px">|</h4></li>
@@ -67,7 +67,7 @@
 
     <span  name="gotop"></span>
 
-    <div class="middle" style="height: 510px;background-color: #F1F1F1">
+    <div class="middle" style="height: 700px;background-color: #F1F1F1">
         <div class="container-fluid">
             <div class="col-md-offset-2 col-md-8">
                 <article class="article">
