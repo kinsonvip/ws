@@ -51,30 +51,33 @@
         <img data-toggle="tooltip" data-tip-class="tooltip-info" title="去顶部" src="../pictures/toTop.png" id="gotop" style="position: fixed;right:40px;bottom: 120px;display: none;">
     </a>
 
-    <div class="modal fade" id="updateModal" style="height: 95%;width: 50%;margin-left: 25%;margin-top: 1%;overflow-x: hidden;overflow-y: hidden; ">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" id="updateModal" style="height: 95%;width: 70%;margin-left: 25%;margin-top: 1%;overflow-x: hidden;overflow-y: hidden; ">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
                     <h4 class="modal-title">修改资料</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>昵称：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="nickName" placeholder="请输入昵称">
+                    <form id="updateForm">
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>昵称：</h5></label>
+                            <div class="col-md-2 col-sm-2" style="width: 50%">
+                                <input type="text" class="form-control" id="nickName" placeholder="请输入昵称" data-rule="昵称: required">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>手机号：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="phone" placeholder="请输入昵称">
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>电话：</h5></label>
+                            <div class="col-md-2 col-sm-2" style="width: 50%">
+                                <input type="text" class="form-control" id="phone" placeholder="请输入手机号" data-rule="手机号: required;mobile">
+                            </div>
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>邮箱：</h5></label>
+                            <div class="col-md-2 col-sm-2" style="width: 50%">
+                                <input type="text" class="form-control" id="email" placeholder="请输入邮箱" data-rule="邮箱: required;email">
+                            </div>
                         </div>
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>邮箱：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="email" placeholder="请输入邮箱">
-                        </div>
-                    </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -88,6 +91,8 @@
 <script src="../jquery/jquery-3.2.1.min.js"></script>
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.min.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script>
     $(function () {
 
@@ -99,39 +104,41 @@
         $('.email').html("${requestScope.adminInfo.email}");
 
         $('#updateBtn').click(function () {
-            $('#updateModal').modal('hide');
-            var nickName = $('#nickName').val();
-            var phone = $('#phone').val();
-            var email = $('#email').val();
-            $.ajax({
-                type: "post",
-                url: 'updateAdmin',
-                data: {
-                    "nickName":nickName,
-                    "phone":phone,
-                    "email":email
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    if("success"==data.status){
-                        location.reload();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var nickName = $('#nickName').val().trim();
+            var phone = $('#phone').val().trim();
+            var email = $('#email').val().trim();
+            if ($('#updateForm').isValid()){
+                $('#updateModal').modal('hide');
+                $.ajax({
+                    type: "post",
+                    url: 'updateAdmin',
+                    data: {
+                        "nickName":nickName,
+                        "phone":phone,
+                        "email":email
+                    },
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        if("success"==data.status){
+                            location.reload();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
     })
 

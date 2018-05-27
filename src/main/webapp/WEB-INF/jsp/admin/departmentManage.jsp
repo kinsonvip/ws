@@ -55,18 +55,20 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门名称：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="depNameInput" placeholder="请输入部门名称">
+                    <form id="editForm">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门名称：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="depNameInput" placeholder="请输入部门名称" data-rule="部门名称: required">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="margin-top: 10px">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门简介：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <textarea class="form-control" rows="6" id="depInfoInput" placeholder="请输入部门简介"></textarea>
+                        <div class="row" style="margin-top: 10px">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门简介：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <textarea class="form-control" rows="6" id="depInfoInput" placeholder="请输入部门简介" data-rule="部门简介: required"></textarea>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -107,18 +109,20 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门名称：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="depNameAddInput" placeholder="请输入部门名称">
+                    <form id="addForm">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门名称：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="depNameAddInput" placeholder="请输入部门名称" data-rule="部门名称: required">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="margin-top: 10px">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门简介：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <textarea class="form-control" rows="6" id="depInfoAddInput" placeholder="请输入部门简介"></textarea>
+                        <div class="row" style="margin-top: 10px">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>部门简介：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <textarea class="form-control" rows="6" id="depInfoAddInput" placeholder="请输入部门简介" data-rule="部门简介: required"></textarea>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -135,6 +139,8 @@
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.js"></script>
 <script src="../zui/lib/datagrid/zui.datagrid.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script stype="text/javascript">
     $(function(){
         var jqxhr;
@@ -199,37 +205,40 @@
 
         $('#editBtn').click(function () {
             var id = $('#editModel .departmentId').val();
-            var depName = $('#depNameInput').val();
-            var depInfo = $('#depInfoInput').val();
-            $.ajax({
-                type: "post",
-                url: 'editDepartment',
-                data: {"id": id,"depName":depName,"depInfo":depInfo},
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    $('#editModel').modal('hide');
-                    if("success"==data.status){
-                        var departmentGrid   = $('#departmentGrid').data('zui.datagrid');
-                        departmentGrid.dataSource.data=null;
-                        departmentGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var depName = $('#depNameInput').val().trim();
+            var depInfo = $('#depInfoInput').val().trim();
+            if ($('#editForm').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'editDepartment',
+                    data: {"id": id,"depName":depName,"depInfo":depInfo},
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        $('#editModel').modal('hide');
+                        if("success"==data.status){
+                            var departmentGrid   = $('#departmentGrid').data('zui.datagrid');
+                            departmentGrid.dataSource.data=null;
+                            departmentGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#editModel').modal('hide');
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    $('#editModel').modal('hide');
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
+
         })
 
         $('#delBtn').click(function () {
@@ -266,37 +275,40 @@
         })
 
         $('#addBtn').click(function () {
-            var depName = $('#depNameAddInput').val();
-            var depInfo = $('#depInfoAddInput').val();
-            $.ajax({
-                type: "post",
-                url: 'addDepartment',
-                data: {"depName":depName,"depInfo":depInfo},
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    $('#addModel').modal('hide');
-                    if("success"==data.status){
-                        var departmentGrid   = $('#departmentGrid').data('zui.datagrid');
-                        departmentGrid.dataSource.data=null;
-                        departmentGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var depName = $('#depNameAddInput').val().trim();
+            var depInfo = $('#depInfoAddInput').val().trim();
+            if ($('#addForm').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'addDepartment',
+                    data: {"depName":depName,"depInfo":depInfo},
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        $('#addModel').modal('hide');
+                        if("success"==data.status){
+                            var departmentGrid   = $('#departmentGrid').data('zui.datagrid');
+                            departmentGrid.dataSource.data=null;
+                            departmentGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#addModel').modal('hide');
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    $('#addModel').modal('hide');
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
+
         })
 
         $("#recPerPage").change(function () {

@@ -22,25 +22,28 @@
     <div class="middle">
         <div class="container-fluid">
             <div class="col-md-offset-3 col-md-6">
-                <h3 class="text-center" style="margin-top: 10%">修改密码</h3>
-                <div class="row" style="margin-top: 20px">
-                    <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>原密码：</h5></label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" id="oldPassword" placeholder="请输入原密码">
+                <form id="updatePassword">
+                    <h3 class="text-center" style="margin-top: 10%">修改密码</h3>
+                    <div class="row" style="margin-top: 20px">
+                        <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>原密码：</h5></label>
+                        <div class="col-md-6" style="width:80%">
+                            <input type="password" class="form-control" id="oldPassword" placeholder="请输入原密码" data-rule="原密码: required">
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 20px">
-                    <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>新密码：</h5></label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" id="newPassword" placeholder="请输入新密码">
+                    <div class="row" style="margin-top: 20px">
+                        <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>新密码：</h5></label>
+                        <div class="col-md-6" style="width:80%">
+                            <input name="password" type="password" class="form-control" id="newPassword" placeholder="请输入新密码" data-rule="新密码: required">
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 20px">
-                    <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>确认密码：</h5></label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" id="confirmPassword" placeholder="请确认密码">
+                    <div class="row" style="margin-top: 20px">
+                        <label class="col-md-offset-2 col-md-2"><h5><i style="color: red">*</i>确认密码：</h5></label>
+                        <div class="col-md-6" style="width:80%">
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="请确认密码" data-rule="确认密码: required;match(password)">
+                        </div>
                     </div>
-                </div>
+                </form>
+
                 <h4 class="text-center" style="color: red" id="msg"></h4>
                 <button title="修改信息" style="float: right;margin-top: 5px;margin-right: 20%" onclick="confirm()" type="button" class="btn btn-info">修改</button>
             </div>
@@ -73,45 +76,49 @@
 <script src="../jquery/jquery-3.2.1.min.js"></script>
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.min.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script>
     $(function () {
         $('#updateBtn').click(function () {
             $('#confirmModal').modal('hide');
-            var oldPassword = $('#oldPassword').val();
-            var newPassword = $('#newPassword').val();
-            $.ajax({
-                type: "post",
-                url: 'updatePassword',
-                data: {
-                    "oldPassword":oldPassword,
-                    "newPassword":newPassword,
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    if("success"==data.status){
-                        $("#msg").html("");
-                        new $.zui.Messager('操作成功!即将重新登陆', {
-                            icon:'ok',
-                            type: 'success',
-                            time: 0
+            var oldPassword = $('#oldPassword').val().trim();
+            var newPassword = $('#newPassword').val().trim();
+            if ($('#updatePassword').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'updatePassword',
+                    data: {
+                        "oldPassword":oldPassword,
+                        "newPassword":newPassword,
+                    },
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        if("success"==data.status){
+                            $("#msg").html("");
+                            new $.zui.Messager('操作成功!即将重新登陆', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 0
+                            }).show();
+                            setTimeout(function() {
+                                top.location.reload();
+                            }, 3000);
+                        }else {
+                            $("#msg").html(data.msg)
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
+                            time: 2000
                         }).show();
-                        setTimeout(function() {
-                            top.location.reload();
-                        }, 3000);
-                    }else {
-                        $("#msg").html(data.msg)
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
     })
 

@@ -31,13 +31,13 @@
     <div class="row" style="height: auto;margin-top: 24%">
         <div class="col-md-4 col-md-offset-4" >
             <h3 id="erro" style="color: white"></h3>
-            <form>
+            <form id="loginForm">
                 <div class="form-group input-control has-icon-left">
-                    <input id="userName" name="userName" type="text" class="form-control" placeholder="账    号">
+                    <input id="userName" name="userName" type="text" class="form-control" placeholder="账    号" data-rule="账号: required">
                     <label for="userName" class="input-control-icon-left"><i class="icon icon-user "></i></label>
                 </div>
                 <div class="form-group input-control has-icon-left">
-                    <input id="passWord" name="passWord" type="password" class="form-control" placeholder="密    码">
+                    <input id="passWord" name="passWord" type="password" class="form-control" placeholder="密    码" data-rule="密码: required">
                     <label for="passWord" class="input-control-icon-left"><i class="icon icon-key "></i></label>
                 </div>
                 <div class="form-group input-control has-icon-left has-icon-right">
@@ -74,50 +74,52 @@
                 <h4 class="modal-title">账号申请</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>账号：</h5></label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="inputAccountNum" placeholder="请输入账号">
+                <form id="registForm">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>账号：</h5></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="inputAccountNum" placeholder="请输入账号" data-rule="账号: required">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>密码：</h5></label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="请输入密码">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>密码：</h5></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="inputPassword" placeholder="请输入密码" data-rule="密码: required;password">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>确认密码：</h5></label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="inputConfirmPassword" placeholder="请确认密码">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>确认密码：</h5></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="inputConfirmPassword" placeholder="请确认密码" data-rule="确认密码: required;password">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>部门：</h5></label>
-                    <div class="col-md-8">
-                        <select class="form-control" id="inputDep">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>部门：</h5></label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="inputDep">
 
-                        </select>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>姓名：</h5></label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="inputName" placeholder="请确认姓名">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>姓名：</h5></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="inputName" placeholder="请确认姓名" data-rule="姓名: required">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>电话：</h5></label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="inputPhone" placeholder="请确认电话">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>电话：</h5></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="inputPhone" placeholder="请确认电话" data-rule="电话: required;mobile">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4"><h5><i style="color: red">*</i>邮箱：</h5></label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="inputEmail" placeholder="请确认邮箱">
+                    <div class="row">
+                        <label class="col-md-4"><h5><i style="color: red">*</i>邮箱：</h5></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="inputEmail" placeholder="请确认邮箱" data-rule="邮箱: required;email">
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -130,9 +132,12 @@
 <script src="jquery/jquery-3.2.1.min.js"></script>
 <!-- ZUI Javascript组件 -->
 <script src="zui/js/zui.min.js"></script>
-
+<!-- Canvas插件 -->
 <script src="js/dots.js"></script>
 <script src="js/main.js"></script>
+<!-- Validator插件 -->
+<script src="jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
+
 <script>
     $(function(){
         $('#role').change(function () {
@@ -150,75 +155,82 @@
                     type: 'warning',
                     time: 4000
                 }).show();
-            }
-            $('#registModal').modal('hide');
-            var accountNum = $("#inputAccountNum").val();
-            var password = $("#inputPassword").val();
-            var depName = $("#inputDep").val();
-            var name = $("#inputName").val();
-            var phone = $("#inputPhone").val();
-            var email = $("#inputEmail").val();
-
-            $.ajax({
-                type: "post",
-                url: 'addDepSys',
-                data: {
-                    "accountNum":accountNum,
-                    "password":password,
-                    "depName":depName,
-                    "name":name,
-                    "phone":phone,
-                    "email":email,
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    if("success"==data.status){
-                        new $.zui.Messager('注册成功，等待管理员审核!', {
-                            icon:'ok',
-                            type: 'success',
-                            time: 4000
-                        }).show();
-                    }else {
-                        $('#erro').html(data.msg);
-                    }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
+            }else{
+                var accountNum = $("#inputAccountNum").val().trim();
+                var password = $("#inputPassword").val().trim();
+                var depName = $("#inputDep").val().trim();
+                var name = $("#inputName").val().trim();
+                var phone = $("#inputPhone").val().trim();
+                var email = $("#inputEmail").val().trim();
+                if ($('#registForm').isValid()){
+                    $('#registModal').modal('hide');
+                    $.ajax({
+                        type: "post",
+                        url: 'addDepSys',
+                        data: {
+                            "accountNum":accountNum,
+                            "password":password,
+                            "depName":depName,
+                            "name":name,
+                            "phone":phone,
+                            "email":email,
+                        },
+                        cache: false,
+                        async : false,
+                        dataType: "json",
+                        success: function (data ,textStatus, jqXHR){
+                            if("success"==data.status){
+                                new $.zui.Messager('注册成功，等待管理员审核!', {
+                                    icon:'ok',
+                                    type: 'success',
+                                    time: 4000
+                                }).show();
+                            }else {
+                                $('#erro').html(data.msg);
+                            }
+                        },
+                        error:function (jqXHR, textStatus, errorThrown) {
+                            new $.zui.Messager('操作失败!', {
+                                icon:'warning-sign',
+                                type: 'warning',
+                                time: 2000
+                            }).show();
+                        }
+                    })
                 }
-            });
+
+            }
+
         })
 
         $("#login").click(function() {
             var role = $("#role").val();
-            var userName = $("#userName").val();
-            var passWord = $("#passWord").val();
-            var vcode = $("#vcode").val();
+            var userName = $("#userName").val().trim();
+            var passWord = $("#passWord").val().trim();
+            var vcode = $("#vcode").val().trim();
             var rememberMe =$('#rememberMe').is(':checked');
-            $.post("doLogin", {
-                "role" : role,
-                "userName" : userName,
-                "passWord" : passWord,
-                "vcode" : vcode,
-                "rememberMe" : rememberMe
-            }, function(result) {
-                if (result.status == 200) {
-                    if(role=='学生'){
-                        location.href = "${pageContext.request.contextPath}/index";
-                    }else if(role=='用人部门人员'){
-                        location.href = "${pageContext.request.contextPath}/depsys/index";
-                    }else{
-                        location.href = "${pageContext.request.contextPath}/admin/index";
+            if($('#loginForm').isValid()) {
+                $.post("doLogin", {
+                    "role" : role,
+                    "userName" : userName,
+                    "passWord" : passWord,
+                    "vcode" : vcode,
+                    "rememberMe" : rememberMe
+                }, function(result) {
+                    if (result.status == 200) {
+                        if(role=='学生'){
+                            location.href = "${pageContext.request.contextPath}/index";
+                        }else if(role=='用人部门人员'){
+                            location.href = "${pageContext.request.contextPath}/depsys/index";
+                        }else{
+                            location.href = "${pageContext.request.contextPath}/admin/index";
+                        }
+                    } else {
+                        $("#erro").html(result.message);
                     }
-                } else {
-                    $("#erro").html(result.message);
-                }
-            });
+                })
+            }
+
         });
     });
 

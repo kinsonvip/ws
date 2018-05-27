@@ -141,64 +141,69 @@
                 <h4 class="modal-title">发布岗位</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>岗位名称：</h5></label>
-                    <div class="col-md-10 col-sm-10">
-                        <input type="text" class="form-control" id="editTittle" placeholder="请输入岗位名称">
+                <form id="editForm">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>岗位名称：</h5></label>
+                        <div class="col-md-8 col-sm-8" style="width: 60%">
+                            <input type="text" class="form-control" id="editTittle" placeholder="请输入岗位名称" data-rule="岗位名称: required">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>需求人数：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="editRequireNum" placeholder="请输入需求人数">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>需求人数：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control" id="editRequireNum" placeholder="请输入需求人数" data-rule="需求人数: required;digits">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>最大申请人数：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <input type="text" class="form-control" id="editMaxNum" placeholder="最大申请人数" data-rule="最大申请人数: required;digits">
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>最大申请人数：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="editMaxNum" placeholder="最大申请人数">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>截止：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control form-datetime" id="editEndTime" data-rule="截至日期: required">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>性别要求：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <select class="form-control" id="editSexReq">
+                                <option value ="不限">不限</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-md-1 col-sm-1"><h5><i style="color: red">*</i>截止：</h5></label>
-                    <div class="col-md-3 col-sm-3">
-                        <input type="text" class="form-control form-datetime" id="editEndTime">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作天数：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control" id="editWorkdays" placeholder="请输入工作天数" data-rule="工作天数: required;digits">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>薪资（/天）：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <input type="text" class="form-control" id="editSalary" placeholder="请输入薪资" data-rule="薪资: required;digits">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>性别要求：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="editSexReq">
-                            <option value ="不限">不限</option>
-                            <option value="男">男</option>
-                            <option value="女">女</option>
-                        </select>
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作地址：</h5></label>
+                        <div class="col-md-10 col-sm-10" style="width: 60%">
+                            <input type="text" class="form-control" id="editAddr" placeholder="请输入工作地址" data-rule="工作地点: required">
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作天数：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="editWorkdays" placeholder="请输入工作天数">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系人：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control" id="editLinkMan" placeholder="请输入联系人" data-rule="联系人: required">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系电话：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <input type="text" class="form-control" id="editLinkPhone" placeholder="请输入联系电话" data-rule="联系电话: required;mobile">
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>薪资（/天）：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="editSalary" placeholder="请输入薪资">
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作地址：</h5></label>
-                    <div class="col-md-10 col-sm-10">
-                        <input type="text" class="form-control" id="editAddr" placeholder="请输入工作地址">
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系人：</h5></label>
-                    <div class="col-md-4 col-sm-4">
-                        <input type="text" class="form-control" id="editLinkMan" placeholder="请输入联系人">
-                    </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系电话：</h5></label>
-                    <div class="col-md-4 col-sm-4">
-                        <input type="text" class="form-control" id="editLinkPhone" placeholder="请输入联系电话">
-                    </div>
-                </div>
-                <h5><i style="color: red">*</i>岗位描述：</h5>
-                <script id="editor3" type="text/plain" style="height: 300px"></script>
-                <h5><i style="color: red">*</i>岗位要求：</h5>
-                <script id="editor4" type="text/plain" style="height: 300px"></script>
+                    <h5><i style="color: red">*</i>岗位描述：</h5>
+                    <script id="editor3" type="text/plain" style="height: 300px"></script>
+                    <h5><i style="color: red">*</i>岗位要求：</h5>
+                    <script id="editor4" type="text/plain" style="height: 300px"></script>
+                </form>
+
             </div>
             <div class="modal-footer">
                 <input type="hidden" value="" class="jobId">
@@ -217,64 +222,69 @@
                 <h4 class="modal-title">发布岗位</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>岗位名称：</h5></label>
-                    <div class="col-md-10 col-sm-10">
-                        <input type="text" class="form-control" id="inputTittle" placeholder="请输入岗位名称">
+                <form id="addForm">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>岗位名称：</h5></label>
+                        <div class="col-md-10 col-sm-10" style="width: 60%">
+                            <input type="text" class="form-control" id="inputTittle" placeholder="请输入岗位名称" data-rule="岗位名称: required">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>需求人数：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="inputRequireNum" placeholder="请输入需求人数">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>需求人数：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control" id="inputRequireNum" placeholder="请输入需求人数" data-rule="需求人数: required;digits">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>最大申请人数：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <input type="text" class="form-control" id="inputMaxNum" placeholder="最大申请人数" data-rule="最大申请人数: required;digits">
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>最大申请人数：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="inputMaxNum" placeholder="最大申请人数">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>截止：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control form-datetime" id="inputEndTime" data-rule="截至日期: required">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>性别要求：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <select class="form-control" id="inputSexReq">
+                                <option value ="不限">不限</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-md-1 col-sm-1"><h5><i style="color: red">*</i>截止：</h5></label>
-                    <div class="col-md-3 col-sm-3">
-                        <input type="text" class="form-control form-datetime" id="inputEndTime">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作天数：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control" id="inputWorkdays" placeholder="请输入工作天数" data-rule="工作天数: required;digits">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>薪资（/天）：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <input type="text" class="form-control" id="inputSalary" placeholder="请输入薪资" data-rule="薪资: required;digits">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>性别要求：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputSexReq">
-                            <option value ="不限">不限</option>
-                            <option value="男">男</option>
-                            <option value="女">女</option>
-                        </select>
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作地址：</h5></label>
+                        <div class="col-md-10 col-sm-10" style="width: 60%">
+                            <input type="text" class="form-control" id="inputAddr" placeholder="请输入工作地址" data-rule="工作地址: required">
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作天数：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="inputWorkdays" placeholder="请输入工作天数">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系人：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%;margin-right: 12%">
+                            <input type="text" class="form-control" id="inputLinkMan" placeholder="请输入联系人" data-rule="联系人: required">
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系电话：</h5></label>
+                        <div class="col-md-4 col-sm-4" style="width: 20%">
+                            <input type="text" class="form-control" id="inputLinkPhone" placeholder="请输入联系电话" data-rule="联系电话: required;mobile">
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>薪资（/天）：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <input type="text" class="form-control" id="inputSalary" placeholder="请输入薪资">
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作地址：</h5></label>
-                    <div class="col-md-10 col-sm-10">
-                        <input type="text" class="form-control" id="inputAddr" placeholder="请输入工作地址">
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系人：</h5></label>
-                    <div class="col-md-4 col-sm-4">
-                        <input type="text" class="form-control" id="inputLinkMan" placeholder="请输入联系人">
-                    </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>联系电话：</h5></label>
-                    <div class="col-md-4 col-sm-4">
-                        <input type="text" class="form-control" id="inputLinkPhone" placeholder="请输入联系电话">
-                    </div>
-                </div>
-                <h5><i style="color: red">*</i>岗位描述：</h5>
-                <script id="editor" type="text/plain" style="height: 300px"></script>
-                <h5><i style="color: red">*</i>岗位要求：</h5>
-                <script id="editor2" type="text/plain" style="height: 300px"></script>
+                    <h5><i style="color: red">*</i>岗位描述：</h5>
+                    <script id="editor" type="text/plain" style="height: 300px"></script>
+                    <h5><i style="color: red">*</i>岗位要求：</h5>
+                    <script id="editor2" type="text/plain" style="height: 300px"></script>
+                </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -289,6 +299,8 @@
 <script src="../zui/js/zui.js"></script>
 <script src="../zui/lib/datagrid/zui.datagrid.js"></script>
 <script src="../zui/lib/datetimepicker/datetimepicker.min.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <!-- UEditor组件 -->
 <script type="text/javascript" charset="utf-8" src="../H-ui/lib/ueditor/1.4.3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../H-ui/lib/ueditor/1.4.3/ueditor.all.js"> </script>
@@ -462,119 +474,123 @@
 
         $('#addBtn').click(function () {
             var reg=/"/g;
-            var sexReq = $('#inputSexReq').children('option:selected').val();
-            var tittle = $('#inputTittle').val();
-            var requireNum = $('#inputRequireNum').val();
-            var maxNum = $('#inputMaxNum').val();
-            var endTime = $('#inputEndTime').val();
-            var workdays = $('#inputWorkdays').val();
-            var salary = $('#inputSalary').val();
-            var addr = $('#inputAddr').val();
-            var linkMan = $('#inputLinkMan').val();
-            var linkPhone = $('#inputLinkPhone').val();
+            var sexReq = $('#inputSexReq').children('option:selected').val().trim();
+            var tittle = $('#inputTittle').val().trim();
+            var requireNum = $('#inputRequireNum').val().trim();
+            var maxNum = $('#inputMaxNum').val().trim();
+            var endTime = $('#inputEndTime').val().trim();
+            var workdays = $('#inputWorkdays').val().trim();
+            var salary = $('#inputSalary').val().trim();
+            var addr = $('#inputAddr').val().trim();
+            var linkMan = $('#inputLinkMan').val().trim();
+            var linkPhone = $('#inputLinkPhone').val().trim();
             var jobDesc = ue.getContent().replace(reg,'\'');
             var jobReq = ue2.getContent().replace(reg,'\'');
-            $.ajax({
-                type: "post",
-                url: 'addJob',
-                data: {
-                    "sexReq":sexReq,
-                    "tittle":tittle,
-                    "requireNum":requireNum,
-                    "maxNum":maxNum,
-                    "time":endTime,
-                    "workdays":workdays,
-                    "salary":salary,
-                    "addr":addr,
-                    "linkman":linkMan,
-                    "linkphone":linkPhone,
-                    "jobDesc":jobDesc,
-                    "jobReq":jobReq
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    $('#addModal').modal('hide');
-                    if("success"==data.status){
-                        var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
-                        uncheckedJobGrid.dataSource.data=null;
-                        uncheckedJobGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            if ($('#addForm').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'addJob',
+                    data: {
+                        "sexReq":sexReq,
+                        "tittle":tittle,
+                        "requireNum":requireNum,
+                        "maxNum":maxNum,
+                        "time":endTime,
+                        "workdays":workdays,
+                        "salary":salary,
+                        "addr":addr,
+                        "linkman":linkMan,
+                        "linkphone":linkPhone,
+                        "jobDesc":jobDesc,
+                        "jobReq":jobReq
+                    },
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        $('#addModal').modal('hide');
+                        if("success"==data.status){
+                            var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
+                            uncheckedJobGrid.dataSource.data=null;
+                            uncheckedJobGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#addModal').modal('hide');
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    $('#addModal').modal('hide');
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
 
         $('#updateBtn').click(function () {
-            $('#editModal').modal('hide');
             var reg=/"/g;
-            var jobId = $('#editModal .jobId').val();
-            var sexReq = $('#editSexReq').children('option:selected').val();
-            var tittle = $('#editTittle').val();
-            var requireNum = $('#editRequireNum').val();
-            var maxNum = $('#editMaxNum').val();
-            var endTime = $('#editEndTime').val();
-            var workdays = $('#editWorkdays').val();
-            var salary = $('#editSalary').val();
-            var addr = $('#editAddr').val();
-            var linkMan = $('#editLinkMan').val();
-            var linkPhone = $('#editLinkPhone').val();
+            var jobId = $('#editModal .jobId').val().trim();
+            var sexReq = $('#editSexReq').children('option:selected').val().trim();
+            var tittle = $('#editTittle').val().trim();
+            var requireNum = $('#editRequireNum').val().trim();
+            var maxNum = $('#editMaxNum').val().trim();
+            var endTime = $('#editEndTime').val().trim();
+            var workdays = $('#editWorkdays').val().trim();
+            var salary = $('#editSalary').val().trim();
+            var addr = $('#editAddr').val().trim();
+            var linkMan = $('#editLinkMan').val().trim();
+            var linkPhone = $('#editLinkPhone').val().trim();
             var jobDesc = ue3.getContent().replace(reg,'\'');
             var jobReq = ue4.getContent().replace(reg,'\'');
-            $.ajax({
-                type: "post",
-                url: 'updateJob',
-                data: {
-                    "id":jobId,
-                    "sexReq":sexReq,
-                    "tittle":tittle,
-                    "requireNum":requireNum,
-                    "maxNum":maxNum,
-                    "time":endTime,
-                    "workdays":workdays,
-                    "salary":salary,
-                    "addr":addr,
-                    "linkman":linkMan,
-                    "linkphone":linkPhone,
-                    "jobDesc":jobDesc,
-                    "jobReq":jobReq
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    if("success"==data.status){
-                        var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
-                        uncheckedJobGrid.dataSource.data=null;
-                        uncheckedJobGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            if ($('#editForm').isValid()){
+                $('#editModal').modal('hide');
+                $.ajax({
+                    type: "post",
+                    url: 'updateJob',
+                    data: {
+                        "id":jobId,
+                        "sexReq":sexReq,
+                        "tittle":tittle,
+                        "requireNum":requireNum,
+                        "maxNum":maxNum,
+                        "time":endTime,
+                        "workdays":workdays,
+                        "salary":salary,
+                        "addr":addr,
+                        "linkman":linkMan,
+                        "linkphone":linkPhone,
+                        "jobDesc":jobDesc,
+                        "jobReq":jobReq
+                    },
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        if("success"==data.status){
+                            var uncheckedJobGrid   = $('#uncheckedJobGrid').data('zui.datagrid');
+                            uncheckedJobGrid.dataSource.data=null;
+                            uncheckedJobGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
 
         $("#recPerPage").change(function () {

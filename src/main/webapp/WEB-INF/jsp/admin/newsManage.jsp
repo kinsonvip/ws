@@ -91,14 +91,17 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>新闻标题：</h5></label>
-                        <div class="col-md-8 col-sm-10">
-                            <input type="text" class="form-control" id="newsTittle" placeholder="请输入新闻标题">
+                    <form id="addForm">
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>新闻标题：</h5></label>
+                            <div class="col-md-8 col-sm-10">
+                                <input type="text" class="form-control" id="newsTittle" placeholder="请输入新闻标题" data-rule="新闻标题: required">
+                            </div>
                         </div>
-                    </div>
-                    <h5><i style="color: red">*</i>新闻内容：</h5>
-                    <script id="editor" type="text/plain" style="height: 400px"></script>
+                        <h5><i style="color: red">*</i>新闻内容：</h5>
+                        <script id="editor" type="text/plain" style="height: 400px"></script>
+                    </form>
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -153,6 +156,8 @@
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.js"></script>
 <script src="../zui/lib/datagrid/zui.datagrid.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <!-- UEditor组件 -->
 <script type="text/javascript" charset="utf-8" src="../H-ui/lib/ueditor/1.4.3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../H-ui/lib/ueditor/1.4.3/ueditor.all.js"> </script>
@@ -301,39 +306,41 @@
         })
         
         $("#addBtn").click(function () {
-            $('#addModal').modal('hide');
             var content = ue.getContent();
             var reg=/"/g;
             content = content.replace(reg,'\'');
-            var tittle = $('#newsTittle').val();
-
-            $.ajax({
-                type: "post",
-                url: 'addNews',
-                data: {"tittle":tittle,"content":content},
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    if("success"==data.status){
-                        var newsGrid   = $('#newsGrid').data('zui.datagrid');
-                        newsGrid.dataSource.data=null;
-                        newsGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var tittle = $('#newsTittle').val().trim();
+            if ($('#addForm').isValid()){
+                $('#addModal').modal('hide');
+                $.ajax({
+                    type: "post",
+                    url: 'addNews',
+                    data: {"tittle":tittle,"content":content},
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        if("success"==data.status){
+                            var newsGrid   = $('#newsGrid').data('zui.datagrid');
+                            newsGrid.dataSource.data=null;
+                            newsGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
+
         })
 
         $("#recPerPage").change(function () {

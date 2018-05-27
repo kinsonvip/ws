@@ -51,70 +51,72 @@
                 <h4 class="modal-title">评价</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>思想品德：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputSxpd">
-                            <option value ="优秀">优秀</option>
-                            <option value ="良好">良好</option>
-                            <option value ="中等">中等</option>
-                            <option value ="差评">差评</option>
-                        </select>
+                <form id="evaluateForm">
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>思想品德：</h5></label>
+                        <div class="col-md-2 col-sm-2">
+                            <select class="form-control" id="inputSxpd">
+                                <option value ="优秀">优秀</option>
+                                <option value ="良好">良好</option>
+                                <option value ="中等">中等</option>
+                                <option value ="差评">差评</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>敬业精神：</h5></label>
+                        <div class="col-md-2 col-sm-2">
+                            <select class="form-control" id="inputJyjs">
+                                <option value ="优秀">优秀</option>
+                                <option value ="良好">良好</option>
+                                <option value ="中等">中等</option>
+                                <option value ="差评">差评</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作态度：</h5></label>
+                        <div class="col-md-2 col-sm-2">
+                            <select class="form-control" id="inputGztd">
+                                <option value ="优秀">优秀</option>
+                                <option value ="良好">良好</option>
+                                <option value ="中等">中等</option>
+                                <option value ="差评">差评</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>敬业精神：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputJyjs">
-                            <option value ="优秀">优秀</option>
-                            <option value ="良好">良好</option>
-                            <option value ="中等">中等</option>
-                            <option value ="差评">差评</option>
-                        </select>
+                    <div class="row">
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作能力：</h5></label>
+                        <div class="col-md-2 col-sm-2">
+                            <select class="form-control" id="inputGznl">
+                                <option value ="优秀">优秀</option>
+                                <option value ="良好">良好</option>
+                                <option value ="中等">中等</option>
+                                <option value ="差评">差评</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>协作精神：</h5></label>
+                        <div class="col-md-2 col-sm-2">
+                            <select class="form-control" id="inputXzjs">
+                                <option value ="优秀">优秀</option>
+                                <option value ="良好">良好</option>
+                                <option value ="中等">中等</option>
+                                <option value ="差评">差评</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>综合素质：</h5></label>
+                        <div class="col-md-2 col-sm-2">
+                            <select class="form-control" id="inputZhsz">
+                                <option value ="优秀">优秀</option>
+                                <option value ="良好">良好</option>
+                                <option value ="中等">中等</option>
+                                <option value ="差评">差评</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作态度：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputGztd">
-                            <option value ="优秀">优秀</option>
-                            <option value ="良好">良好</option>
-                            <option value ="中等">中等</option>
-                            <option value ="差评">差评</option>
-                        </select>
+                    <div class="row" style="margin-top: 10px">
+                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>评价内容：</h5></label>
+                        <div class="col-md-6 col-sm-10">
+                            <textarea class="form-control" rows="6" id="inputEvaInfo" placeholder="请输入评价内容" data-rule="评价内容: required"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>工作能力：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputGznl">
-                            <option value ="优秀">优秀</option>
-                            <option value ="良好">良好</option>
-                            <option value ="中等">中等</option>
-                            <option value ="差评">差评</option>
-                        </select>
-                    </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>协作精神：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputXzjs">
-                            <option value ="优秀">优秀</option>
-                            <option value ="良好">良好</option>
-                            <option value ="中等">中等</option>
-                            <option value ="差评">差评</option>
-                        </select>
-                    </div>
-                    <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>综合素质：</h5></label>
-                    <div class="col-md-2 col-sm-2">
-                        <select class="form-control" id="inputZhsz">
-                            <option value ="优秀">优秀</option>
-                            <option value ="良好">良好</option>
-                            <option value ="中等">中等</option>
-                            <option value ="差评">差评</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 10px">
-                    <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>评价内容：</h5></label>
-                    <div class="col-md-6 col-sm-10">
-                        <textarea class="form-control" rows="6" id="inputEvaInfo" placeholder="请输入评价内容"></textarea>
-                    </div>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <input type="hidden" value="" class="jobContractId">
@@ -129,6 +131,8 @@
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.js"></script>
 <script src="../zui/lib/datagrid/zui.datagrid.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script stype="text/javascript">
     $(function(){
         var jqxhr;
@@ -204,45 +208,47 @@
             var gznl = $('#inputGznl').children('option:selected').val();
             var xzjs = $('#inputXzjs').children('option:selected').val();
             var zhsz = $('#inputZhsz').children('option:selected').val();
-            var evainfo = $('#inputEvaInfo').val();
-            $.ajax({
-                type: "post",
-                url: 'evalContract',
-                data: {
-                    "jobContractId":jobContractId,
-                    "sxpd":sxpd,
-                    "jyjs":jyjs,
-                    "gztd":gztd,
-                    "gznl":gznl,
-                    "xzjs":xzjs,
-                    "zhsz":zhsz,
-                    "evainfo":evainfo,
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    $('#evalModal').modal('hide');
-                    if("success"==data.status){
-                        var unevaluatedContractGrid   = $('#unevaluatedContractGrid').data('zui.datagrid');
-                        unevaluatedContractGrid.dataSource.data=null;
-                        unevaluatedContractGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var evainfo = $('#inputEvaInfo').val().trim();
+            if ($('#evaluateForm').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'evalContract',
+                    data: {
+                        "jobContractId":jobContractId,
+                        "sxpd":sxpd,
+                        "jyjs":jyjs,
+                        "gztd":gztd,
+                        "gznl":gznl,
+                        "xzjs":xzjs,
+                        "zhsz":zhsz,
+                        "evainfo":evainfo,
+                    },
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        $('#evalModal').modal('hide');
+                        if("success"==data.status){
+                            var unevaluatedContractGrid   = $('#unevaluatedContractGrid').data('zui.datagrid');
+                            unevaluatedContractGrid.dataSource.data=null;
+                            unevaluatedContractGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#evalModal').modal('hide');
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    $('#evalModal').modal('hide');
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
 
         $("#recPerPage").change(function () {

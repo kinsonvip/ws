@@ -75,24 +75,26 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>账号：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="accountNum" placeholder="请输入管理员账号">
+                    <form id="addForm">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>账号：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="accountNum" placeholder="请输入管理员账号" data-rule="账号: required">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>密码：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="password" placeholder="请输入管理员密码">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>密码：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="password" placeholder="请输入管理员密码" data-rule="密码: required">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>名字：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="adminName" placeholder="请输入管理员名字">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>名字：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="adminName" placeholder="请输入管理员名字" data-rule="名字: required">
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -108,6 +110,8 @@
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.js"></script>
 <script src="../zui/lib/datagrid/zui.datagrid.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script stype="text/javascript">
     $(function(){
         var jqxhr;
@@ -206,44 +210,46 @@
         })
 
         $('#addBtn').click(function () {
-            var accountNum = $('#accountNum').val();
-            var password = $('#password').val();
-            var adminName = $('#adminName').val();
-            $.ajax({
-                type: "post",
-                url: 'addAdmin',
-                data: {"account":accountNum,"name":adminName,"password":password},
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    $('#addModel').modal('hide');
-                    if("success"==data.status){
-                        var adminGrid   = $('#adminGrid').data('zui.datagrid');
-                        adminGrid.dataSource.data=null;
-                        adminGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var accountNum = $('#accountNum').val().trim();
+            var password = $('#password').val().trim();
+            var adminName = $('#adminName').val().trim();
+            if ($('#addForm').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'addAdmin',
+                    data: {"account":accountNum,"name":adminName,"password":password},
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        $('#addModel').modal('hide');
+                        if("success"==data.status){
+                            var adminGrid   = $('#adminGrid').data('zui.datagrid');
+                            adminGrid.dataSource.data=null;
+                            adminGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }else{
+                            new $.zui.Messager(data.msg, {
+                                icon:'ok',
+                                type: 'danger',
+                                time: 0
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#addModel').modal('hide');
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
-                    }else{
-                        new $.zui.Messager(data.msg, {
-                            icon:'ok',
-                            type: 'danger',
-                            time: 0
-                        }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    $('#addModel').modal('hide');
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
 
         $("#recPerPage").change(function () {

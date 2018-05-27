@@ -75,18 +75,21 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>url：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="url" placeholder="请输入url">
+                    <form id="addForm">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>url：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="url" placeholder="请输入url" data-rule="url: required">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>名称：</h5></label>
-                        <div class="col-md-6 col-sm-10">
-                            <input type="text" class="form-control" id="desc" placeholder="请输入名称">
+                        <div class="row">
+                            <label class="col-md-offset-1 col-md-2 col-sm-2"><h5><i style="color: red">*</i>名称：</h5></label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="desc" placeholder="请输入名称" data-rule="名称: required">
+                            </div>
                         </div>
-                    </div>
+                    </form>
+
                 </div>
 
             </div>
@@ -102,6 +105,8 @@
 <!-- ZUI Javascript组件 -->
 <script src="../zui/js/zui.js"></script>
 <script src="../zui/lib/datagrid/zui.datagrid.js"></script>
+<!-- Validator插件 -->
+<script src="../jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script stype="text/javascript">
     $(function(){
         var jqxhr;
@@ -196,43 +201,46 @@
         })
 
         $('#addBtn').click(function () {
-            var url = $('#url').val();
-            var desc = $('#desc').val();
-            $.ajax({
-                type: "post",
-                url: 'addPermission',
-                data: {"url":url,"desc":desc},
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    $('#addModel').modal('hide');
-                    if("success"==data.status){
-                        var permissionGrid   = $('#permissionGrid').data('zui.datagrid');
-                        permissionGrid.dataSource.data=null;
-                        permissionGrid.render();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            var url = $('#url').val().trim();
+            var desc = $('#desc').val().trim();
+            if ($('#addForm').isValid()){
+                $.ajax({
+                    type: "post",
+                    url: 'addPermission',
+                    data: {"url":url,"desc":desc},
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        $('#addModel').modal('hide');
+                        if("success"==data.status){
+                            var permissionGrid   = $('#permissionGrid').data('zui.datagrid');
+                            permissionGrid.dataSource.data=null;
+                            permissionGrid.render();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }else{
+                            new $.zui.Messager(data.msg, {
+                                icon:'ok',
+                                type: 'danger',
+                                time: 0
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#addModel').modal('hide');
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
-                    }else{
-                        new $.zui.Messager(data.msg, {
-                            icon:'ok',
-                            type: 'danger',
-                            time: 0
-                        }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    $('#addModel').modal('hide');
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
+
         })
 
         $("#recPerPage").change(function () {
