@@ -118,65 +118,67 @@
 
     <div class="bottom">
         <div class="bottom-text">
-            <p>Copyright © 2017-2018 <a href="http://www.shzu.edu.cn" style="color: red">石河子大学</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案/许可证编号：京ICP备18001038 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp powered by Kinson</p>
+            <p>Copyright © 2017-2018 <a target="_blank" href="http://www.shzu.edu.cn" style="color: red">石河子大学</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 备案/许可证编号：京ICP备18001038 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp powered by Kinson</p>
             <p>地址：新疆维吾尔自治区石河子市石河子大学 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮编：832000 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 邮箱：kinsonvip@gmail.com</p>
         </div>
     </div>
 
     <div class="modal fade" id="updateModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
                     <h4 class="modal-title">修改资料</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>昵称：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="nickName" placeholder="请输入昵称">
+                    <form id="updateForm">
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>昵称：</h5></label>
+                            <div class="col-md-2 col-sm-2" style="margin-right: 15%">
+                                <input type="text" class="form-control" id="nickName" placeholder="请输入昵称" data-rule="昵称: required">
+                            </div>
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>出生日期：</h5></label>
+                            <div class="col-md-2 col-sm-2">
+                                <input type="text" class="form-control form-date" id="birth">
+                            </div>
                         </div>
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>出生日期：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control form-date" id="birth">
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>民族：</h5></label>
+                            <div class="col-md-2 col-sm-2 has-label-right" style="margin-right: 15%">
+                                <input type="text" class="form-control" id="ethnic" placeholder="民族如：（汉）" data-rule="民族: required">
+                                <label for="ethnic" class="input-control-label-right text-right text-success" style="margin-right: 5px">族</label>
+                            </div>
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>政治面貌：</h5></label>
+                            <div class="col-md-2 col-sm-2">
+                                <select class="form-control" id="policitalStatus">
+                                    <option value="团员">团员</option>
+                                    <option value="党员">党员</option>
+                                    <option value="预备党员">预备党员</option>
+                                    <option value="群众">群众</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>民族：</h5></label>
-                        <div class="col-md-4 col-sm-4 has-label-right">
-                            <input type="text" class="form-control" id="ethnic" placeholder="请输入民族如：（汉）">
-                            <label for="ethnic" class="input-control-label-right text-right text-success" style="margin-right: 5px">族</label>
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>手机号：</h5></label>
+                            <div class="col-md-2 col-sm-2" style="margin-right: 15%">
+                                <input type="text" class="form-control" id="phone" placeholder="请输入手机号" data-rule="手机号: required;mobile">
+                            </div>
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>邮箱：</h5></label>
+                            <div class="col-md-2 col-sm-2">
+                                <input type="text" class="form-control" id="email" placeholder="请输入邮箱" data-rule="邮箱: required;email">
+                            </div>
                         </div>
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>政治面貌：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <select class="form-control" id="policitalStatus">
-                                <option value="团员">团员</option>
-                                <option value="党员">党员</option>
-                                <option value="预备党员">预备党员</option>
-                                <option value="群众">群众</option>
-                            </select>
+                        <div class="row">
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>身份证：</h5></label>
+                            <div class="col-md-2 col-sm-2" style="margin-right: 15%">
+                                <input type="text" class="form-control" id="idCard" placeholder="请输入身份证号" data-rule="身份证号: required;IDcard">
+                            </div>
+                            <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>银行卡号：</h5></label>
+                            <div class="col-md-2 col-sm-2">
+                                <input type="text" class="form-control" id="bankCard" placeholder="请输入银行卡号" data-rule="银行卡号: required;bankcard">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>手机号：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="phone" placeholder="请输入昵称">
-                        </div>
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>邮箱：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="email" placeholder="请输入邮箱">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>身份证：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="idCard" placeholder="请输入身份证号">
-                        </div>
-                        <label class="col-md-2 col-sm-2"><h5><i style="color: red">*</i>银行卡号：</h5></label>
-                        <div class="col-md-4 col-sm-4">
-                            <input type="text" class="form-control" id="bankCard" placeholder="请输入银行卡号">
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -192,6 +194,8 @@
 <!-- ZUI Javascript组件 -->
 <script src="zui/js/zui.min.js"></script>
 <script src="zui/lib/datetimepicker/datetimepicker.min.js"></script>
+<!-- Validator插件 -->
+<script src="jquery/validator/dist/jquery.validator.js?local=zh-CN"></script>
 <script>
     $(function () {
         $(".form-date").datetimepicker(
@@ -223,7 +227,6 @@
         $('.bankCard').html("${requestScope.studentInfo.bankCard}");
 
         $('#updateBtn').click(function () {
-            $('#updateModal').modal('hide');
             var nickName = $('#nickName').val();
             var birth = $('#birth').val();
             var ethnic = $('#ethnic').val();
@@ -232,40 +235,43 @@
             var email = $('#email').val();
             var idCard = $('#idCard').val();
             var bankCard = $('#bankCard').val();
-            $.ajax({
-                type: "post",
-                url: 'updateStudent',
-                data: {
-                    "nickName":nickName,
-                    "day":birth,
-                    "ethnic":ethnic,
-                    "policitalStatus":policitalStatus,
-                    "phone":phone,
-                    "email":email,
-                    "idCard":idCard,
-                    "bankCard":bankCard
-                },
-                cache: false,
-                async : false,
-                dataType: "json",
-                success: function (data ,textStatus, jqXHR){
-                    if("success"==data.status){
-                        location.reload();
-                        new $.zui.Messager('操作成功!', {
-                            icon:'ok',
-                            type: 'success',
+            if ($('#updateForm').isValid()){
+                $('#updateModal').modal('hide');
+                $.ajax({
+                    type: "post",
+                    url: 'updateStudent',
+                    data: {
+                        "nickName":nickName,
+                        "day":birth,
+                        "ethnic":ethnic,
+                        "policitalStatus":policitalStatus,
+                        "phone":phone,
+                        "email":email,
+                        "idCard":idCard,
+                        "bankCard":bankCard
+                    },
+                    cache: false,
+                    async : false,
+                    dataType: "json",
+                    success: function (data ,textStatus, jqXHR){
+                        if("success"==data.status){
+                            location.reload();
+                            new $.zui.Messager('操作成功!', {
+                                icon:'ok',
+                                type: 'success',
+                                time: 2000
+                            }).show();
+                        }
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        new $.zui.Messager('操作失败!', {
+                            icon:'warning-sign',
+                            type: 'warning',
                             time: 2000
                         }).show();
                     }
-                },
-                error:function (jqXHR, textStatus, errorThrown) {
-                    new $.zui.Messager('操作失败!', {
-                        icon:'warning-sign',
-                        type: 'warning',
-                        time: 2000
-                    }).show();
-                }
-            });
+                });
+            }
         })
     })
 

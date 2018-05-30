@@ -40,6 +40,90 @@
                        (new RegExp(".(?:" + ext + ")$", "i")).test(value) ||
                        this.renderMsg("只接受{1}后缀的文件", ext.replace(/\|/g, ','));
             }
+            ,bankcard: function(element) {
+                var value = element.value.replace(/\s/g, ''),
+                    isValid = true,
+                    rFormat = /^[\d]{12,19}$/;
+
+                if ( !rFormat.test(value) ) {
+                    isValid = false;
+                } else {
+                    var arr = value.split('').reverse(),
+                        i = arr.length,
+                        temp,
+                        sum = 0;
+
+                    while ( i-- ) {
+                        if ( i%2 === 0 ) {
+                            sum += +arr[i];
+                        } else {
+                            temp = +arr[i] * 2;
+                            sum += temp % 10;
+                            if ( temp > 9 ) sum += 1;
+                        }
+                    }
+                    if ( sum % 10 !== 0 ) {
+                        isValid = false;
+                    }
+                }
+                return isValid || "请填写有效的银行卡号";
+            }
+            ,creditcard: function(element, params) {
+                var value = element.value,
+                    validTypes = 0x0000,
+                    types = {
+                        mastercard: 0x0001,
+                        visa: 0x0002,
+                        amex: 0x0004,
+                        dinersclub: 0x0008,
+                        enroute: 0x0010,
+                        discover: 0x0020,
+                        jcb: 0x0040,
+                        unknown: 0x0080
+                    };
+
+                if (/[^0-9\-]+/.test(value)) {
+                    return false;
+                }
+                value = value.replace(/\D/g, "");
+
+                if ( !params ) {
+                    validTypes = 0x0001 | 0x0002 | 0x0004 | 0x0008 | 0x0010 | 0x0020 | 0x0040 | 0x0080;
+                } else {
+                    for (var i=0; i<parmas.length; i++) {
+                        validTypes |= types[params[i]];
+                    }
+                }
+
+                if (validTypes & 0x0001 && /^(5[12345])/.test(value)) { //mastercard
+                    return value.length === 16;
+                }
+                if (validTypes & 0x0002 && /^(4)/.test(value)) { //visa
+                    return value.length === 16;
+                }
+                if (validTypes & 0x0004 && /^(3[47])/.test(value)) { //amex
+                    return value.length === 15;
+                }
+                if (validTypes & 0x0008 && /^(3(0[012345]|[68]))/.test(value)) { //dinersclub
+                    return value.length === 14;
+                }
+                if (validTypes & 0x0010 && /^(2(014|149))/.test(value)) { //enroute
+                    return value.length === 15;
+                }
+                if (validTypes & 0x0020 && /^(6011)/.test(value)) { //discover
+                    return value.length === 16;
+                }
+                if (validTypes & 0x0040 && /^(3)/.test(value)) { //jcb
+                    return value.length === 16;
+                }
+                if (validTypes & 0x0040 && /^(2131|1800)/.test(value)) { //jcb
+                    return value.length === 15;
+                }
+                if (validTypes & 0x0080) { //unknown
+                    return true;
+                }
+                return "请填写有效的信用卡号";
+            }
             
         },
 
