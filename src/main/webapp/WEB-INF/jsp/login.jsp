@@ -8,7 +8,7 @@
     <title>登陆</title>
     <!-- zui -->
     <link href="zui/css/zui.min.css" rel="stylesheet">
-
+	<link rel="icon" href="icon/university.jpg">
 </head>
 <style>
     *{margin: 0; padding: 0; box-sizing: border-box;}

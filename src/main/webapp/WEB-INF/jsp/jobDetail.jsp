@@ -42,8 +42,8 @@
                             <li style="color: white;margin-top: 7%">欢迎游客访问,</li>
                             <li><a href="login"><i class="icon icon-user"></i>&nbsp&nbsp登录</a></li>
                         </shiro:guest>
-                        <shiro:user>
-                            <li class="dropdown">
+                        <shiro:hasRole name="1">
+							<li class="dropdown">
                                 <a href="your/nice/url" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="icon icon-user"></i>&nbsp&nbsp[<shiro:principal property="nickName"/>]
                                     <b class="caret"></b></a>
@@ -56,7 +56,7 @@
                                     <li><a href="logout"><i class="icon icon-signout"></i>&nbsp&nbsp退出登录</a></li>
                                 </ul>
                             </li>
-                        </shiro:user>
+                        </shiro:hasRole>
                     </ul>
                 </div><!-- END .navbar-collapse -->
             </div>
