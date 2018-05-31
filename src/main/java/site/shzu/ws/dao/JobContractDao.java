@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import site.shzu.ws.model.Job;
 import site.shzu.ws.model.JobContract;
+import site.shzu.ws.model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ public interface JobContractDao {
     int updateByPrimaryKey(JobContract record);
 
     int getJObContractNum(JobContract jobContract);
+
+    int getExistNum(User user);
 
     List<HashMap> getUncheckedContractList(@Param(value = "search") String search);
 

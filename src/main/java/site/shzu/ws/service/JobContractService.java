@@ -232,6 +232,10 @@ public class JobContractService {
         return jobContractDao.getJObContractNum(jobContract);
     }
 
+    public int getExistNum(User user){
+        return jobContractDao.getExistNum(user);
+    }
+
     public void addJobContract(JobContract jobContract){
         jobContract.setStatus("0");
         jobContract.setCreateTime(new Date());
@@ -268,6 +272,7 @@ public class JobContractService {
         jobContract.setConfirmTime(new Date());
         jobContractDao.updateByPrimaryKeySelective(jobContract);
         jobDao.updateByPrimaryKeySelective(jobContractDao.getAcceptNum(jobContract));
+        jobDao.updateHiredNum(jobContractId);
     }
 
     public void noConfirmContract(JobContract jobContract){
@@ -277,13 +282,18 @@ public class JobContractService {
         jobContract.setConfirmTime(new Date());
         jobContractDao.updateByPrimaryKeySelective(jobContract);
         jobDao.updateByPrimaryKeySelective(jobContractDao.getAcceptNum(jobContract));
+        jobDao.updateHiredNum(jobContract.getId());
     }
 
     public void delContract(Integer jobContractId){
         jobContractDao.deleteByPrimaryKey(jobContractId);
+        jobDao.updateHiredNum(jobContractId);
     }
 
     public void delSomeContract(Integer[] jobContractIdArr){
         jobContractDao.delSomeContract(jobContractIdArr);
+        for (int i = 0;i<jobContractIdArr.length;i++){
+            jobDao.updateHiredNum(jobContractIdArr[i]);
+        }
     }
 }

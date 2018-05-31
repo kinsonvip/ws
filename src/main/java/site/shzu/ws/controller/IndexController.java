@@ -342,10 +342,14 @@ public class IndexController {
         jobContract.setStuNum(user.getAccountNum());
         try {
             int num = jobContractService.getJObContractNum(jobContract);
+            int existNum = jobContractService.getExistNum(user);
             if(num!=0){
                 resultMap.put("status", "fail");
                 resultMap.put("msg","你已经提交过申请，请勿重复申请！！");
-            }else {
+            }else if(existNum!=0){
+                resultMap.put("status", "fail");
+                resultMap.put("msg","你已经申请了岗位或者有在职岗位，同一学生只能申请一个岗位！！");
+            }else{
                 jobContractService.addJobContract(jobContract);
                 resultMap.put("status", "success");
             }

@@ -104,15 +104,16 @@
             dataSource: {
                 cols:[
                     {name: 'jobContractId', label: '合同号', width: 0.1,className: 'text-center'},
-                    {name: 'createTime', label: '合同生成时间', width: 0.2,className: 'text-center'},
+                    {name: 'createTime', label: '合同生成时间', width: 0.25,className: 'text-center'},
                     {name: 'jobName', label: '岗位名称', width: 0.25,className: 'text-center'},
-                    {name: 'stuNum', label: '学号', width: 0.15,className: 'text-center'},
+                    {name: 'stuNum', label: '学号', width: 0.2,className: 'text-center'},
                     {name: 'stuName', label: '姓名',width: 0.15,className: 'text-center'},
+                    {name: 'poorLv', label: '贫困等级',width: 0.15,className: 'text-center'},
                     {name: 'sex', label: '性别',width: 0.05,className: 'text-center'},
-                    {name: 'sexReq', label: '性别限制',width: 0.1,className: 'text-center'},
-                    {name: 'requireNum', label: '需要人数',width: 0.1,className: 'text-center'},
-                    {name: 'maxNum', label: '最多申请人数',width: 0.15,className: 'text-center'},
-                    {name: 'acceptNum', label: '已申请人数',width: 0.1,className: 'text-center'},
+                    {name: 'sexReq', label: '性别限制',width: 0.15,className: 'text-center'},
+                    {name: 'requireNum', label: '需要人数',width: 0.15,className: 'text-center'},
+                    {name: 'maxNum', label: '最多申请人数',width: 0.2,className: 'text-center'},
+                    {name: 'acceptNum', label: '已申请人数',width: 0.15,className: 'text-center'},
                     {name: 'status', label: '状态',width: 0.1,className: 'text-center'},
                     {name: 'operate', label: '操作',width: 150,className: 'text-center'}
                 ],
@@ -140,12 +141,12 @@
             states: {
                 pager: {page: 1,recPerPage: 10},
                 fixedLeftUntil: 0,    // 固定左侧第一列
-                fixedRightFrom: 12,   // 从第12列开始固定到右侧
+                fixedRightFrom: 13,   // 从第12列开始固定到右侧
                 fixedTopUntil: 0,     // 固定顶部第一行（标题行）
             },
             configs: {
                 C0: {},
-                C12: {html:true}
+                C13: {html:true}
             },
             checkable: false,
             checkByClickRow: false,

@@ -35,6 +35,12 @@
     job_desc, job_req
   </sql>
 
+  <update id="updateHiredNum" parameterType="java.lang.Integer">
+    update job
+    set hired_num = (select count(id)  from job_contract where job_id = (select job_id from job_contract where id = #{jobContractId}) and `status` in ('2','3'))
+    where id = (select job_id from job_contract where id = #{jobContractId})
+  </update>
+
   <select id="getLast3Job" resultType="java.util.HashMap">
     select id,tittle,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') createTime from job where `status` = '1' order by id desc limit 4
   </select>

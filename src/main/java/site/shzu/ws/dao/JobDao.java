@@ -23,6 +23,8 @@ public interface JobDao {
 
     int updateByPrimaryKey(Job record);
 
+    int updateHiredNum(@Param(value = "jobContractId")Integer jobContractId);
+
     List<HashMap> getLast3Job();
 
     List<HashMap> getJobInfoById(@Param(value = "id") Integer id);

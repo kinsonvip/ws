@@ -135,7 +135,7 @@
         $('#evaluatedContractGrid').datagrid({
             dataSource: {
                 cols:[
-                    {name: 'jobContractId', label: '合同号', width: 0.1,className: 'text-center'},
+                    {name: 'jobContractId', label: '合同号', width: 140,className: 'text-center'},
                     {name: 'createTime', label: '合同生成时间', width: 140,className: 'text-center'},
                     {name: 'jobName', label: '岗位名称', width: 140,className: 'text-center'},
                     {name: 'stuNum', label: '学号', width: 100,className: 'text-center'},
